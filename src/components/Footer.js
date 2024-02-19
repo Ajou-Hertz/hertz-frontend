@@ -24,10 +24,12 @@ function Footer() {
             gap: "16px", // Adjust the gap as needed
           }}
         >
-        <Typography variant="h7" align="left" gutterBottom>
-          <div>이용약관 </div>
-          <div>개인정보처리방침 </div>
-          <div>광고문의 </div>
+        <Typography variant="h6" align="left" gutterBottom>
+        <div style={{display: 'flex', flexDirection: 'row', gap: '16px'}}>
+              <div>이용약관 </div>
+              <div>개인정보처리방침 </div>
+              <div>광고문의 </div>
+            </div>
         </Typography>
         </Box>
         <Typography
