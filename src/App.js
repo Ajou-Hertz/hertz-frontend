@@ -7,6 +7,8 @@ import Profile from './pages/Profile';
 import Enroll from './pages/Enroll';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import FindEmail from './pages/FindEmail';
+import FindPW from './pages/FindPW';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/mypage" element={<Profile />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="/enroll" element={<Enroll />} />
+        <Route path="/findEmail" element={<FindEmail />} />
+        <Route path="/findPw" element={<FindPW />} />
       </Routes>
       <Footer />
     </Router>
