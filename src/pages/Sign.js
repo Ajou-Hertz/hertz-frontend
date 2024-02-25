@@ -16,6 +16,9 @@ import {
     Box,
     Container,
     useIsFocusVisible,
+    MenuItem, // 추가
+    Select, // 추가
+    InputLabel,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -35,6 +38,8 @@ const Sign = (props) => {
     const [userName, setUserName] = useState("");
     const [userId, setUserId] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [userRePassword, setUserRePassword] = useState("");
+    const [userGender, setUserGender] = useState("");
 
     const [userChecked, setUserChecked] = useState({
         check1: false,
@@ -121,6 +126,9 @@ const Sign = (props) => {
     const handleChangePassword = (e) => {
         setUserPassword(e.target.value);
     };
+    const handleChangeRePassword = (e) => {
+        setUserRePassword(e.target.value);
+    };
     const handleChangeName = (e) => {
         setUserName(e.target.value);
     };
@@ -133,6 +141,11 @@ const Sign = (props) => {
             ...userChecked,
             [e.target.name]: e.target.checked,
         });
+    };
+
+    // 성별 선택 핸들러
+    const handleChangeGender = (e) => {
+        setUserGender(e.target.value);
     };
 
     // form 전송
@@ -152,6 +165,7 @@ const Sign = (props) => {
                 name: userName,
                 nickName: userId,
                 password: userPassword,
+                gender: userGender,
             })
             .then(function (res) {
                 console.log(res);
@@ -189,7 +203,7 @@ const Sign = (props) => {
                         component="form"
                         noValidate
                         onSubmit={handleSubmit}
-                        sx={{ mt: 1 }}
+                        sx={{ mt: 1.7 }}
                     >
                         <FormControl component="fieldset" variant="standard">
                             <Grid container spacing={2}>
@@ -243,30 +257,43 @@ const Sign = (props) => {
                                         required
                                         fullWidth
                                         type="password"
-                                        id="password"
-                                        name="password"
+                                        id="re_password"
+                                        name="re_password"
                                         label="비밀번호 확인"
                                         placeholder="영문, 숫자, 특수문자 조합 8-16자"
                                         error={
                                             !isValidPassword &&
-                                            userPassword != ""
+                                            userRePassword != ""
                                         }
                                         helperText={
                                             isValidPassword ||
-                                            userPassword == ""
+                                            userRePassword == ""
                                                 ? ""
                                                 : "영문, 숫자, 특수문자를 조합하여 입력해주세요. (8-16자)"
                                         }
-                                        value={userPassword}
-                                        onChange={handleChangePassword}
+                                        value={userRePassword}
+                                        onChange={handleChangeRePassword}
                                         inputProps={{
                                             maxLength: 16,
                                         }}
                                     />
                                 </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    style={{ textAlign: "center" }}
+                                >
+                                    <Typography
+                                        component="h3"
+                                        variant="h7"
+                                        align="center"
+                                    >
+                                        추가 정보
+                                    </Typography>
+                                </Grid>
+
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
                                         fullWidth
                                         id="userName"
                                         name="userName"
@@ -276,15 +303,26 @@ const Sign = (props) => {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="userId"
-                                        name="userId"
-                                        label="성별"
-                                        value={userId}
-                                        onChange={handleChangeId}
-                                    />
+                                    <FormControl fullWidth>
+                                        <InputLabel id="gender-label">
+                                            성별
+                                        </InputLabel>
+
+                                        <Select
+                                            labelId="gender-label"
+                                            id="gender"
+                                            name="userGender"
+                                            label="성별"
+                                            value={userGender}
+                                            onChange={handleChangeGender}
+                                        >
+                                            <MenuItem value="">미선택</MenuItem>
+                                            <MenuItem value="male">남</MenuItem>
+                                            <MenuItem value="female">
+                                                여
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid
                                     item
@@ -294,9 +332,7 @@ const Sign = (props) => {
                                         display: "flex",
                                         flexDirection: "column",
                                     }}
-                                >
-                                   
-                                </Grid>
+                                ></Grid>
                             </Grid>
                             <Button
                                 type="submit"
