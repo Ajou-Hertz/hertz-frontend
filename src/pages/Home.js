@@ -1,8 +1,9 @@
 import React from 'react'
+import NavBar from '../components/Sub/NavBar'
 
 const Home = () => {
   return (
-    <div>메인페이지</div>
+    <div><NavBar></NavBar>메인페이지</div>
   )
 }
 

@@ -7,6 +7,9 @@ import Profile from './pages/Profile';
 import Enroll from './pages/Enroll';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import InstrumentList from './pages/SubPage/InstrumentList';
+import EnsembleRoom from './pages/SubPage/EnsembleRoon';
+import ConcertHall from './pages/SubPage/ConcertHall';
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
         <Route path="/mypage" element={<Profile />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="/enroll" element={<Enroll />} />
+        <Route path="/InstrumentList" element={<InstrumentList />} />
+        <Route path="/EnsembleRoom" element={<EnsembleRoom />} />
+        <Route path="/ConcertHall" element={<ConcertHall />} />
       </Routes>
       <Footer />
     </Router>
