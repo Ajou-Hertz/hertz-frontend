@@ -229,7 +229,7 @@ function FindPW() {
                             disabled={!isValidAll || loading}
                             onClick={handleSubmit}
                         >
-                            로그인
+                            확인
                         </Button>
                     </Box>
                 </Box>
