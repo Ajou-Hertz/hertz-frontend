@@ -14,7 +14,7 @@ const DropdownInAll = () => {
     };
   
     return (
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div>
         {/* DropdownMenu 컴포넌트 렌더링 */}
         <DropdownMenu
           options={options} onSelect={handleSelect} defaultOptionText="전체" />
