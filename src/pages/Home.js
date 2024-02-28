@@ -10,6 +10,8 @@ import { MarketStateContext } from "../App";
 
 import { useFetch } from "./../hooks/useFetch";
 
+import NavBar from '../components/Sub/NavBar'
+
 function Home() {
     const marketList = useContext(MarketStateContext);
     const navigate = useNavigate();
@@ -86,6 +88,7 @@ function Home() {
 
     return (
         <div className="area">
+            <NavBar></NavBar>
             <h1
                 className="title"
                 style={{ textAlign: "left", marginLeft: "24px" }}
