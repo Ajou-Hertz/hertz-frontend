@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from '../../components/Sub/NavBar'
+import NavBar from '../../../components/Sub/NavBar'
 
 const InstrumentDetail = () => {
   return (
