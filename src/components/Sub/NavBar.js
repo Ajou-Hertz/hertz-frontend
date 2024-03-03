@@ -1,17 +1,20 @@
-import React from 'react'
-import { Form, Navbar, Container, Nav, Button, NavDropdown, Offcanvas } from 'react-bootstrap'
+import React from 'react';
+import { Form, Navbar, Container, Nav, Button, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { FaSearch } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 
 const NavBar = () => {
+  const location = useLocation();
+
   return (
     <>
     {['xxl'].map((expand) => (
       <Navbar key={expand} expand={expand} className="bg-white mb-3">
         <Container fluid>  
             <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-            <Nav.Link href="InstrumentList">중고악기</Nav.Link>
-              <Nav.Link href="EnsembleRoom">합주실</Nav.Link>
-              <Nav.Link href="ConcertHall">공연장</Nav.Link>
+              <Nav.Link style={{color: location.pathname === '/InstrumentList' ? '#637DBE' : 'black', fontWeight: location.pathname === '/InstrumentList' ? 'bold' : 'normal'}} href="/InstrumentList">중고악기</Nav.Link>
+              <Nav.Link style={{color: location.pathname === '/EnsembleRoom' ? '#637DBE' : 'black', fontWeight: location.pathname === '/EnsembleRoom' ? 'bold' : 'normal'}} href="/EnsembleRoom">합주실</Nav.Link>
+              <Nav.Link style={{color: location.pathname === '/ConcertHall' ? '#637DBE' : 'black', fontWeight: location.pathname === '/ConcertHall' ? 'bold' : 'normal'}} href="/ConcertHall">공연장</Nav.Link>
             </Nav>
             <Form className="d-flex">
               <div className="position-relative">
@@ -31,4 +34,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default NavBar;

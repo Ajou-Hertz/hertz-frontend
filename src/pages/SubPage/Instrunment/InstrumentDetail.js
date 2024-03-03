@@ -5,6 +5,9 @@ const InstrumentDetail = () => {
   return (
     <div>
       <NavBar />
+      <div>
+        <p>중고악기</p>
+      </div>
     </div>
   )
 }
