@@ -35,7 +35,7 @@ const Sign = (props) => {
     const theme = createTheme();
 
     const [userEmail, setUserEmail] = useState("");
-    const [userName, setUserName] = useState("");
+    const [userBirth, setUserBirth] = useState("");
     const [userId, setUserId] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [userRePassword, setUserRePassword] = useState("");
@@ -51,6 +51,8 @@ const Sign = (props) => {
     const [isValidChecked, setIsvalidChecked] = useState(false);
 
     const [isValidAll, setIsvalidAll] = useState(false);
+
+    const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(true); // 비밀번호 일치 여부 상태 추가
 
     // 유효성 검사하기
     useEffect(() => {
@@ -69,21 +71,21 @@ const Sign = (props) => {
         checkValidTotal();
     }, [isValidEmail, isValidPassword, isValidChecked]);
 
+    // 비밀번호 확인 유효성 검사
+    const checkValidRePassword = (password, rePassword) => {
+        return password === rePassword;
+    };
+
     // 전체 유효성 검사
     const checkValidTotal = () => {
         console.log("check total");
 
-        if (
-            userEmail === "" ||
-            userPassword === "" ||
-            userId === "" ||
-            userName === ""
-        ) {
+        if (userEmail === "" || userPassword === "") {
             console.log("모든 칸을 작성해야함");
             setIsvalidAll(false);
             return;
         }
-        if (isValidEmail && isValidPassword && isValidChecked) {
+        if (isValidEmail && isValidPassword) {
             console.log("모든 조건 달성");
             setIsvalidAll(true);
             return;
@@ -126,11 +128,18 @@ const Sign = (props) => {
     const handleChangePassword = (e) => {
         setUserPassword(e.target.value);
     };
+    // 비밀번호 확인과 관련된 상태 변경 및 유효성 검사 함수
     const handleChangeRePassword = (e) => {
         setUserRePassword(e.target.value);
+        const isPasswordMatch = checkValidRePassword(
+            userPassword,
+            e.target.value
+        );
+        setIsValidPasswordMatch(isPasswordMatch); // 비밀번호 일치 여부 상태 업데이트
+        checkValidTotal(); // 비밀번호 확인이 변경될 때마다 유효성 검사 수행
     };
     const handleChangeName = (e) => {
-        setUserName(e.target.value);
+        setUserBirth(e.target.value);
     };
     const handleChangeId = (e) => {
         setUserId(e.target.value);
@@ -146,6 +155,7 @@ const Sign = (props) => {
     // 성별 선택 핸들러
     const handleChangeGender = (e) => {
         setUserGender(e.target.value);
+        checkValidTotal(); // 성별 선택 여부에 따라 유효성 검사를 다시 수행
     };
 
     // form 전송
@@ -159,14 +169,21 @@ const Sign = (props) => {
         let resultCode = "";
 
         axios
-            .post(`/users/signup`, {
-                email: userEmail,
-                loginType: "E",
-                name: userName,
-                nickName: userId,
-                password: userPassword,
-                gender: userGender,
-            })
+            .post(
+                `/v1/users`,
+                {
+                    email: userEmail,
+                    password: userPassword,
+                    birth: userBirth,
+                    gender: userGender,
+                    phone: "01012345679",
+                },
+                {
+                    headers: {
+                        "Hertz-API-Minor-Version": 1, // 헤더에 api minor version 추가
+                    },
+                }
+            )
             .then(function (res) {
                 console.log(res);
                 console.log("회원가입을 완료했습니다.");
@@ -176,8 +193,10 @@ const Sign = (props) => {
             .catch(function (error) {
                 console.log("회원가입을 실패했습니다.");
                 console.log(error.response);
-                if (error.response.data.code === "1010") {
+                if (error.response.data.code === 2200) {
                     alert("이미 사용중인 이메일입니다.");
+                } else if (error.response.data.code === 2203) {
+                    alert("이미 사용중인 전화번호입니다.");
                 } else {
                     alert("알 수 없는 오류로 회원가입을 실패했습니다.");
                 }
@@ -216,9 +235,11 @@ const Sign = (props) => {
                                         id="email"
                                         name="email"
                                         label="이메일"
-                                        error={!isValidEmail && userEmail != ""}
+                                        error={
+                                            !isValidEmail && userEmail !== ""
+                                        }
                                         helperText={
-                                            isValidEmail || userEmail == ""
+                                            isValidEmail || userEmail === ""
                                                 ? ""
                                                 : "이메일 주소를 정확히 입력해주세요."
                                         }
@@ -237,11 +258,11 @@ const Sign = (props) => {
                                         placeholder="영문, 숫자, 특수문자 조합 8-16자"
                                         error={
                                             !isValidPassword &&
-                                            userPassword != ""
+                                            userPassword !== ""
                                         }
                                         helperText={
                                             isValidPassword ||
-                                            userPassword == ""
+                                            userPassword === ""
                                                 ? ""
                                                 : "영문, 숫자, 특수문자를 조합하여 입력해주세요. (8-16자)"
                                         }
@@ -262,14 +283,14 @@ const Sign = (props) => {
                                         label="비밀번호 확인"
                                         placeholder="영문, 숫자, 특수문자 조합 8-16자"
                                         error={
-                                            !isValidPassword &&
-                                            userRePassword != ""
+                                            !isValidPasswordMatch &&
+                                            userRePassword !== ""
                                         }
                                         helperText={
-                                            isValidPassword ||
-                                            userRePassword == ""
+                                            isValidPasswordMatch ||
+                                            userRePassword === ""
                                                 ? ""
-                                                : "영문, 숫자, 특수문자를 조합하여 입력해주세요. (8-16자)"
+                                                : "비밀번호가 일치하지 않습니다."
                                         }
                                         value={userRePassword}
                                         onChange={handleChangeRePassword}
@@ -295,10 +316,10 @@ const Sign = (props) => {
                                 <Grid item xs={12}>
                                     <TextField
                                         fullWidth
-                                        id="userName"
-                                        name="userName"
+                                        id="userBirth"
+                                        name="userBirth"
                                         label="생년월일"
-                                        value={userName}
+                                        value={userBirth}
                                         onChange={handleChangeName}
                                     />
                                 </Grid>
@@ -317,8 +338,8 @@ const Sign = (props) => {
                                             onChange={handleChangeGender}
                                         >
                                             <MenuItem value="">미선택</MenuItem>
-                                            <MenuItem value="male">남</MenuItem>
-                                            <MenuItem value="female">
+                                            <MenuItem value="MALE">남</MenuItem>
+                                            <MenuItem value="FEMALE">
                                                 여
                                             </MenuItem>
                                         </Select>

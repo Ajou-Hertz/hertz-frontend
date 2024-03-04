@@ -1,14 +1,13 @@
+import axios from "axios";
 
-import axios from 'axios';
-
-const BASE_URL = "http://3.36.150.131:8080/api";
+const BASE_URL = "http://43.203.54.249:8080/api";
 
 export default axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
 });
 
 export const axiosPrivate = axios.create({
     baseURL: BASE_URL,
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
 });
