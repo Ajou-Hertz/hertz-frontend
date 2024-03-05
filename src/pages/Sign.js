@@ -170,17 +170,17 @@ const Sign = (props) => {
 
         axios
             .post(
-                `/v1/users`,
+                `/users`,
                 {
                     email: userEmail,
                     password: userPassword,
                     birth: userBirth,
                     gender: userGender,
-                    phone: "01012345679",
+                    phone: "01012345677",
                 },
                 {
                     headers: {
-                        "Hertz-API-Minor-Version": 1, // 헤더에 api minor version 추가
+                        "Hertz-API-Version": 1, // 헤더에 api minor version 추가
                     },
                 }
             )
@@ -201,6 +201,53 @@ const Sign = (props) => {
                     alert("알 수 없는 오류로 회원가입을 실패했습니다.");
                 }
             });
+    };
+
+    // 중복 확인 버튼 클릭 핸들러
+    const handleCheckEmail = () => {
+        // 유효한 이메일인 경우에만 API 호출
+        if (isValidEmail) {
+            axios
+                .get(`/users/existence?email=${userEmail}`, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then(function (res) {
+                    console.log(res);
+                    if (res.data.isExist) {
+                        // 이미 사용 중인 이메일인 경우
+                        alert("이미 사용 중인 이메일입니다.");
+                        // 사용자가 입력한 이메일 초기화
+                        setUserEmail("");
+                    } else {
+                        // 사용 가능한 이메일인 경우
+                        alert("사용 가능한 이메일입니다.");
+                        setUserEmail(userEmail);
+                    }
+                })
+                .catch(function (error) {
+                    console.log("이메일 중복 확인에 실패했습니다.");
+                    console.log(error.response);
+                    alert("이메일 중복 확인에 실패했습니다.");
+                });
+        } else {
+            // 유효하지 않은 이메일일 경우 알림 출력
+            alert("유효한 이메일 주소를 입력해주세요.");
+        }
+    };
+
+    // form 전송 버튼의 활성화 여부를 결정하는 함수
+    const isSubmitButtonDisabled = () => {
+        return !isValidAll || !isValidPasswordMatch;
+    };
+
+    // 회원가입 버튼 클릭 핸들러
+    const handleSignupButtonClick = (e) => {
+        e.preventDefault();
+        if (!isSubmitButtonDisabled()) {
+            handleSubmit(e);
+        }
     };
 
     return (
@@ -225,28 +272,77 @@ const Sign = (props) => {
                         sx={{ mt: 1.7 }}
                     >
                         <FormControl component="fieldset" variant="standard">
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        autoFocus
-                                        fullWidth
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        label="이메일"
-                                        error={
-                                            !isValidEmail && userEmail !== ""
-                                        }
-                                        helperText={
-                                            isValidEmail || userEmail === ""
-                                                ? ""
-                                                : "이메일 주소를 정확히 입력해주세요."
-                                        }
-                                        value={userEmail}
-                                        onChange={handleChangeEmail}
-                                    />
-                                </Grid>
+                            <Grid container spacing={2} alignItems="flex-end">
+                                {isValidEmail ? (
+                                    <Grid item xs={8}>
+                                        <TextField
+                                            required
+                                            autoFocus
+                                            fullWidth
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            label="이메일"
+                                            error={
+                                                !isValidEmail &&
+                                                userEmail !== ""
+                                            }
+                                            helperText={
+                                                isValidEmail || userEmail === ""
+                                                    ? ""
+                                                    : "이메일 주소를 정확히 입력해주세요."
+                                            }
+                                            value={userEmail}
+                                            onChange={handleChangeEmail}
+                                        />
+                                    </Grid>
+                                ) : (
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            required
+                                            autoFocus
+                                            fullWidth
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            label="이메일"
+                                            error={
+                                                !isValidEmail &&
+                                                userEmail !== ""
+                                            }
+                                            helperText={
+                                                isValidEmail || userEmail === ""
+                                                    ? ""
+                                                    : "이메일 주소를 정확히 입력해주세요."
+                                            }
+                                            value={userEmail}
+                                            onChange={handleChangeEmail}
+                                        />
+                                    </Grid>
+                                )}
+                                {isValidEmail && ( // 유효한 이메일이면 버튼을 보여줌
+                                    <Grid
+                                        item
+                                        xs={4}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "flex-end",
+                                        }}
+                                    >
+                                        <Button
+                                            fullWidth
+                                            variant="contained"
+                                            style={{
+                                                backgroundColor: "gray",
+                                                color: "white",
+                                                height: "100%",
+                                            }}
+                                            onClick={handleCheckEmail}
+                                        >
+                                            중복 확인
+                                        </Button>
+                                    </Grid>
+                                )}
                                 <Grid item xs={12}>
                                     <TextField
                                         required
@@ -361,8 +457,8 @@ const Sign = (props) => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                                 size="large"
-                                onClick={handleSubmit}
-                                disabled={!isValidAll}
+                                onClick={handleSignupButtonClick}
+                                disabled={isSubmitButtonDisabled()}
                             >
                                 회원가입
                             </Button>
