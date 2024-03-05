@@ -6,19 +6,13 @@ import useAuth from "../hooks/useAuth";
 
 // import { Cookies } from "react-cookie";
 
-import {
-    Container,
-    Box,
-    Avatar,
-    Button,
-    TextField,
-} from "@mui/material";
+import { Container, Box, Avatar, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import "antd/dist/antd.css";
 import { Typography, Divider } from "antd";
 
-const LOGIN_URL = "/users/login";
+const LOGIN_URL = "/auth/login";
 // const cookies = new Cookies();
 
 const { Title } = Typography;
@@ -114,13 +108,14 @@ function Login() {
                     password: userPassword,
                 },
                 {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
+                    headers: {
+                        "Hertz-API-Version": 1, // 헤더에 api minor version 추가
+                    },
                 }
             );
             console.log(response?.data);
             // console.log(response);
-            const accessToken = response?.data?.userToken.accessToken;
+            const accessToken = response?.data?.token;
             const refreshToken = response?.data?.userToken.refreshToken;
             const role = response?.data?.roleType;
             setAuth({
@@ -132,19 +127,22 @@ function Login() {
             });
             setUserEmail("");
             setUserPassword("");
-            navigate(from, { replace: true });
+            navigate("/mypage", { replace: true });
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {
-                alert("No Server Response");
-            } else if (err.response?.status === 400) {
-                alert("Missing Username or Password");
+                alert("로그인이 완료되었습니다.");
+            } else if (
+                err.response?.status === 2202 ||
+                err.response?.status === 2003
+            ) {
+                alert("일치하는 회원을 찾을 수 없습니다.");
             } else if (err.response?.status === 401) {
                 alert("Unauthorized");
             } else if (err.response?.status === 500) {
                 alert(err.response?.data?.message);
             } else {
-                alert("Login Failed");
+                alert("로그인을 실패하였습니다.");
             }
         }
 
@@ -184,7 +182,7 @@ function Login() {
                         component="form"
                         onSubmit={handleSubmit}
                         noValidate
-                        sx={{ mt: 1}}
+                        sx={{ mt: 1 }}
                     >
                         <TextField
                             required
@@ -203,7 +201,6 @@ function Login() {
                             }
                             value={userEmail}
                             onChange={handleChangeEmail}
-                            
                         />
                         <TextField
                             margin="normal"
@@ -238,12 +235,32 @@ function Login() {
                         >
                             로그인
                         </Button>
-                        <div style={{ display: "flex", justifyContent: "center" }}>
-                            <RouterLink to="/findEmail" style={{ textDecoration: "none" }}>이메일 찾기</RouterLink>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <RouterLink
+                                to="/findEmail"
+                                style={{ textDecoration: "none" }}
+                            >
+                                이메일 찾기
+                            </RouterLink>
                             <Divider type="vertical" />
-                            <RouterLink to="/findPw" style={{ textDecoration: "none" }}>비밀번호 찾기</RouterLink>
+                            <RouterLink
+                                to="/findPw"
+                                style={{ textDecoration: "none" }}
+                            >
+                                비밀번호 찾기
+                            </RouterLink>
                             <Divider type="vertical" />
-                            <RouterLink to="/sign" style={{ textDecoration: "none" }}>회원가입</RouterLink>
+                            <RouterLink
+                                to="/sign"
+                                style={{ textDecoration: "none" }}
+                            >
+                                회원가입
+                            </RouterLink>
                         </div>
                         <Button
                             type="submit"
@@ -252,17 +269,16 @@ function Login() {
                             sx={{
                                 mt: 3,
                                 mb: 2,
-                                bgcolor: '#FFEB00', // Yellow color for Kakao login button background
-                                color: '#000000', // Black color for text
-                                '&:hover': {
-                                    bgcolor: '#FFEB00', // Change background color on hover as well
+                                bgcolor: "#FFEB00", // Yellow color for Kakao login button background
+                                color: "#000000", // Black color for text
+                                "&:hover": {
+                                    bgcolor: "#FFEB00", // Change background color on hover as well
                                 },
                             }}
                             onClick={handleSubmit}
                         >
                             카카오 로그인
                         </Button>
-                        
                     </Box>
                 </Box>
             </Container>
