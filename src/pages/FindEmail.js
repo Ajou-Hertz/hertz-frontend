@@ -12,81 +12,58 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "antd/dist/antd.css";
 import { Typography, Divider } from "antd";
 
-const LOGIN_URL = "/users/login";
+const FIND_URL = "/users/email";
 // const cookies = new Cookies();
 
 const { Title } = Typography;
 const theme = createTheme();
 
-function FindEmail() {
+function Findphone() {
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.passname || "/";
 
-    const [userEmail, setUserEmail] = useState("");
-    const [isValidEmail, setIsvalidEmail] = useState(false);
-    const [userPassword, setUserPassword] = useState("");
-    const [isValidPassword, setIsvalidPassword] = useState(false);
+    const [userPhone, setUserPhone] = useState("");
+    const [isValidphone, setIsvalidphone] = useState(false);
 
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState(""); // API로부터 가져온 이메일 값을 저장
 
     // 유효성 검사하기
     useEffect(() => {
-        checkValidEmail(userEmail);
-    }, [userEmail]);
-
-    useEffect(() => {
-        checkValidPassword(userPassword);
-    }, [userPassword]);
+        checkValidphone(userPhone);
+    }, [userPhone]);
 
     useEffect(() => {
         checkValidTotal();
-    }, [isValidEmail, isValidPassword]);
+    }, [isValidphone]);
 
     // 전체 유효성 검사
     const checkValidTotal = () => {
         console.log("check total");
 
-        if (userEmail === "" || userPassword === "") {
-            console.log("모든 칸을 작성하세요");
-            setIsvalidAll(false);
-            return;
-        }
-        if (isValidEmail && isValidPassword) {
+        // userPhone만 입력되더라도 '확인' 버튼이 활성화되도록 수정
+        if (userPhone !== "" && isValidphone) {
             console.log("모든 조건 달성");
             setIsvalidAll(true);
-            return;
+        } else {
+            setIsvalidAll(false);
         }
-        setIsvalidAll(false);
     };
 
-    //비밀번호 유효성 검사
-    const checkValidPassword = (pwd) => {
-        //  8 ~ 16자 영문, 숫자 조합
-        var regExp = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
+    // 전화번호 유효성 검사
+    const checkValidphone = (phone) => {
+        var regExp = /^\d+$/; // 숫자로만 이루어진 경우
         // 형식에 맞는 경우 true 리턴
-        // console.log("비밀번호 유효성 검사 :: ", regExp.test(pwd));
-        setIsvalidPassword(regExp.test(pwd));
-    };
-
-    // 이메일 유효성 검사
-    const checkValidEmail = (email) => {
-        var regExp =
-            /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        // 형식에 맞는 경우 true 리턴
-        // console.log("이메일 유효성 검사 :: ", regExp.test(email));
-        setIsvalidEmail(regExp.test(email));
+        setIsvalidphone(regExp.test(phone));
     };
 
     //state 체크
-    const handleChangeEmail = (e) => {
-        setUserEmail(e.target.value);
-    };
-    const handleChangePassword = (e) => {
-        setUserPassword(e.target.value);
+    const handleChangephone = (e) => {
+        setUserPhone(e.target.value);
     };
 
     // 서버 로그인 요청
@@ -98,47 +75,44 @@ function FindEmail() {
             return;
         }
 
-        console.log("login 요청중");
-
         try {
-            const response = await axios.post(
-                LOGIN_URL,
-                {
-                    email: userEmail,
-                    password: userPassword,
+            const response = await axios.get(FIND_URL, {
+                params: {
+                    phone: userPhone,
                 },
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                }
-            );
-            console.log(response?.data);
-            // console.log(response);
-            const accessToken = response?.data?.userToken.accessToken;
-            const refreshToken = response?.data?.userToken.refreshToken;
-            const role = response?.data?.roleType;
-            setAuth({
-                userEmail,
-                userPassword,
-                accessToken,
-                refreshToken,
-                role,
+                headers: {
+                    "Hertz-API-Version": 1,
+                },
             });
-            setUserEmail("");
-            setUserPassword("");
-            navigate(from, { replace: true });
+
+            // 이메일 값을 API 응답에서 추출
+            const fetchedEmail = response?.data?.email;
+
+            // 추출한 이메일 값을 상태에 설정
+            setEmail(fetchedEmail);
+
+            console.log(response?.data);
+
+            setAuth({
+                userPhone,
+            });
+            setUserPhone("");
+            // navigate(from, { replace: true });
+
+            // alert 창 띄우기
+            alert(`찾으신 이메일은 ${fetchedEmail} 입니다.`);
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {
                 alert("No Server Response");
-            } else if (err.response?.status === 400) {
+            } else if (err.response?.status === 2206) {
                 alert("Missing Username or Password");
             } else if (err.response?.status === 401) {
                 alert("Unauthorized");
             } else if (err.response?.status === 500) {
                 alert(err.response?.data?.message);
             } else {
-                alert("Login Failed");
+                alert("일치하는 회원을 찾을 수 없습니다.");
             }
         }
 
@@ -146,8 +120,8 @@ function FindEmail() {
         // console.log(auth);
 
         // axios
-        //   .post(LOGIN_URL, {
-        //     email: state.email,
+        //   .post(FIND_URL, {
+        //     phone: state.phone,
         //     password: state.password,
         //   })
         //   .then(function (res) {
@@ -182,23 +156,24 @@ function FindEmail() {
                     >
                         <TextField
                             required
-                            autoFocus
                             fullWidth
-                            type="email"
-                            id="email"
-                            name="email"
+                            autoFocus
+                            type="tel"
+                            id="phone"
+                            name="phone"
                             label="전화번호"
-                            autoComplete="email"
-                            error={!isValidEmail && userEmail != ""}
+                            placeholder="예) 01012345678"
+                            autoComplete="phone"
+                            error={!isValidphone && userPhone !== ""}
                             helperText={
-                                isValidEmail || userEmail == ""
+                                isValidphone || userPhone === ""
                                     ? ""
                                     : "전화번호를 정확히 입력해주세요."
                             }
-                            value={userEmail}
-                            onChange={handleChangeEmail}
+                            value={userPhone}
+                            onChange={handleChangephone}
                         />
-                        <TextField
+                        {/* <TextField
                             margin="normal"
                             required
                             fullWidth
@@ -219,7 +194,11 @@ function FindEmail() {
                             inputProps={{
                                 maxLength: 16,
                             }}
-                        />
+                        /> */}
+                        {/* 추출된 이메일 표시
+                        <Typography sx={{ marginTop: 2, fontSize: 18 }}>
+                            찾으신 이메일은 {email} 입니다.
+                        </Typography>{" "} */}
                         <Button
                             type="submit"
                             fullWidth
@@ -238,4 +217,4 @@ function FindEmail() {
     );
 }
 
-export default FindEmail;
+export default Findphone;
