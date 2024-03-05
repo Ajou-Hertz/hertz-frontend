@@ -166,24 +166,27 @@ const Sign = (props) => {
             console.log("오류");
             return;
         }
-        let resultCode = "";
+        const requestData = {
+            email: userEmail,
+            password: userPassword,
+            phone: "01012345555",
+        };
+
+        // birth와 gender가 빈 문자열이 아닌 경우에만 requestData에 추가
+        if (userBirth !== "") {
+            requestData.birth = userBirth;
+        }
+
+        if (userGender !== "") {
+            requestData.gender = userGender;
+        }
 
         axios
-            .post(
-                `/users`,
-                {
-                    email: userEmail,
-                    password: userPassword,
-                    birth: userBirth,
-                    gender: userGender,
-                    phone: "01012345677",
+            .post(`/users`, requestData, {
+                headers: {
+                    "Hertz-API-Version": 1, // 헤더에 api minor version 추가
                 },
-                {
-                    headers: {
-                        "Hertz-API-Version": 1, // 헤더에 api minor version 추가
-                    },
-                }
-            )
+            })
             .then(function (res) {
                 console.log(res);
                 console.log("회원가입을 완료했습니다.");
@@ -415,6 +418,7 @@ const Sign = (props) => {
                                         id="userBirth"
                                         name="userBirth"
                                         label="생년월일"
+                                        placeholder="예) 2024-01-01"
                                         value={userBirth}
                                         onChange={handleChangeName}
                                     />
