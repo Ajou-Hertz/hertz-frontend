@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-
 import { useNavigate } from "react-router-dom";
 
 import axios from '../../../api/axios.js';
@@ -7,6 +6,8 @@ import axios from '../../../api/axios.js';
 import MarketList from "../../../components/ProductList.js";
 
 import { MarketStateContext } from '../../../App.js';
+
+import InstrumentCardList from '../../../components/Sub/Card/InstrumentCardList.js';
 
 import { useFetch } from '../../../hooks/useFetch.js';
 
@@ -92,14 +93,14 @@ function InstrumentList() {
       return (
         <div>
           <NavBar />
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '50px', paddingLeft: '50px', paddingRight: '50px' }}>
             <DropdownInstrument />
             <div style={{ marginLeft: 'auto' }}>
               <DropdownInAll />
             </div>
           </div>
-          <MarketList list={marketList} />
-          <MarketList list={data} />
+          <InstrumentCardList list={marketList} />
+          <InstrumentCardList list={data} />
         </div>
       )
     //style={{ display: 'flex', justifyContent: 'flex-end' }}

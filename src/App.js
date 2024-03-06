@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import InstrumentList from "./pages/SubPage/Instrunment/InstrumentList";
 import EnsembleRoom from './pages/SubPage/EnsembleRoon';
 import ConcertHall from './pages/SubPage/ConcertHall';
+import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
 import { marketsDummyData } from "./constants/data";
@@ -113,6 +114,7 @@ function App() {
                                     <Route path="/InstrumentList" element={<InstrumentList />} />
                                     <Route path="/EnsembleRoom" element={<EnsembleRoom />} />
                                     <Route path="/ConcertHall" element={<ConcertHall />} />
+                                    <Route path="/InstrumentDetail" element={<InstrumentDetail />} />
                                     <Route
                                         path="/findEmail"
                                         element={<FindEmail />}

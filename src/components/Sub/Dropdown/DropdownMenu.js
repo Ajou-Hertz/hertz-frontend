@@ -11,7 +11,7 @@ const DropdownMenu = ({ options, onSelect, defaultOptionText }) => {
 
   return (
     <select value={selectedOption} onChange={handleSelect}
-    style={{ backgroundColor: '#D6E0F3', border: '1px solid white', textAlign: 'center' }}>
+    style={{ backgroundColor: '#D6E0F3', border: '1px solid white', textAlign: 'center', width: '150px' }}>
       <option value="">{defaultOptionText}</option>
       {options.map((option, index) => (
         <option key={index} value={option}>
