@@ -4,13 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Sign from "./pages/Sign";
-import Profile from "./pages/Profile";
+import My from "./pages/My";
 import Enroll from "./pages/Enroll";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import InstrumentList from "./pages/SubPage/Instrunment/InstrumentList";
-import EnsembleRoom from './pages/SubPage/EnsembleRoon';
-import ConcertHall from './pages/SubPage/ConcertHall';
+import EnsembleRoom from "./pages/SubPage/EnsembleRoon";
+import ConcertHall from "./pages/SubPage/ConcertHall";
 import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
@@ -102,19 +100,28 @@ function App() {
                                 <Routes>
                                     <Route path="/" element={<Home />} />
                                     <Route path="/login" element={<Login />} />
-                                    <Route
-                                        path="/mypage"
-                                        element={<Profile />}
-                                    />
+                                    <Route path="/mypage" element={<My />} />
                                     <Route path="/sign" element={<Sign />} />
                                     <Route
                                         path="/enroll"
                                         element={<Enroll />}
                                     />
-                                    <Route path="/InstrumentList" element={<InstrumentList />} />
-                                    <Route path="/EnsembleRoom" element={<EnsembleRoom />} />
-                                    <Route path="/ConcertHall" element={<ConcertHall />} />
-                                    <Route path="/InstrumentDetail" element={<InstrumentDetail />} />
+                                    <Route
+                                        path="/InstrumentList"
+                                        element={<InstrumentList />}
+                                    />
+                                    <Route
+                                        path="/EnsembleRoom"
+                                        element={<EnsembleRoom />}
+                                    />
+                                    <Route
+                                        path="/ConcertHall"
+                                        element={<ConcertHall />}
+                                    />
+                                    <Route
+                                        path="/InstrumentDetail"
+                                        element={<InstrumentDetail />}
+                                    />
                                     <Route
                                         path="/findEmail"
                                         element={<FindEmail />}

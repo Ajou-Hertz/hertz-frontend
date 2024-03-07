@@ -6,7 +6,11 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
+import useAuth from "../hooks/useAuth";
+
 const Header = () => {
+    const { auth } = useAuth();
+
     return (
         <>
             {["xxl"].map((expand) => (
@@ -53,9 +57,15 @@ const Header = () => {
                 <Button variant="outline-success">Search</Button>
               </Form> */}
                                     <Nav.Link href="enroll">판매하기</Nav.Link>
-                                    <Nav.Link href="login">
-                                        로그인/회원가입
-                                    </Nav.Link>
+                                    {auth?.userEmail ? (
+                                        <Nav.Link href="/logout">
+                                            로그아웃
+                                        </Nav.Link>
+                                    ) : (
+                                        <Nav.Link href="/login">
+                                            로그인/회원가입
+                                        </Nav.Link>
+                                    )}
                                     <Nav.Link href="mypage">
                                         <svg
                                             width="37"
