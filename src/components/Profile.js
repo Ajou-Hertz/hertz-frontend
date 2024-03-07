@@ -72,7 +72,7 @@ function Profile({ userData }) {
                         height: 80,
                         fontSize: 30,
                         marginRight: "16px",
-                        marginLeft: "24px",
+                        marginLeft: "350px",
                     }}
                 >
                     {userData?.nickName?.slice(0, 1).toUpperCase()}
@@ -86,7 +86,7 @@ function Profile({ userData }) {
                     </div>
                     <div style={{ textAlign: "left" }}>가입일 : 2024-01-01</div>
                 </div>
-                <Button style={{ marginLeft: "auto", marginRight: "24px" }}>
+                <Button style={{ marginLeft: "auto", marginRight: "400px" }}>
                     내 프로필 수정
                 </Button>
             </div>
