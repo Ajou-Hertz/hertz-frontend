@@ -17,9 +17,9 @@ function InstrumentCardList({ list }) {
                 maxWidth="lg"
                 style={{ paddingTop: "10px" }}
             >
-                <Grid container spacing={10}>
+                <Grid container spacing={8}>
                     {marketList.map((market) => (
-                        <Grid key={market.id} item xs={12} sm={6} lg={2}>
+                        <Grid key={market.id} item xs={12} sm={6} md={3}>
                             <MarketCard
                                 id={market.id}
                                 img={market.img}

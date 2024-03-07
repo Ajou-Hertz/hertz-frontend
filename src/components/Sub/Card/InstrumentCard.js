@@ -52,7 +52,7 @@ const InstrumentCard = ({
                     }}
                     image={temp}
                     alt="market image"
-                    style={{ height: "200px" }}
+                    style={{ height: "260px" }}
                 />
 
                 <CardContent className="info_box" sx={{ flexGrow: 1 }}>
@@ -60,7 +60,7 @@ const InstrumentCard = ({
                         gutterBottom
                         component="h2"
                         variant="h5"
-                        sx={{ textAlign: "left", fontSize: '20px' }}
+                        sx={{ textAlign: "left" }}
                     >
                         {name.length > 14 ? name.slice(0, 13) + "..." : name}
                     </Typography>
