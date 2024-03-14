@@ -19,7 +19,7 @@ const Header = () => {
                         <Navbar.Brand href="/">
                             <svg
                                 width="200"
-                                height="70"
+                                height="120"
                                 viewBox="0 0 159 58"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ const Header = () => {
                                         <svg
                                             width="37"
                                             height="37"
-                                            viewBox="0 0 37 37"
+                                            viewBox="0 0 50 50"
                                             fill="none"
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
