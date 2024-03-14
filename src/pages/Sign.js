@@ -169,7 +169,7 @@ const Sign = (props) => {
         const requestData = {
             email: userEmail,
             password: userPassword,
-            phone: "01012345555",
+            phone: "01012345678",
         };
 
         // birth와 gender가 빈 문자열이 아닌 경우에만 requestData에 추가
@@ -459,7 +459,14 @@ const Sign = (props) => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{
+                                    mt: 3,
+                                    mb: 2,
+                                    backgroundColor: "#637DBE",
+                                    "&:hover": {
+                                        backgroundColor: "#637DBE", // 호버 시 배경색
+                                    },
+                                }}
                                 size="large"
                                 onClick={handleSignupButtonClick}
                                 disabled={isSubmitButtonDisabled()}

@@ -12,6 +12,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "antd/dist/antd.css";
 import { Typography, Divider } from "antd";
 
+import { Modal } from "antd";
+
 const FIND_URL = "/users/email";
 // const cookies = new Cookies();
 
@@ -31,6 +33,8 @@ function Findphone() {
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState(""); // API로부터 가져온 이메일 값을 저장
+
+    const [modalText, setModalText] = useState("");
 
     // 유효성 검사하기
     useEffect(() => {
@@ -172,6 +176,12 @@ function Findphone() {
                             }
                             value={userPhone}
                             onChange={handleChangephone}
+                            // sx={{
+                            //     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            //         {
+                            //             borderColor: "#637DBE", // 입력 창 선택 시 테두리 색상
+                            //         },
+                            // }}
                         />
                         {/* <TextField
                             margin="normal"
@@ -203,13 +213,23 @@ function Findphone() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{
+                                mt: 3,
+                                mb: 2,
+                                backgroundColor: "#637DBE",
+                                "&:hover": {
+                                    backgroundColor: "#637DBE", // 호버 시 배경색
+                                },
+                            }}
                             size="large"
                             disabled={!isValidAll || loading}
                             onClick={handleSubmit}
                         >
                             확인
                         </Button>
+                        <Modal title="알림">
+                            <p>찾으신 이메일은 입니다.</p>
+                        </Modal>
                     </Box>
                 </Box>
             </Container>

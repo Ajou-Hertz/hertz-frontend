@@ -3,6 +3,7 @@ import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import kakaoLoginImage from "../assets/kakao_login_large_wide.png";
 
 // import { Cookies } from "react-cookie";
 
@@ -142,7 +143,7 @@ function Login() {
             } else if (err.response?.status === 500) {
                 alert(err.response?.data?.message);
             } else {
-                alert("로그인을 실패하였습니다.");
+                alert("일치하는 회원을 찾을 수 없습니다.");
             }
         }
 
@@ -228,7 +229,14 @@ function Login() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{
+                                mt: 3,
+                                mb: 2,
+                                backgroundColor: "#637DBE",
+                                "&:hover": {
+                                    backgroundColor: "#637DBE", // 호버 시 배경색
+                                },
+                            }}
                             size="large"
                             disabled={!isValidAll || loading}
                             onClick={handleSubmit}
@@ -269,15 +277,15 @@ function Login() {
                             sx={{
                                 mt: 3,
                                 mb: 2,
-                                bgcolor: "#FFEB00", // Yellow color for Kakao login button background
-                                color: "#000000", // Black color for text
-                                "&:hover": {
-                                    bgcolor: "#FFEB00", // Change background color on hover as well
-                                },
                             }}
                             onClick={handleSubmit}
                         >
-                            카카오 로그인
+                            {/* 카카오 로그인 버튼 대신 이미지로 대체 */}
+                            <img
+                                src={kakaoLoginImage}
+                                alt="카카오 로그인"
+                                style={{ width: "105%" }}
+                            />
                         </Button>
                     </Box>
                 </Box>
