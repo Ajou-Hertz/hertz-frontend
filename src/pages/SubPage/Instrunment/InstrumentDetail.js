@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import NavBar from '../../../components/Sub/NavBar';
 import MainImageShow from '../../../components/Sub/MainImageShow';
@@ -28,6 +28,8 @@ const InstrumentDetail = () => {
         console.error('Failed to load images', error);
       });
   }, []);
+
+  const navigate = useNavigate();
 
   const [selectedState, setSelectedState] = useState(''); // 매물상태
   const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드
@@ -60,15 +62,29 @@ const InstrumentDetail = () => {
     setIsPopupOpen(false);
   };
 
+  // 확인하기 
+  function handleClick() {
+    navigate("/mypage");
+  }
+
+  // 수정하기 페이지
+  function clickModify() {
+    navigate("/InstrumentModify")
+  }
+
   return (
     <div>
       <NavBar />
       <div>
         <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '18px' }}>중고악기</p>
       </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '70px' }}>
+        <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
+        <p onClick={ clickModify } style={{ marginLeft: '30px', cursor: 'pointer', textDecoration: 'underline' }}>삭제하기</p>
+      </div>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <MainImageShow imageUrls={imageUrls} />
-        <div style={{ border: '1px solid black', padding: '10px', margin: '10px', height: '410px', marginLeft: '50px', marginRight: '50px', flexGrow: 1 }}>
+        <div style={{ border: '1px solid black', padding: '10px', marginLeft: '10px', marginRight: '10px', height: '420px', marginLeft: '50px', marginRight: '50px', flexGrow: 1 }}>
           <p style={{ textAlign: 'left', paddingTop: '20px', paddingLeft: '20px', fontSize: '25px' }}>펜더 로드원 텔레케스터 {selectedProductName}</p>
           <div style={{ textAlign: 'left', paddingLeft: '20px', paddingBottom: '30px' }}>
             <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>1,300,000원 {selectedPrice}</span> 
@@ -99,7 +115,7 @@ const InstrumentDetail = () => {
             </p>
             {/* 버튼 */}
             <div style={{ marginTop: '70px', marginLeft: '20px' }}>
-              <button onClick={openPopup} style={{ backgroundColor: '#D6E0F3', border: 'none' }}>단계설명 확인하기</button>
+              <button onClick={openPopup} style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px' }}>단계설명 확인하기</button>
               {isPopupOpen && (
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', zIndex: 999 }}>
                   <button style={{ float: 'right', background: 'none', border: 'none' }} onClick={closePopup}>X</button>
@@ -120,11 +136,33 @@ const InstrumentDetail = () => {
               )}
             </div>
           </div>
+          {/* 해시태그 */}
+          <div>
+            <p style={{ color: '#637DBE', margin: '15px', marginLeft: '20px', textAlign: 'left' }}>#50년대_텔레케스터 #매이플지판 #래릭처리</p>
+          </div>
+          {/* 판매자 정보 확인 */}
+          <div style={{ display: 'flex', margin: '10px', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
+            {/* 판매자 연락처가 보여지는 */}
+            <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
+              padding: '15px', borderRadius: '3px', justifyContent: 'space-between', 
+              alignItems: 'center', marginLeft: '10px' }}>
+              <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
+              <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
+            </div>
+            {/* 판매자 페이지로 넘어가는 버튼 */}
+            <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
+              padding: '15px', borderRadius: '3px', justifyContent: 'center', alignItems: 'center', marginLeft: '10px' }}>
+              <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>판매자 정보</p>
+              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px', marginLeft: '10px' }} 
+              onClick={handleClick}>확인하기</button>
+            </div>
+          </div>
         </div>
       </div>
       {/* 글 작성 부분 */}
-      <div style={{ border: '1px solid black', margin: '50px', height: '600px' }}>
-        <p style={{ padding: '40px', textAlign: 'left' }}>Hello</p>
+      <div style={{ border: '1px solid black', margin: '50px', minHeight: '600px' }}>
+        <p style={{ padding: '40px', textAlign: 'left', lineHeight: '3.0' }}>14년 시리얼 펜더 로드원 50 텔러입니다.<br/>
+        기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로 교체했습니다.</p>
       </div>
     </div>
   )

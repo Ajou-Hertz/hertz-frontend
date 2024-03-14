@@ -1,9 +1,9 @@
 import React from 'react'
 
-const HashTag = () => {
+const UploadPhoto = () => {
   return (
     <div>HashTag</div>
   )
 }
 
-export default HashTag
+export default UploadPhoto

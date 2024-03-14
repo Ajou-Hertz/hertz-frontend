@@ -7,9 +7,10 @@ import Sign from "./pages/Sign";
 import My from "./pages/My";
 import Enroll from "./pages/Enroll";
 import InstrumentList from "./pages/SubPage/Instrunment/InstrumentList";
+import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
+import InstrumentModify from "./pages/SubPage/Instrunment/InstrumentModify";
 import EnsembleRoom from "./pages/SubPage/EnsembleRoon";
 import ConcertHall from "./pages/SubPage/ConcertHall";
-import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
 import { marketsDummyData } from "./constants/data";
@@ -111,16 +112,20 @@ function App() {
                                         element={<InstrumentList />}
                                     />
                                     <Route
+                                        path="/InstrumentDetail"
+                                        element={<InstrumentDetail />}
+                                    />
+                                    <Route
+                                        path="/InstrumentModify"
+                                        element={<InstrumentModify />}
+                                    />
+                                    <Route
                                         path="/EnsembleRoom"
                                         element={<EnsembleRoom />}
                                     />
                                     <Route
                                         path="/ConcertHall"
                                         element={<ConcertHall />}
-                                    />
-                                    <Route
-                                        path="/InstrumentDetail"
-                                        element={<InstrumentDetail />}
                                     />
                                     <Route
                                         path="/findEmail"

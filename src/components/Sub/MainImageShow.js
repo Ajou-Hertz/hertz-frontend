@@ -11,10 +11,10 @@ function MainImageShow({ imageUrls }) {
         <div style={{ textAlign: 'left' }}>
             {mainImage && <img src={mainImage} alt="The first selected" 
             style={{ border: '1px solid black', width: '355px', height: '355px', marginLeft: '50px' }} />}
-            <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px'}}>
+            <div style={{display: 'flex', flexDirection: 'row', marginTop: '20px', marginLeft: '50px'}}>
                 {imageUrls.map((imageUrl, index) => (
                     <img key={index} src={imageUrl} alt={`User selected ${index + 1}`} 
-                    style={{ border: '1px solid black', width: '40px', height: '45px', marginLeft: '20px' }} 
+                    style={{ border: '1px solid #D6E0F3', width: '40px', height: '45px', marginRight: '12.5px' }} 
                     onClick={() => handleClickImage(imageUrl)} />
                 ))}
             </div>

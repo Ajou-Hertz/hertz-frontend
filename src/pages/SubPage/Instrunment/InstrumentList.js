@@ -7,7 +7,7 @@ import MarketList from "../../../components/ProductList.js";
 
 import { MarketStateContext } from '../../../App.js';
 
-import InstrumentCardList from '../../../components/Sub/Card/InstrumentCardList.js';
+//import InstrumentCardList from '../../../components/Sub/Card/InstrumentCardList.js';
 
 import { useFetch } from '../../../hooks/useFetch.js';
 
@@ -15,12 +15,17 @@ import NavBar from '../../../components/Sub/NavBar'
 import DropdownInstrument from '../../../components/Sub/Dropdown/DropdownInstrument'
 import DropdownInAll from '../../../components/Sub/Dropdown/DropdownInAll'
 
+import InstrumentDetail from './InstrumentDetail.js';
+
 
 function InstrumentList() {
     const marketList = useContext(MarketStateContext);
     const navigate = useNavigate();
 
     const [data, setData] = useState([]); // get으로 가져온 데이터
+
+    const [selectedInstrument, setSelectedInstrument] = useState('일렉기타'); // 선택한 악기 종류 상태
+
     // useEffect(() => {
     //     axios
     //         .get(`/markets?sort=LATEST&date=CURRENT&page=0`)
@@ -86,8 +91,11 @@ function InstrumentList() {
     //         });
     // };
 
+    // 선택한 악기 종류에 따라 데이터 필터링
+    const filteredData = data.filter(item => selectedInstrument === 'all' || item.type === selectedInstrument);
+
     function handleClick() {
-        navigate("/search");
+        navigate("/InstrumentDetail");
     }
 
       return (
@@ -99,8 +107,10 @@ function InstrumentList() {
               <DropdownInAll />
             </div>
           </div>
-          <InstrumentCardList list={marketList} />
-          <InstrumentCardList list={data} />
+          {/* MarketList에 필터된 데이터 전달 */}
+          <MarketList list={filteredData} />
+          <MarketList list={marketList} />
+          <MarketList list={data} />
         </div>
       )
     //style={{ display: 'flex', justifyContent: 'flex-end' }}
