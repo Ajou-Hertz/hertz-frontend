@@ -94,7 +94,7 @@ function InstrumentList() {
     // 선택한 악기 종류에 따라 데이터 필터링
     const filteredData = data.filter(item => selectedInstrument === 'all' || item.type === selectedInstrument);
 
-    function handleClick() {
+    const gotoDetailPage=()=> {
         navigate("/InstrumentDetail");
     }
 
@@ -106,11 +106,11 @@ function InstrumentList() {
             <div style={{ marginLeft: 'auto' }}>
               <DropdownInAll />
             </div>
-          </div>
+          </div >
           {/* MarketList에 필터된 데이터 전달 */}
-          <MarketList list={filteredData} />
-          <MarketList list={marketList} />
-          <MarketList list={data} />
+          <MarketList list={filteredData} onItemClick={gotoDetailPage} />
+          <MarketList list={marketList} onItemClick={gotoDetailPage} />
+          <MarketList list={data} onItemClick={gotoDetailPage} />
         </div>
       )
     //style={{ display: 'flex', justifyContent: 'flex-end' }}

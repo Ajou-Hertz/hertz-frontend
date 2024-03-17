@@ -54,7 +54,7 @@ const InstrumentModify = () => {
       <div>
         <form onSubmit={handleSubmit}>
           {/* 판매할 악기 이름 수정하는 칸 */}
-          <div style={{ textAlign: 'left', marginLeft: '70px' }}>
+          <div style={{ textAlign: 'left', marginLeft: '70px', marginTop: '30px' }}>
             <input type="text" id="name" value={selectedProductName} onChange={handleNameChange}
               style={{ borderRadius: '5px', minWidth: '1000px', padding: '10px', marginRight: '40px' }} />
             {/* 드롭다운 */}
@@ -73,8 +73,9 @@ const InstrumentModify = () => {
             <p style={{ fontSize: '20px', fontWeight: 'bold' }}>특이사항 및 상세 설명</p>
             <p>추가적으로 기입해야 할 정보, 참고사항, 유의할 점 등 구매자가 알아야할 정보들을 기입해주세요.</p>
             <textarea id="description" value={description} onChange={handleDescriptionChange}
-              style={{ borderRadius: '5px', minWidth: '1380px', padding: '10px', marginRight: '40px' }} />
+              style={{ borderRadius: '5px', minWidth: '1380px', minHeight: '450px', padding: '10px', marginRight: '40px' }} />
           </div>
+          {/* 올리기 버튼 */}
           <div style={{ textAlign: 'right', margin: '30px 70px 30px 30px' }}>
             <button type="submit"
               style={{ backgroundColor: '#D6E0F3', borderRadius: '5px', border: 'none',
