@@ -82,13 +82,14 @@ const InstrumentDetail = () => {
         <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
         <p onClick={ clickModify } style={{ marginLeft: '30px', cursor: 'pointer', textDecoration: 'underline' }}>삭제하기</p>
       </div>
+      {/* 제품 이미지 및 제품 정보 */}
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <MainImageShow imageUrls={imageUrls} />
         <div style={{ border: '1px solid black', padding: '10px', marginLeft: '10px', marginRight: '10px', height: '420px', marginLeft: '50px', marginRight: '50px', flexGrow: 1 }}>
           <p style={{ textAlign: 'left', paddingTop: '20px', paddingLeft: '20px', fontSize: '25px' }}>펜더 로드원 텔레케스터 {selectedProductName}</p>
           <div style={{ textAlign: 'left', paddingLeft: '20px', paddingBottom: '30px' }}>
             <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>1,300,000원 {selectedPrice}</span> 
-            <span style={{ textAlign: 'right' }}> 
+            <span style={{ textAlign: 'right' }}>
             <i className="bi bi-geo-alt-fill"></i> 경기도 수원시 영통구 {selectedLocation}</span>
           </div>
           {/* 매물상태 표 */}
@@ -159,7 +160,7 @@ const InstrumentDetail = () => {
           </div>
         </div>
       </div>
-      {/* 글 작성 부분 */}
+      {/* 특이사항 및 상세 설명 글 부분 */}
       <div style={{ border: '1px solid black', margin: '50px', minHeight: '600px' }}>
         <p style={{ padding: '40px', textAlign: 'left', lineHeight: '3.0' }}>14년 시리얼 펜더 로드원 50 텔러입니다.<br/>
         기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로 교체했습니다.</p>
