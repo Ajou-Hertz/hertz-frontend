@@ -14,6 +14,7 @@ import "antd/dist/antd.css";
 import { Typography, Divider } from "antd";
 
 const LOGIN_URL = "/auth/login";
+const KAKAO_LOGIN_URL = "/auth/kakao/login";
 // const cookies = new Cookies();
 
 const { Title } = Typography;
@@ -33,6 +34,8 @@ function Login() {
 
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=9644ca78b2842659ee55581bdffa7c58&redirect_uri=http://localhost:8081/kakao/authorize/redirect-test&response_type=code`;
 
     // 유효성 검사하기
     useEffect(() => {
@@ -146,6 +149,38 @@ function Login() {
                 alert("일치하는 회원을 찾을 수 없습니다.");
             }
         }
+
+        const handleKakaoLogin = () => {
+            // Extracting authorization code from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const authorizationCode = urlParams.get("code");
+
+            // Sending Kakao login request
+            axios
+                .post(
+                    KAKAO_LOGIN_URL,
+                    {
+                        authorizationCode,
+                        redirectUri:
+                            "https://hertz.com/kakao-login-redirection",
+                    },
+                    {
+                        headers: {
+                            "Hertz-API-Version": 1,
+                        },
+                    }
+                )
+                .then((response) => {
+                    // Handle response
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    // Handle error
+                    console.log(error);
+                });
+        };
+
+        // 파싱된 코드 추출
 
         // requestPost();
         // console.log(auth);
@@ -271,14 +306,14 @@ function Login() {
                             </RouterLink>
                         </div>
                         <Button
-                            type="submit"
+                            type="button"
                             fullWidth
                             size="large"
                             sx={{
                                 mt: 3,
                                 mb: 2,
                             }}
-                            onClick={handleSubmit}
+                            onClick={() => (window.location.href = link)}
                         >
                             {/* 카카오 로그인 버튼 대신 이미지로 대체 */}
                             <img
