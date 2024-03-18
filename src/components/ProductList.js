@@ -8,8 +8,14 @@ import { Grid, Container } from "@mui/material";
 const theme = createTheme();
 
 function ProductList({ list }) {
-    const marketList = list;
-    console.log(marketList);
+    if (!list || !list.content) {
+        // list가 유효하지 않거나 content가 없을 때
+        return null;
+    }
+
+    const marketList = list.content; // content 배열에서 데이터 추출
+
+    // console.log(marketList);
     return (
         <ThemeProvider theme={theme}>
             <Container
@@ -22,15 +28,14 @@ function ProductList({ list }) {
                         <Grid key={market.id} item xs={12} sm={6} md={3}>
                             <MarketCard
                                 id={market.id}
-                                img={market.img}
-                                url={market.url}
-                                name={market.name}
-                                location={market.location}
-                                detail={market.detail}
-                                time={market.time}
-                                period={market.period}
-                                like={market.like}
-                                view={market.view}
+                                img={
+                                    market.thumbnailImage
+                                        ? market.thumbnailImage.url
+                                        : market.images[0].url
+                                } // 썸네일 이미지 URL
+                                price={market.price}
+                                title={market.title}
+                                location={`${market.tradeAddress.sido} ${market.tradeAddress.sgg} ${market.tradeAddress.emd}`}
                             />
                         </Grid>
                     ))}
