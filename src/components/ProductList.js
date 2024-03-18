@@ -15,7 +15,7 @@ function ProductList({ list }) {
             <Container
                 sx={{ py: 8 }}
                 maxWidth="lg"
-                style={{ paddingTop: "10px" }}
+                style={{ paddingTop: "0px" }}
             >
                 <Grid container spacing={8}>
                     {marketList.map((market) => (
