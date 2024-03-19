@@ -140,97 +140,56 @@ function Findphone() {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
-                <Box
-                    sx={{
-                        marginTop: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
-                    <Title level={2}>이메일 찾기</Title>
-                    {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <Title level={2}>이메일 찾기</Title>
+                {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                         <LockOutlinedIcon />
                     </Avatar> */}
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        sx={{ mt: 1 }}
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    sx={{ mt: 1 }}
+                >
+                    <TextField
+                        required
+                        fullWidth
+                        autoFocus
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        label="전화번호"
+                        placeholder="예) 01012345678"
+                        autoComplete="phone"
+                        error={!isValidphone && userPhone !== ""}
+                        helperText={
+                            isValidphone || userPhone === ""
+                                ? ""
+                                : "전화번호를 정확히 입력해주세요."
+                        }
+                        value={userPhone}
+                        onChange={handleChangephone}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            mt: 3,
+                            mb: 12,
+                            backgroundColor: "#637DBE",
+                            "&:hover": {
+                                backgroundColor: "#637DBE", // 호버 시 배경색
+                            },
+                        }}
+                        size="large"
+                        disabled={!isValidAll || loading}
+                        onClick={handleSubmit}
                     >
-                        <TextField
-                            required
-                            fullWidth
-                            autoFocus
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            label="전화번호"
-                            placeholder="예) 01012345678"
-                            autoComplete="phone"
-                            error={!isValidphone && userPhone !== ""}
-                            helperText={
-                                isValidphone || userPhone === ""
-                                    ? ""
-                                    : "전화번호를 정확히 입력해주세요."
-                            }
-                            value={userPhone}
-                            onChange={handleChangephone}
-                            // sx={{
-                            //     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            //         {
-                            //             borderColor: "#637DBE", // 입력 창 선택 시 테두리 색상
-                            //         },
-                            // }}
-                        />
-                        {/* <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            type="password"
-                            id="password"
-                            name="password"
-                            label="비밀번호"
-                            autoComplete="current-password"
-                            placeholder="영문, 숫자, 특수문자 조합 8-16자"
-                            error={!isValidPassword && userPassword != ""}
-                            helperText={
-                                isValidPassword || userPassword == ""
-                                    ? ""
-                                    : "영문, 숫자, 특수문자를 조합하여 입력해주세요. (8-16자)"
-                            }
-                            value={userPassword}
-                            onChange={handleChangePassword}
-                            inputProps={{
-                                maxLength: 16,
-                            }}
-                        /> */}
-                        {/* 추출된 이메일 표시
-                        <Typography sx={{ marginTop: 2, fontSize: 18 }}>
-                            찾으신 이메일은 {email} 입니다.
-                        </Typography>{" "} */}
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{
-                                mt: 3,
-                                mb: 2,
-                                backgroundColor: "#637DBE",
-                                "&:hover": {
-                                    backgroundColor: "#637DBE", // 호버 시 배경색
-                                },
-                            }}
-                            size="large"
-                            disabled={!isValidAll || loading}
-                            onClick={handleSubmit}
-                        >
-                            확인
-                        </Button>
-                        <Modal title="알림">
-                            <p>찾으신 이메일은 입니다.</p>
-                        </Modal>
-                    </Box>
+                        확인
+                    </Button>
+                    <Modal title="알림">
+                        <p>찾으신 이메일은 입니다.</p>
+                    </Modal>
                 </Box>
             </Container>
         </ThemeProvider>
