@@ -9,6 +9,7 @@ import Enroll from "./pages/Enroll";
 import InstrumentList from "./pages/SubPage/Instrunment/InstrumentList";
 import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
 import InstrumentModify from "./pages/SubPage/Instrunment/InstrumentModify";
+import InstrumentUpload from "./pages/SubPage/Instrunment/InstrumentUpload";
 import EnsembleRoom from "./pages/SubPage/EnsembleRoon";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
@@ -118,6 +119,10 @@ function App() {
                                     <Route
                                         path="/InstrumentModify"
                                         element={<InstrumentModify />}
+                                    />
+                                    <Route
+                                        path="/InstrumentUpload"
+                                        element={<InstrumentUpload />}
                                     />
                                     <Route
                                         path="/EnsembleRoom"

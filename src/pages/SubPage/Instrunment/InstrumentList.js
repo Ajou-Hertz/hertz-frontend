@@ -74,7 +74,6 @@ function InstrumentList() {
             >
                 <DropdownInstrument style={{ position: 'relative', zIndex: 100 }} />
                 <DropdownInAll style={{ position: 'relative', zIndex: 100 }} />
-
                 {/* <DropdownInstrument />
                 <div style={{ marginLeft: "auto" }}>
                     <DropdownInAll />

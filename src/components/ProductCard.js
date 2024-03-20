@@ -13,24 +13,22 @@ import {
     Typography,
 } from "@mui/material";
 
-const ProductCard = ({
-    id,
-    img,
-    url,
-    name,
-    location,
-    detail,
-    time,
-    period,
-    like,
-    view,
-}) => {
+const ProductCard = ({ id, img, title, location, price, imgs }) => {
     const env = process.env;
     env.PUBLIC_URL = env.PUBLIC_URL || "";
 
     let temp = img;
     if (temp[0] === ".")
         temp = process.env.PUBLIC_URL + `assets/market_img.png`;
+
+    // 가격 포맷 변경
+    const formattedPrice = new Intl.NumberFormat("ko-KR", {
+        style: "currency",
+        currency: "KRW",
+    }).format(Number(price));
+
+    // 통화 표시 옵션에서 달러 표시 제거
+    const priceWithoutCurrencySymbol = formattedPrice.replace("₩", "");
 
     return (
         <Card
@@ -43,7 +41,8 @@ const ProductCard = ({
             <CardActionArea
                 style={{ cursor: "pointer" }}
                 component={Link}
-                to={`/market/${id}`}
+                // to={`/market/${id}`}
+                to={`/InstrumentDetail`}
             >
                 <CardMedia
                     component="img"
@@ -62,7 +61,7 @@ const ProductCard = ({
                         variant="h5"
                         sx={{ textAlign: "left" }}
                     >
-                        {name.length > 14 ? name.slice(0, 13) + "..." : name}
+                        {title.length > 14 ? title.slice(0, 13) + "..." : title}
                     </Typography>
                     <Typography
                         className="location"
@@ -70,25 +69,8 @@ const ProductCard = ({
                         variant="body1"
                         sx={{ textAlign: "left" }}
                     >
-                        {time}
+                        {priceWithoutCurrencySymbol} 원
                     </Typography>
-                    {/* <Typography
-                        className="location"
-                        component="p"
-                        variant="body1"
-                    >
-                        상세 : {detail}
-                    </Typography>
-                    <Typography className="time" component="p" variant="body1">
-                        운영시간 : {time}
-                    </Typography>
-                    <Typography
-                        className="period"
-                        component="p"
-                        variant="body1"
-                    >
-                        기간 : {period}
-                    </Typography> */}
                 </CardContent>
             </CardActionArea>
             <CardActions
@@ -119,13 +101,9 @@ const ProductCard = ({
 ProductCard.propTypes = {
     id: PropTypes.number.isRequired,
     img: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    period: PropTypes.string.isRequired,
-    like: PropTypes.number.isRequired,
-    view: PropTypes.number.isRequired,
+    price: PropTypes.string.isRequired,
 };
 
 export default ProductCard;
