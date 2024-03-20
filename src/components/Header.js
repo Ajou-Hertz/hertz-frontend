@@ -56,7 +56,9 @@ const Header = () => {
                 />
                 <Button variant="outline-success">Search</Button>
               </Form> */}
-                                    <Nav.Link href="enroll">판매하기</Nav.Link>
+                                    <Nav.Link href="InstrumentUpload">
+                                        판매하기
+                                    </Nav.Link>
                                     {auth?.userEmail ? (
                                         <Nav.Link href="/logout">
                                             로그아웃
