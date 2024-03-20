@@ -72,10 +72,12 @@ function InstrumentList() {
                     paddingRight: "50px",
                 }}
             >
-                <DropdownInstrument />
+                <DropdownInstrument style={{ position: 'relative', zIndex: 100 }} />
+                <DropdownInAll style={{ position: 'relative', zIndex: 100 }} />
+                {/* <DropdownInstrument />
                 <div style={{ marginLeft: "auto" }}>
                     <DropdownInAll />
-                </div>
+                </div> */}
             </div>
             {/* MarketList에 필터된 데이터 전달 */}
             <ProductList list={data} />

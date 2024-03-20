@@ -25,7 +25,7 @@ const ElectricGuitar = () => {
         <p>거래 지역</p>
       </div>
       <div>
-        <p style={{ fontSize: '10px' }}>악기상태</p>
+        <p>악기상태</p>
       </div>
       <div>
         <p>브랜드</p>
