@@ -14,6 +14,8 @@ import EnsembleRoom from "./pages/SubPage/EnsembleRoon";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
+import Seller from "./pages/Seller";
+import Inquiry from "./pages/Inquiry";
 import { marketsDummyData } from "./constants/data";
 
 import { AuthProvider } from "./context/AuthProvider";
@@ -139,6 +141,14 @@ function App() {
                                     <Route
                                         path="/findPw"
                                         element={<FindPW />}
+                                    />
+                                    <Route
+                                        path="/seller"
+                                        element={<Seller />}
+                                    />
+                                    <Route
+                                        path="/inquiry"
+                                        element={<Inquiry />}
                                     />
                                 </Routes>
                             </MainLayout>

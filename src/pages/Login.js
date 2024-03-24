@@ -121,17 +121,15 @@ function Login() {
             // console.log(response);
             const accessToken = response?.data?.token;
             const refreshToken = response?.data?.userToken.refreshToken;
-            const role = response?.data?.roleType;
             setAuth({
                 userEmail,
                 userPassword,
                 accessToken,
                 refreshToken,
-                role,
             });
             setUserEmail("");
             setUserPassword("");
-            navigate("/mypage", { replace: true });
+            navigate(from, { replace: true });
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {

@@ -103,7 +103,7 @@ const MyPage = () => {
                 </Routes>
             </div>
             <div style={{ textAlign: "left" }}>
-                <Link to="/myselling">
+                <Link to="/seller">
                     <button
                         style={{
                             marginLeft: "40px",
@@ -135,7 +135,7 @@ const MyPage = () => {
                         </svg>
                     </button>
                 </Link>
-                <Link to="/qna">
+                <Link to="/inquiry">
                     <button
                         style={{
                             display: "inline-block",
