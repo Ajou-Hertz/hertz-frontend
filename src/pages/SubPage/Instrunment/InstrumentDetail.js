@@ -44,6 +44,9 @@ const InstrumentDetail = () => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 단계설명 표 열고 닫는 상태
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+  const sellerContact = isLoggedIn ? 'https://open.kakao.com/qwer' : '로그인 후 열람 가능합니다'; //
+
   // 팝업 내용
   const popupData = [
     { label: '5단계', value: '외관/사용 모두 완벽, 신동품' },
@@ -64,9 +67,22 @@ const InstrumentDetail = () => {
   };
 
   // 확인하기 
-  function handleClick() {
-    navigate("/mypage");
+  function clickSeller() {
+    navigate("/Seller");
   }
+
+  {/*// 확인하기 
+  function clickSeller() {
+    // TODO: 로그인 여부 확인
+    if (isLoggedIn) {
+      navigate("/Seller");
+    } else {
+      // 팝업 표시 후 로그인 페이지로 이동
+      openPopup();
+      // 로그인 페이지로 이동
+      navigate("/login");
+    }
+  }*/}
 
   // 수정하기 페이지
   function clickModify() {
@@ -95,25 +111,25 @@ const InstrumentDetail = () => {
           </div>
           {/* 매물상태 표 */}
           <div style={{ display: 'flex', paddingLeft: '20px' }}>
-            <p style={{ border: '1px solid black', padding: '20px', width: '150px', height: '100px' }}>
+            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
               <div>매물상태</div>
-              <div><p>5단계</p>{selectedState}</div>
+              <div><p style={{ marginTop: '10px' }}>5단계</p>{selectedState}</div>
             </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '150px', height: '100px' }}>
+            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
               <div>브랜드</div>
-              <div><p>펜더</p>{selectedBrand}</div>
+              <div><p style={{ marginTop: '10px' }}>펜더</p>{selectedBrand}</div>
             </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '150px', height: '100px' }}>
+            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
               <div>모델</div>
-              <div><p>텔레케스터</p>{selectedModel}</div>
+              <div><p style={{ marginTop: '10px' }}>텔레케스터</p>{selectedModel}</div>
             </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '150px', height: '100px' }}>
+            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
               <div>생산연도</div>
-              <div><p>1958</p>{selectedYear}</div>
+              <div><p style={{ marginTop: '10px' }}>1958</p>{selectedYear}</div>
             </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '150px', height: '100px' }}>
+            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
               <div>색상</div>
-              <div><p>RED</p>{selectedColor}</div>
+              <div><p style={{ marginTop: '10px' }}>RED</p>{selectedColor}</div>
             </p>
             {/* 단계설명 확인하기 버튼 */}
             <div style={{ marginTop: '70px', marginLeft: '20px' }}>
@@ -135,10 +151,11 @@ const InstrumentDetail = () => {
             </div>
             {/* 판매자 페이지로 넘어가는 버튼 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '15px', borderRadius: '3px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
+              padding: '10px', borderRadius: '3px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>판매자 정보</p>
-              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px', marginLeft: '10px' }} 
-              onClick={handleClick}>확인하기</button>
+              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px',
+                padding: '5px', paddingLeft: '10px', paddingRight: '10px' }} 
+                onClick={clickSeller}>확인하기</button>
             </div>
           </div>
         </div>
@@ -148,6 +165,15 @@ const InstrumentDetail = () => {
         <p style={{ padding: '40px', textAlign: 'left', lineHeight: '3.0' }}>14년 시리얼 펜더 로드원 50 텔러입니다.<br/>
         기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로 교체했습니다.</p>
       </div>
+      {/* 로그인 팝업
+      {isPopupOpen && (
+        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
+          backgroundColor: 'white', padding: '20px', borderRadius: '10px', zIndex: '9999' }}>
+          <p>로그인 후에 <br>
+          이용 가능합니다.</p>
+          <button onClick={closePopup}>확인</button>
+        </div>
+      )}*/}
     </div>
   )
 }
