@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import NavBar from '../../../components/Sub/NavBar';
 import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
+import UploadPhoto from '../../../components/Sub/UploadPhoto';
 import ElectricGuitar from '../../../components/Sub/InstrumentSelection.js/ElectricGuitar';
 import Effector from '../../../components/Sub/InstrumentSelection.js/Effector';
 import Amp from '../../../components/Sub/InstrumentSelection.js/Amp';
@@ -16,6 +17,8 @@ const InstrumentModify = () => {
   const [description, setDescription] = useState('기존 매물 설명');
 
   const [selectedOption, setSelectedOption] = useState('일렉기타'); // 드롭다운 선택 상태
+
+  const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태 추가
 
 
   /*useEffect(() => {
@@ -58,6 +61,11 @@ const InstrumentModify = () => {
 
   // 선택된 옵션에 따라 렌더링할 컴포넌트 결정
   const SelectedComponent = componentMapping[selectedOption];
+  
+  // 이미지 변경 시 호출될 함수
+  const handleImageChange = (image) => {
+    setSelectedImage(image);
+  };
 
   // 폼 제출 함수입니다. 실제로는 여기서 수정된 정보를 서버로 보내는 로직이 필요합니다.
   const handleSubmit = (e) => {
@@ -87,7 +95,12 @@ const InstrumentModify = () => {
           <div style={{ margin: '15px' }}>
             <p style={{ textAlign: 'left', marginLeft: '55px' }}>필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)</p>
           </div>
-          {/* 필수 입력 사항 */}
+          {/* 이미지 업로드 수정 */}
+          <div style={{ textAlign: 'left', marginLeft: '70px', marginTop: '30px' }}>
+            <UploadPhoto onImagesChange={handleImageChange} />
+          </div>
+          <div></div>
+          {/* 필수 입력 사항 수정 */}
           <div style={{ textAlign: 'left', marginLeft: '60px' }}>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '10px', marginTop: '40px' }}>필수 입력 사항</p>
@@ -102,9 +115,9 @@ const InstrumentModify = () => {
               {SelectedComponent && <SelectedComponent />}
             </div>
           </div>
-          {/* 상세 정보 입력하는 칸 */}
+          {/* 상세 정보 입력(수정)하는 칸 */}
           <div style={{ textAlign: 'left', marginLeft: '70px' }}>
-            <p style={{ fontSize: '20px', fontWeight: 'bold' }}>특이사항 및 상세 설명</p>
+            <p style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '40px' }}>특이사항 및 상세 설명</p>
             <p>추가적으로 기입해야 할 정보, 참고사항, 유의할 점 등 구매자가 알아야할 정보들을 기입해주세요.</p>
             <textarea id="description" value={description} onChange={handleDescriptionChange}
               style={{ borderRadius: '5px', minWidth: '1380px', minHeight: '450px', padding: '10px', marginRight: '40px' }} />
