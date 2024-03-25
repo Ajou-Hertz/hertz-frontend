@@ -11,10 +11,9 @@ const Button = ({ label, isSelected, onClick }) => {
   );
 };
 
-const ElectricGuitar = () => {  
+const Equipement = () => {  
   const [Sido,setSido] = useState();
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-  const [productionYear, setProductionYear] = useState(''); // 생산연도 상태
   const [price, setPrice] = useState(''); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
   const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
@@ -58,13 +57,6 @@ const ElectricGuitar = () => {
   // 악기 상태를 위한 핸들러
   const handleButtonClick = (state) => {
       setSelectedState(state);
-  };
-
-  // 생산연도 입력 핸들러
-  const handleProductionYear = (event) => {
-    // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-    const inputProductionYear = event.target.value.replace(/[^0-9]/g, ''); // 숫자가 아닌 문자를 제거합니다.
-    setProductionYear(inputProductionYear);
   };
 
   // 가격 입력 핸들러
@@ -111,21 +103,9 @@ const ElectricGuitar = () => {
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
           <p style={{ fontSize: '20px' }}>악기 상태</p>
         </div>
-        {/* 브랜드 */}
+        {/* 종류 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px' }}>브랜드</p>
-        </div>
-        {/* 모델 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px' }}>모델</p>
-        </div>
-        {/* 생산연도 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px' }}>생산 연도</p>
-        </div>
-        {/* 색상 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px' }}>색상</p>
+          <p style={{ fontSize: '20px' }}>종류</p>
         </div>
         {/* 가격 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
@@ -193,61 +173,11 @@ const ElectricGuitar = () => {
             <PopupButton onClick={openPopup} isPopupOpen={isPopupOpen} closePopup={closePopup} popupData={popupData} />
           </div>
         </div>
-        {/* 브랜드 드롭다운 */}
+        {/* 종류 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
           <select style={{ height: '40px', borderRadius: '3px' }}>
-            <option>Fender(USA)</option>
-            <option>Fender(Japan)</option>
-            <option>Fender(Mexico)</option>
-            <option>Gibson</option>
-            <option>Ibanez</option>
-            <option>PRS</option>
-            <option>Schecter</option>
-            <option>Epiphone</option>
-            <option>ESP LTD</option>
-            <option>Squier</option>
-            <option>Jackson</option>
-            <option>ESP</option>
-            <option>Custom</option>
-            <option>High-end</option>
-            <option>그 외</option>
-          </select>
-        </div>
-        {/* 모델 드롭다운 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
-            <option>텔레캐스터</option>
-            <option>스트라토캐스터</option>
-            <option>레스</option>
-            <option>슈퍼스트랫</option>
-            <option>세미할로우</option>
-            <option>헤비쉐입</option>
-            <option>재즈마스터 & 재규어</option>
-            <option>PRS</option>
-            <option>그 외</option>
-          </select>
-        </div>
-        {/* 생산연도 입력칸 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <input
-            type="text" value={productionYear} onChange={handleProductionYear}
-            placeholder="숫자만 기입해주세요"
-            style={{ width: '500px', height: '40px', 
-              padding: '10px', borderRadius: '3px', border: '1px solid black' }}
-          />
-        </div>
-        {/* 색상 드롭다운 */}
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
-            <option>Red</option>
-            <option>Orange</option>
-            <option>Yellow</option>
-            <option>Green</option>
-            <option>Blue</option>
-            <option>Navy</option>
-            <option>Violet</option>
-            <option>White</option>
-            <option>Black</option>
+            <option>음향장비</option>
+            <option>악세서리</option>
             <option>그 외</option>
           </select>
         </div>
@@ -298,4 +228,4 @@ const ElectricGuitar = () => {
   );
 }
 
-export default ElectricGuitar;
+export default Equipement;
