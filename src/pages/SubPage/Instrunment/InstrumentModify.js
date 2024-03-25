@@ -3,6 +3,12 @@ import axios from 'axios';
 
 import NavBar from '../../../components/Sub/NavBar';
 import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
+import ElectricGuitar from '../../../components/Sub/InstrumentSelection.js/ElectricGuitar';
+import Effector from '../../../components/Sub/InstrumentSelection.js/Effector';
+import Amp from '../../../components/Sub/InstrumentSelection.js/Amp';
+import Bass from '../../../components/Sub/InstrumentSelection.js/Bass';
+import AcousticClassic from '../../../components/Sub/InstrumentSelection.js/AcousticClassic';
+import Equipement from '../../../components/Sub/InstrumentSelection.js/Equipement';
 
 const InstrumentModify = () => {
   // 매물 정보 상태를 관리. 실제로는 API 호출을 통해 초기값을 설정할 수 있습니다.
@@ -40,6 +46,19 @@ const InstrumentModify = () => {
     setSelectedOption(option); // 드롭다운 선택 값을 업데이트하지만, selectedProductName은 변경하지 않음
   };
 
+  // 드롭다운 메뉴 옵션과 컴포넌트 매핑
+  const componentMapping = {
+    '일렉기타': ElectricGuitar,
+    '이펙터': Effector,
+    '앰프': Amp,
+    '베이스': Bass,
+    '어쿠스틱&클래식': AcousticClassic,
+    '음향장비': Equipement,
+  };
+
+  // 선택된 옵션에 따라 렌더링할 컴포넌트 결정
+  const SelectedComponent = componentMapping[selectedOption];
+
   // 폼 제출 함수입니다. 실제로는 여기서 수정된 정보를 서버로 보내는 로직이 필요합니다.
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +75,7 @@ const InstrumentModify = () => {
           {/* 판매할 악기 이름 수정하는 칸 */}
           <div style={{ textAlign: 'left', marginLeft: '70px', marginTop: '30px' }}>
             <input type="text" id="name" value={selectedProductName} onChange={handleNameChange}
-              style={{ borderRadius: '5px', minWidth: '1000px', padding: '10px', marginRight: '40px' }} />
+              style={{ borderRadius: '5px', minWidth: '1000px', padding: '10px', marginRight: '40px', border: '1px solid black' }} />
             {/* 드롭다운 */}
             <DropdownMenu
               options={['이펙터', '앰프', '베이스', '어쿠스틱&클래식', '음향장비', '합주실', '공연장']} // 드롭다운에 보여줄 옵션들
@@ -66,7 +85,22 @@ const InstrumentModify = () => {
           </div>
           {/* 필수사항 */}
           <div style={{ margin: '15px' }}>
-            <p>필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)</p>
+            <p style={{ textAlign: 'left', marginLeft: '55px' }}>필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)</p>
+          </div>
+          {/* 필수 입력 사항 */}
+          <div style={{ textAlign: 'left', marginLeft: '60px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '10px', marginTop: '40px' }}>필수 입력 사항</p>
+              <div style={{ marginTop: '40px', marginRight: '70px' }}>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매중</button>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>예약중</button>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매완료</button>
+              </div>
+            </div>
+            <p style={{ marginLeft: '10px' }}>매물의 정보를 정확하게 사실만 입력해주세요.</p>
+            <div style={{ marginLeft: '20px' }}>
+              {SelectedComponent && <SelectedComponent />}
+            </div>
           </div>
           {/* 상세 정보 입력하는 칸 */}
           <div style={{ textAlign: 'left', marginLeft: '70px' }}>

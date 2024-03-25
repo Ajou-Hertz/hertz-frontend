@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import NavBar from '../../../components/Sub/NavBar';
 import MainImageShow from '../../../components/Sub/MainImageShow';
+import PopupButton from '../../../components/Sub/PopupButton';
 
 const InstrumentDetail = () => {
   const [imageUrls, setImageUrls] = useState([
@@ -76,7 +77,7 @@ const InstrumentDetail = () => {
     <div>
       <NavBar />
       <div>
-        <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '18px' }}>중고악기</p>
+        <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '20px' }}>중고악기</p>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '70px' }}>
         <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
@@ -114,27 +115,9 @@ const InstrumentDetail = () => {
               <div>색상</div>
               <div><p>RED</p>{selectedColor}</div>
             </p>
-            {/* 버튼 */}
+            {/* 단계설명 확인하기 버튼 */}
             <div style={{ marginTop: '70px', marginLeft: '20px' }}>
-              <button onClick={openPopup} style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px' }}>단계설명 확인하기</button>
-              {isPopupOpen && (
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', zIndex: 999 }}>
-                  <button style={{ float: 'right', background: 'none', border: 'none' }} onClick={closePopup}>X</button>
-                  <div style={{ textAlign: 'center', margin: '20px' }}>
-                    <p style={{ border: '3px solid black', padding: '10px', fontSize: '20px' }}>헤르츠 악기 상태 기준표</p>
-                  </div>
-                  <table style={{ border: '3px solid black', padding: '10px' }}>
-                    <tbody>
-                      {popupData.map(item => (
-                        <tr key={item.label} style={{ border: '3px solid black', padding: '10px' }}>
-                          <td style={{ border: '3px solid black', padding: '10px', background: '#D6E0F3' }}>{item.label}</td>
-                          <td style={{ border: '3px solid black', padding: '10px', textAlign: 'left' }}>{item.value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+              <PopupButton onClick={openPopup} isPopupOpen={isPopupOpen} closePopup={closePopup} popupData={popupData} />
             </div>
           </div>
           {/* 해시태그 */}
