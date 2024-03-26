@@ -20,6 +20,8 @@ import { marketsDummyData } from "./constants/data";
 
 import { AuthProvider } from "./context/AuthProvider";
 import MainLayout from "./components/MainLayout";
+import RequireAuth from "./components/RequireAuth";
+// import requireAuth from "../components/RequireAuth";
 
 const reducer = (state, action) => {
     let newState = [];
@@ -102,9 +104,19 @@ function App() {
                         <div className="App">
                             <MainLayout>
                                 <Routes>
-                                    <Route path="/" element={<Home />} />
+                                    <Route
+                                        path="/"
+                                        element={<Home />}
+                                        exact={true}
+                                    />
                                     <Route path="/login" element={<Login />} />
-                                    <Route path="/mypage" element={<My />} />
+                                    {/* protected routes */}
+                                    <Route element={<RequireAuth />}>
+                                        <Route
+                                            path="/mypage"
+                                            element={<My />}
+                                        />
+                                    </Route>
                                     <Route path="/sign" element={<Sign />} />
                                     <Route
                                         path="/enroll"

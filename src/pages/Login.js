@@ -120,20 +120,20 @@ function Login() {
             console.log(response?.data);
             // console.log(response);
             const accessToken = response?.data?.token;
-            const refreshToken = response?.data?.userToken.refreshToken;
+            // const refreshToken = response?.data?.userToken.refreshToken;
             setAuth({
                 userEmail,
                 userPassword,
                 accessToken,
-                refreshToken,
             });
             setUserEmail("");
             setUserPassword("");
+            alert("로그인이 완료되었습니다.");
             navigate(from, { replace: true });
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {
-                alert("로그인이 완료되었습니다.");
+                alert("No Server Response");
             } else if (
                 err.response?.status === 2202 ||
                 err.response?.status === 2003
@@ -177,7 +177,6 @@ function Login() {
                     console.log(error);
                 });
         };
-
         // 파싱된 코드 추출
 
         // requestPost();

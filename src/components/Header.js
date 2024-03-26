@@ -60,7 +60,7 @@ const Header = () => {
                                         판매하기
                                     </Nav.Link>
                                     {auth?.userEmail ? (
-                                        <Nav.Link href="/logout">
+                                        <Nav.Link href="/login">
                                             로그아웃
                                         </Nav.Link>
                                     ) : (
