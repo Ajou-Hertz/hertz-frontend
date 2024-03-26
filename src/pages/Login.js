@@ -121,6 +121,9 @@ function Login() {
             // console.log(response);
             const accessToken = response?.data?.token;
             // const refreshToken = response?.data?.userToken.refreshToken;
+
+            //accesstoken 로컬 스토리지에 담기
+            localStorage.setItem("token", accessToken);
             setAuth({
                 userEmail,
                 userPassword,

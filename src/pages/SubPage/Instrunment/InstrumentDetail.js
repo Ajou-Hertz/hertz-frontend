@@ -44,8 +44,13 @@ const InstrumentDetail = () => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 단계설명 표 열고 닫는 상태
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
-  const sellerContact = isLoggedIn ? 'https://open.kakao.com/qwer' : '로그인 후 열람 가능합니다'; //
+  // 토큰 가져오기
+  const token = localStorage.getItem("token");
+  console.log("토큰 확인", token);
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // 로그인 상태
+  // const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false); // 로그인 팝업 열고 닫는 상태
+  const sellerContact = isLoggedIn ? 'https://open.kakao.com/qwer' : '로그인 후 열람 가능합니다';
 
   // 팝업 내용
   const popupData = [
@@ -56,34 +61,50 @@ const InstrumentDetail = () => {
     { label: '1단계', value: '부품용/상태 안좋음' }
   ];
 
-  // 팝업 열기
+  // 악기상태 팝업 열기
   const openPopup = () => {
     setIsPopupOpen(true);
   };
 
-  // 팝업 닫기
+  // 악기상태 팝업 닫기
   const closePopup = () => {
     setIsPopupOpen(false);
   };
 
-  // 확인하기 
-  function clickSeller() {
-    navigate("/Seller");
-  }
-
-  {/*// 확인하기 
-  function clickSeller() {
-    // TODO: 로그인 여부 확인
+  const clickSeller = () => {
     if (isLoggedIn) {
-      navigate("/Seller");
+      // 로그인 상태일 때, 판매자 페이지로 이동
+      console.log("로그인 완료로"); // 로그인 상태 확인
+      navigate('/Seller'); // 예시 URL, 실제 판매자 페이지 URL로 변경 필요
     } else {
-      // 팝업 표시 후 로그인 페이지로 이동
-      openPopup();
-      // 로그인 페이지로 이동
-      navigate("/login");
+      // 로그인 상태가 아닐 때, 팝업 메시지를 보여주고 로그인 페이지로 이동
+      alert('로그인 후에 사용해주세요.');
+      navigate('/Login'); // 실제 로그인 페이지 URL로 변경 필요
     }
-  }*/}
+  };
 
+  // // 로그아웃 상태에서 팝업 열기
+  // const openLoginPopup = () => {
+  //   setIsLoginPopupOpen(true);
+  // };
+  
+  // // 로그아웃 상태에서 확인하기 버튼 
+  // function clickSeller() {
+  //   // TODO: 로그인 여부 확인
+  //   if (isLoggedIn) {
+  //     navigate("/Seller");
+  //   } else {
+  //   // 로그아웃 상태시 팝업 표시
+  //   openLoginPopup();
+  //   }
+  // }
+
+  // // 로그인 팝업 닫기
+  // const closeLoginPopup = () => {
+  //   setIsLoginPopupOpen(false);
+  //   navigate("/Login")
+  // };
+  
   // 수정하기 페이지
   function clickModify() {
     navigate("/InstrumentModify")
@@ -166,14 +187,16 @@ const InstrumentDetail = () => {
         기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로 교체했습니다.</p>
       </div>
       {/* 로그인 팝업
-      {isPopupOpen && (
+      {isLoginPopupOpen && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
-          backgroundColor: 'white', padding: '20px', borderRadius: '10px', zIndex: '9999' }}>
-          <p>로그인 후에 <br>
-          이용 가능합니다.</p>
-          <button onClick={closePopup}>확인</button>
+          backgroundColor: 'white', padding: '50px', paddingRight: '80px', paddingLeft: '80px', borderRadius: '10px', zIndex: '9999' }}>
+          <p>로그인 후에
+            <br/> 이용 가능합니다.</p>
+          <button onClick={closeLoginPopup}
+            style={{ backgroundColor: '#D6E0F3', border: 'none', paddingLeft: '40px', paddingRight: '40px' }}
+            >확인</button>
         </div>
-      )}*/}
+      )} */}
     </div>
   )
 }
