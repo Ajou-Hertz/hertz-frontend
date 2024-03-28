@@ -133,7 +133,7 @@ function Login() {
             setUserEmail("");
             setUserPassword("");
             alert("로그인이 완료되었습니다.");
-            navigate(from, { replace: true });
+            navigate("/mypage", { replace: true });
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {

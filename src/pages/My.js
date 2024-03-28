@@ -29,13 +29,6 @@ export const Summary = ({ userData }) => {
         <>
             <Profile userData={userData} />
             <WishProduct />
-            {/* <WishBooth /> */}
-            {/* <div>
-                <h1>마켓 관리하기</h1>
-            </div>
-            <div>
-                <h1>신청한 부스</h1>
-            </div> */}
         </>
     );
 };
@@ -65,25 +58,27 @@ const MyPage = () => {
     //     getUser();
     // }, []);
 
-    // const testGet = () => {
-    //     console.log("!!!");
-    //     const getUser = async () => {
-    //         try {
-    //             const response = await axios.get("/users/", {
-    //                 headers: {
-    //                     // Authorization: `Bearer ${auth.accessToken}`,
-    //                     "X-Auth-Token": `${auth.accessToken}`,
-    //                 },
-    //             });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://43.203.54.249:8080/api/users/me",
+                    {
+                        headers: {
+                            accept: "*/*",
+                            "Hertz-API-Version": "1",
+                            Authorization: `Bearer ${auth.accessToken}`,
+                        },
+                    }
+                );
+                setMyData(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
 
-    //             console.log(response);
-    //         } catch (err) {
-    //             console.log(err?.response);
-    //         }
-    //     };
-
-    //     getUser();
-    // };
+        fetchData();
+    }, [auth.accessToken]);
 
     return (
         <div className="area-2">
