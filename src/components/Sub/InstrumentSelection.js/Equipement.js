@@ -41,16 +41,22 @@ const Equipement = () => {
 
   // 시도 get api
   useEffect(() => {
-    // 매물 정보를 불러오는 API 호출
-    axios.get('/api/administrative-areas/sido') // 가정한 URL, 실제 URL로 변경 필요
-      .then(response => {
-        // 응답으로 받은 매물 정보로 상태 업데이트
-        setSido(response.data);
-        console.log("시도:",response.data );
-      })
-      .catch(error => {
-        console.log(error);
+    // 헤더를 설정합니다.
+    const headers = {
+      "Hertz-API-Version": 1 // 헤더에 api minor version 추가
+    };
+  
+    try {
+      const response = axios.get('/administrative-areas/sido', {
+        headers: headers
       });
+  
+      console.log("성공");
+      console.log('시도 정보:', response.data.content);
+      // 등록 성공 후 작업, 예: 사용자를 악기 목록 페이지로 리다이렉트
+    } catch (error) {
+      console.error('에러:', error);
+    }
   }, []);
 
 
@@ -73,17 +79,20 @@ const Equipement = () => {
 
   // 해시태그 입력 핸들러
   const handleHashtagChange = (event, index) => {
+    const value = event.target.value.startsWith('#') ? event.target.value : `#${event.target.value}`;
     const newHashtags = [...hashtags];
-    newHashtags[index] = event.target.value.slice(0, 10); // 글자 10자 제한
+    newHashtags[index] = value.slice(0, 11); // '#' 포함 최대 11자
     setHashtags(newHashtags);
   };
+  
 
   // 해시태그 추가 핸들러
   const handleAddHashtag = () => {
     if (hashtags.length < 5) { // 해시태그 최대 5개 제한
-      setHashtags([...hashtags, '']);
+      setHashtags([...hashtags, '#']); // 새 해시태그 기본값으로 '#' 설정
     }
   };
+  
 
     // 해시태그 삭제 핸들러
   const handleRemoveHashtag = (index) => {
