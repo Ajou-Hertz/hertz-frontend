@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NavBar from '../../../components/Sub/NavBar';
@@ -53,25 +53,42 @@ const InstrumentUpload = () => {
   };
 
   // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // 서버로 보낼 데이터 객체
     const instrumentData = {
-      name: productName,
+      brand: 'FENDER_USA',
+      model: 'PRS',
+      productionYear: '2014',
+      color: 'RED',
+      title: productName,
+      progressStatus: 'Selling', // Use the selected progress status
+      tradeAddress: {
+        sido: '서울특별시',
+        sgg: '강남구',
+        emd: '청담동'
+      },
+      qualityStatus: '3',
+      price: '527000',
+      hasAnomaly: 'true',
       description: description,
-      category: selectedOption,
-      image: selectedImage
+      images: selectedImage,
+      hashtags: ["펜더", "Fender"]
     };
 
-    // 여기서 생성 API를 호출합니다.
-    axios.post('/api/instruments', instrumentData)
-      .then(response => {
-        console.log('Instrument Registered:', response.data);
-        // 등록 성공 후 작업, 예: 사용자를 악기 목록 페이지로 리다이렉트
-      })
-      .catch(error => {
-        console.error('Error registering instrument:', error);
+    try {
+      const response = await axios.post('/instruments/electric-guitars', instrumentData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Hertz-API-Version': 1
+        }
       });
+      console.log("매물 등록 성공",response.data); // Assuming you want to log the response data
+      // Reset form fields or do any additional logic after successful submission
+    } catch (error) {
+      console.error('Error submitting instrument data:', error);
+      // Handle error state or display error message to the user
+    }
   };
 
   return (
@@ -127,7 +144,7 @@ const InstrumentUpload = () => {
           </div>
           {/* 등록 버튼 */}
           <div style={{ textAlign: 'right', margin: '30px 70px 30px 30px' }}>
-            <button type="submit"
+            <button type="submit" onClick={handleSubmit}
               style={{ backgroundColor: '#D6E0F3', borderRadius: '5px', border: 'none',
                 paddingRight: '15px', paddingLeft: '15px' }}>올리기</button>
           </div>

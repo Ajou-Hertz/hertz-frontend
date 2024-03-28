@@ -1,3 +1,4 @@
+import React, {useState } from 'react';
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -10,6 +11,19 @@ import useAuth from "../hooks/useAuth";
 
 const Header = () => {
     const { auth } = useAuth();
+
+    
+  // 토큰 가져오기
+  const token = localStorage.getItem("token");
+  console.log("토큰 확인", token);
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token); // 로그인 상태
+
+   // 악기 상태를 위한 핸들러
+   const logout= () => {
+    localStorage.removeItem("token");
+    console.log("토큰 삭제 성공");
+}; 
 
     return (
         <>
@@ -59,8 +73,9 @@ const Header = () => {
                                     <Nav.Link href="InstrumentUpload">
                                         판매하기
                                     </Nav.Link>
-                                    {auth?.userEmail ? (
-                                        <Nav.Link href="/login">
+                                    {/* {auth?.userEmail ? ( */}
+                                    {isLoggedIn ? (
+                                        <Nav.Link href="/login" onClick={logout}>
                                             로그아웃
                                         </Nav.Link>
                                     ) : (

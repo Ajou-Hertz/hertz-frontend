@@ -90,17 +90,18 @@ const AcousticClassic = () => {
 
   // 해시태그 입력 핸들러
   const handleHashtagChange = (event, index) => {
+    const value = event.target.value.startsWith('#') ? event.target.value : `#${event.target.value}`;
     const newHashtags = [...hashtags];
-    newHashtags[index] = event.target.value.slice(0, 10); // 글자 10자 제한
+    newHashtags[index] = value.slice(0, 11); // '#' 포함 최대 11자
     setHashtags(newHashtags);
-  };
+  };  
 
   // 해시태그 추가 핸들러
   const handleAddHashtag = () => {
     if (hashtags.length < 5) { // 해시태그 최대 5개 제한
-      setHashtags([...hashtags, '']);
+      setHashtags([...hashtags, '#']); // 새 해시태그 기본값으로 '#' 설정
     }
-  };
+  };  
 
     // 해시태그 삭제 핸들러
   const handleRemoveHashtag = (index) => {
