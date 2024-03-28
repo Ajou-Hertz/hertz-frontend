@@ -5,9 +5,11 @@ const PopupButton = ({ onClick, isPopupOpen, closePopup, popupData }) => {
     <div>
       <button onClick={onClick} style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px' }}>단계설명 확인하기</button>
       {isPopupOpen && (
-        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', zIndex: 999 }}>
-          <button style={{ float: 'right', background: 'none', border: 'none' }} onClick={closePopup}>X</button>
-          <div style={{ textAlign: 'center', margin: '20px' }}>
+        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '30px', zIndex: 999 }}>
+          <div style={{ position: 'absolute', top: 0, right: 5 }}>
+            <button style={{ background: 'none', border: 'none' }} onClick={closePopup}>X</button>
+          </div>
+          <div style={{ textAlign: 'center', margin: '20px', marginBottom: '30px' }}>
             <p style={{ border: '3px solid black', padding: '10px', fontSize: '20px' }}>헤르츠 악기 상태 기준표</p>
           </div>
           <table style={{ border: '3px solid black', padding: '10px' }}>

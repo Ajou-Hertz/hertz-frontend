@@ -12,9 +12,12 @@ const Button = ({ label, isSelected, onClick }) => {
 };
 
 const ElectricGuitar = () => {  
-  const [Sido,setSido] = useState();
+  const [Sido, setSido] = useState(); // 거래지역 상태
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
+  const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드 선택
+  const [selectedModel, setSelectedModel] = useState(''); // 모델 선택
   const [productionYear, setProductionYear] = useState(''); // 생산연도 상태
+  const [selectedColor, setSelectedColor] = useState(''); // 색상 선택
   const [price, setPrice] = useState(''); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
   const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
@@ -156,17 +159,17 @@ const ElectricGuitar = () => {
       <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '200px' }}>
         {/* 거래지역 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }} onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }} onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }} onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
@@ -205,7 +208,7 @@ const ElectricGuitar = () => {
         </div>
         {/* 브랜드 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedBrand(event.target.value)}>
             <option>Fender(USA)</option>
             <option>Fender(Japan)</option>
             <option>Fender(Mexico)</option>
@@ -225,7 +228,7 @@ const ElectricGuitar = () => {
         </div>
         {/* 모델 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedModel(event.target.value)}>
             <option>텔레캐스터</option>
             <option>스트라토캐스터</option>
             <option>레스</option>
@@ -248,7 +251,7 @@ const ElectricGuitar = () => {
         </div>
         {/* 색상 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedColor(event.target.value)}>
             <option>Red</option>
             <option>Orange</option>
             <option>Yellow</option>

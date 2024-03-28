@@ -13,12 +13,15 @@ import Equipement from '../../../components/Sub/InstrumentSelection.js/Equipemen
 
 const InstrumentUpload = () => {
   // 매물 정보 상태를 관리합니다. 여기서는 초기값이 비어있거나 기본값을 가질 수 있습니다.
-  const [productName, setProductName] = useState('');
-  const [description, setDescription] = useState('');
+  const [productName, setProductName] = useState(''); // 매물 이름
+  const [description, setDescription] = useState(''); // 상세 정보 입력
 
   const [selectedOption, setSelectedOption] = useState('일렉기타'); // 드롭다운 초기 선택값
 
   const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태 추가
+
+  const [childData, setChildData] = useState(null); // ElectricGuitar 컴포넌트에서 받아온 정보 상태 추가
+  
 
   // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
   const handleNameChange = (e) => {
