@@ -11,7 +11,7 @@ const Button = ({ label, isSelected, onClick }) => {
   );
 };
 
-const ElectricGuitar = () => {  
+const ElectricGuitar = ({ updateGuitarData }) => {  
   const [Sido, setSido] = useState(); // 거래지역 상태
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
   const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드 선택
@@ -111,6 +111,21 @@ const ElectricGuitar = () => {
     const newHashtags = hashtags.filter((_, i) => i !== index);
     setHashtags(newHashtags);
   };
+
+
+  // 변경: 필수 입력 사항의 정보를 모아서 부모 컴포넌트로 전달하는 함수
+  useEffect(() => {
+    updateGuitarData({
+      selectedState,
+      selectedBrand,
+      selectedModel,
+      productionYear,
+      selectedColor,
+      price,
+      selectedFeature,
+      hashtags
+    });
+  }, [selectedState, selectedBrand, selectedModel, productionYear, selectedColor, price, selectedFeature, hashtags, updateGuitarData]);
 
 
   return (

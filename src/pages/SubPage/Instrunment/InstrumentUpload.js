@@ -18,9 +18,14 @@ const InstrumentUpload = () => {
 
   const [selectedOption, setSelectedOption] = useState('일렉기타'); // 드롭다운 초기 선택값
 
-  const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태 추가
+  const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
 
-  const [childData, setChildData] = useState(null); // ElectricGuitar 컴포넌트에서 받아온 정보 상태 추가
+  const [electricGuitarData, setElectricGuitarData] = useState(null); // 일렉기타 컴포넌트에서 받아온 정보 상태
+  // const [effectorData, setEffectorData] = useState(null); // 이펙터 컴포넌트에서 받아온 정보 상태
+  // const [ampData, setAmprData] = useState(null); // 앰프 컴포넌트에서 받아온 정보 상태
+  // const [bassData, setBassData] = useState(null); // 베이스 컴포넌트에서 받아온 정보 상태
+  // const [aCData, setACData] = useState(null); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
+  // const [equipementData, setEquipementData] = useState(null); // 음향장비 컴포넌트에서 받아온 정보 상태
   
 
   // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
@@ -55,15 +60,21 @@ const InstrumentUpload = () => {
     setSelectedImage(image);
   };
 
+  // ElectricGuitar 컴포넌트로부터 받은 데이터를 처리하는 함수
+  const handleElectricGuitarData = (data) => {
+    setElectricGuitarData(data);
+    console.log("일렉기타 정보 받기 성공!");
+  };
+
   // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
   const handleSubmit = async (e) => {
     e.preventDefault();
     // 서버로 보낼 데이터 객체
     const instrumentData = {
-      brand: 'FENDER_USA',
-      model: 'PRS',
-      productionYear: '2014',
-      color: 'RED',
+      brand: electricGuitarData.brand,
+      model: electricGuitarData.model, 
+      productionYear: electricGuitarData.productionYear,
+      color: electricGuitarData.color,
       title: productName,
       progressStatus: 'Selling', // Use the selected progress status
       tradeAddress: {
@@ -71,12 +82,12 @@ const InstrumentUpload = () => {
         sgg: '강남구',
         emd: '청담동'
       },
-      qualityStatus: '3',
-      price: '527000',
-      hasAnomaly: 'true',
+      qualityStatus: electricGuitarData.selectedState,
+      price: electricGuitarData.price,
+      hasAnomaly: electricGuitarData.selectedFeature,
       description: description,
       images: selectedImage,
-      hashtags: ["펜더", "Fender"]
+      hashtags: electricGuitarData.hashtags
     };
 
     try {
@@ -134,7 +145,9 @@ const InstrumentUpload = () => {
             </div>
             <p style={{ marginLeft: '10px' }}>매물의 정보를 정확하게 사실만 입력해주세요.</p>
             <div style={{ marginLeft: '20px' }}>
-              {SelectedComponent && <SelectedComponent />}
+              {/* {SelectedComponent && <SelectedComponent />}
+              <ElectricGuitar updateGuitarData={handleElectricGuitarData} /> */}
+              {SelectedComponent && <SelectedComponent updateGuitarData={handleElectricGuitarData} />}
             </div>
           </div>
           {/* 상세 정보 입력 칸 */}
