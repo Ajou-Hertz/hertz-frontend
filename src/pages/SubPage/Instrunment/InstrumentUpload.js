@@ -58,25 +58,22 @@ const InstrumentUpload = () => {
   // 이미지 변경 시 호출될 함수
   const handleImageChange = (image) => {
     setSelectedImage(image);
+    console.log("선택한 이미지:", image);
   };
 
-  // ElectricGuitar 컴포넌트로부터 받은 데이터를 처리하는 함수
-  const handleElectricGuitarData = (data) => {
-    setElectricGuitarData(data);
-    console.log("일렉기타 정보 받기 성공!");
-  };
+
 
   // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 서버로 보낼 데이터 객체
+
     const instrumentData = {
-      brand: electricGuitarData.brand,
-      model: electricGuitarData.model, 
+      brand: electricGuitarData.selectedBrand, 
+      model: electricGuitarData.selectedModel, 
       productionYear: electricGuitarData.productionYear,
-      color: electricGuitarData.color,
+      color: electricGuitarData.selectedColor, 
       title: productName,
-      progressStatus: 'Selling', // Use the selected progress status
+      progressStatus: 'Selling', 
       tradeAddress: {
         sido: '서울특별시',
         sgg: '강남구',
@@ -89,7 +86,7 @@ const InstrumentUpload = () => {
       images: selectedImage,
       hashtags: electricGuitarData.hashtags
     };
-
+   
     try {
       const response = await axios.post('/instruments/electric-guitars', instrumentData, {
         headers: {
@@ -99,10 +96,16 @@ const InstrumentUpload = () => {
       });
       console.log("매물 등록 성공",response.data); // Assuming you want to log the response data
       // Reset form fields or do any additional logic after successful submission
+      console.log("생성한 매물 데이터:", instrumentData);
     } catch (error) {
       console.error('Error submitting instrument data:', error);
       // Handle error state or display error message to the user
     }
+  };
+
+  const handleElectricGuitarData = (data) => {
+    setElectricGuitarData(data);
+    console.log("전달 받은 일렉기타 데이터:", data); 
   };
 
   return (

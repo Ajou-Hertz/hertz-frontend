@@ -113,19 +113,25 @@ const ElectricGuitar = ({ updateGuitarData }) => {
   };
 
 
-  // 변경: 필수 입력 사항의 정보를 모아서 부모 컴포넌트로 전달하는 함수
+  const updateData = () => {
+    const guitarData = {
+      brand: selectedBrand,
+      model: selectedModel,
+      productionYear: productionYear,
+      color: selectedColor,
+      selectedState: selectedState,
+      price: price,
+      selectedFeature: selectedFeature,
+      hashtags: hashtags
+    };
+    console.log("전달된 악기 데이터:", guitarData);
+    updateGuitarData(guitarData);
+  };
+
   useEffect(() => {
-    updateGuitarData({
-      selectedState,
-      selectedBrand,
-      selectedModel,
-      productionYear,
-      selectedColor,
-      price,
-      selectedFeature,
-      hashtags
-    });
-  }, [selectedState, selectedBrand, selectedModel, productionYear, selectedColor, price, selectedFeature, hashtags, updateGuitarData]);
+    updateData();
+  }, [selectedBrand, selectedModel, productionYear, selectedColor, selectedState, price, selectedFeature, hashtags]);
+
 
 
   return (
