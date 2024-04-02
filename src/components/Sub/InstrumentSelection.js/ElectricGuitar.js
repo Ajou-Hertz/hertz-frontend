@@ -43,9 +43,9 @@ const ElectricGuitar = ({ updateGuitarData }) => {
     setIsPopupOpen(false);
   };
 
+  
   // 시도 get api
   useEffect(() => {
-    // 헤더를 설정합니다.
     const headers = {
       "Hertz-API-Version": 1 // 헤더에 api minor version 추가
     };
