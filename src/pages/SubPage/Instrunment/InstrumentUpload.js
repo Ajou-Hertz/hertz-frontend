@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NavBar from '../../../components/Sub/NavBar';
-import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
+// import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
 import UploadPhoto from '../../../components/Sub/UploadPhoto';
 import ElectricGuitar from '../../../components/Sub/InstrumentSelection.js/ElectricGuitar';
 import Effector from '../../../components/Sub/InstrumentSelection.js/Effector';
@@ -19,6 +19,7 @@ const InstrumentUpload = () => {
   const [selectedOption, setSelectedOption] = useState('일렉기타'); // 드롭다운 초기 선택값
 
   const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
+  const [selectProgressStatus, setSelectProgressStatus] = useState([]); // 판매중 버튼 상태
 
   const [electricGuitarData, setElectricGuitarData] = useState(null); // 일렉기타 컴포넌트에서 받아온 정보 상태
   // const [effectorData, setEffectorData] = useState(null); // 이펙터 컴포넌트에서 받아온 정보 상태
@@ -62,7 +63,6 @@ const InstrumentUpload = () => {
   };
 
 
-
   // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const InstrumentUpload = () => {
       productionYear: electricGuitarData.productionYear,
       color: electricGuitarData.selectedColor, 
       title: productName,
-      progressStatus: 'Selling', 
+      progressStatus: selectProgressStatus, 
       tradeAddress: {
         sido: '서울특별시',
         sgg: '강남구',
@@ -119,11 +119,17 @@ const InstrumentUpload = () => {
               placeholder="악기 이름" // 사용자가 입력을 시작할 때 가이드를 제공
               style={{ borderRadius: '5px', minWidth: '1000px', padding: '10px', marginRight: '40px', border: '1px solid black' }} />
             {/* 드롭다운 */}
-            <DropdownMenu
-              options={['이펙터', '앰프', '베이스', '어쿠스틱&클래식', '음향장비', '합주실', '공연장']}
+            {/* <DropdownMenu
+              options={['일렉기타', '이펙터', '앰프', '베이스', '어쿠스틱&클래식', '음향장비', '합주실', '공연장']}
               onSelect={handleDropdownSelect}
-              defaultOptionText="일렉기타"
-            />
+              selectedOption={selectedOption} // 현재 선택된 옵션을 DropdownMenu 컴포넌트에 전달
+            /> */}
+            <select value={selectedOption} onChange={(e) => handleDropdownSelect(e.target.value)}
+              style={{ backgroundColor: '#D6E0F3', border: '1px solid white', textAlign: 'center', width: '150px', height: '30px' }}>
+              {['일렉기타', '이펙터', '앰프', '베이스', '어쿠스틱&클래식', '음향장비', '합주실', '공연장'].map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
           </div>
           {/* 필수사항 */}
           <div style={{ margin: '15px' }}>
@@ -141,9 +147,12 @@ const InstrumentUpload = () => {
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '10px', marginTop: '40px' }}>필수 입력 사항</p>
               <div style={{ marginTop: '40px', marginRight: '70px' }}>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>예약중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매완료</button>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
+                  onChange={(event) => setSelectProgressStatus(event.target.value)}>판매중</button>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
+                  onChange={(event) => setSelectProgressStatus(event.target.value)}>예약중</button>
+                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
+                  onChange={(event) => setSelectProgressStatus(event.target.value)}>판매완료</button>
               </div>
             </div>
             <p style={{ marginLeft: '10px' }}>매물의 정보를 정확하게 사실만 입력해주세요.</p>

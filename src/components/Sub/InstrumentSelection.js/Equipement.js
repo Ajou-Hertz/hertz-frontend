@@ -11,9 +11,10 @@ const Button = ({ label, isSelected, onClick }) => {
   );
 };
 
-const Equipement = () => {  
+const Equipement = ({updateEquipmentData}) => {  
   const [Sido,setSido] = useState();
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
+  const [selectedType, setSelectedType] = useState(''); // 종류 상태
   const [price, setPrice] = useState(''); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
   const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
@@ -100,6 +101,22 @@ const Equipement = () => {
     setHashtags(newHashtags);
   };
 
+  const updateData = () => {
+    const equipmentData = {
+      type: selectedType,
+      selectedState: selectedState,
+      price: price,
+      selectedFeature: selectedFeature,
+      hashtags: hashtags
+    };
+    console.log("전달된 악기 데이터:", equipmentData);
+    updateEquipmentData(equipmentData);
+  };
+
+  useEffect(() => {
+    updateData();
+  }, [selectedType, selectedState, price, selectedFeature, hashtags]);
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -184,7 +201,7 @@ const Equipement = () => {
         </div>
         {/* 종류 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedType(event.target.value)}>
             <option>음향장비</option>
             <option>악세서리</option>
             <option>그 외</option>

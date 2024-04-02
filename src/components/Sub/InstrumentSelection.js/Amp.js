@@ -11,9 +11,12 @@ const Button = ({ label, isSelected, onClick }) => {
   );
 };
 
-const Amp = () => {  
+const Amp = ({updateAmpData}) => {  
   const [Sido,setSido] = useState();
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
+  const [selectedType, setSelectedType] = useState(''); // 종류 상태
+  const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드 선택
+  const [selectedUsage, setSelectedUsage] = useState(''); // 용도 상태
   const [price, setPrice] = useState(''); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
   const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
@@ -92,6 +95,25 @@ const Amp = () => {
     const newHashtags = hashtags.filter((_, i) => i !== index);
     setHashtags(newHashtags);
   };
+
+  const updateData = () => {
+    const ampData = {
+      type: selectedType,
+      brand: selectedBrand,
+      usage: selectedUsage,
+      selectedState: selectedState,
+      price: price,
+      selectedFeature: selectedFeature,
+      hashtags: hashtags
+    };
+    console.log("전달된 악기 데이터:", ampData);
+    updateAmpData(ampData);
+  };
+
+  useEffect(() => {
+    updateData();
+  }, [selectedType, selectedBrand, selectedUsage, selectedState, price, selectedFeature, hashtags]);
+
 
 
   return (
@@ -185,14 +207,14 @@ const Amp = () => {
         </div>
         {/* 종류 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedType(event.target.value)}>
             <option>기타</option>
             <option>베이스</option>
           </select>
         </div>
         {/* 브랜드 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedBrand(event.target.value)}>
             <option>Fender</option>
             <option>Marshall</option>
             <option>Vox</option>
@@ -208,7 +230,7 @@ const Amp = () => {
         </div>
         {/* 용도 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedUsage(event.target.value)}>
             <option>가정용</option>
             <option>공연용</option>
           </select>

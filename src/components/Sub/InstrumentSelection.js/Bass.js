@@ -11,9 +11,13 @@ const Button = ({ label, isSelected, onClick }) => {
   );
 };
 
-const Bass = () => {  
+const Bass = ({updateBassData}) => {  
   const [Sido,setSido] = useState();
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
+  const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드 선택
+  const [selectedPickUp, setSelectedPickUp] = useState(''); // 픽업종류 선택
+  const [selectedPreAmplifier, setSelectedPreAmplifier] = useState(''); // 프리앰프 선택
+  const [selectedColor, setSelectedColor] = useState(''); // 색상 선택
   const [price, setPrice] = useState(''); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
   const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
@@ -93,6 +97,27 @@ const Bass = () => {
     const newHashtags = hashtags.filter((_, i) => i !== index);
     setHashtags(newHashtags);
   };
+
+
+  const updateData = () => {
+    const bassData = {
+      brand: selectedBrand,
+      pickUp: selectedPickUp,
+      preAmplifier: selectedPreAmplifier,
+      color: selectedColor,
+      selectedState: selectedState,
+      price: price,
+      selectedFeature: selectedFeature,
+      hashtags: hashtags
+    };
+    console.log("전달된 악기 데이터:", bassData);
+    updateBassData(bassData);
+  };
+
+  useEffect(() => {
+    updateData();
+  }, [selectedBrand, selectedPickUp, selectedPreAmplifier, selectedColor, selectedState, price, selectedFeature, hashtags]);
+
 
 
   return (
@@ -190,7 +215,7 @@ const Bass = () => {
         </div>
         {/* 브랜드 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedBrand(event.target.value)}>
             <option>Fender</option>
             <option>Ibanez</option>
             <option>Spector(Mexico)</option>
@@ -211,7 +236,7 @@ const Bass = () => {
         </div>
         {/* 픽업종류 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedBrand(event.target.value)}>
             <option>재즈</option>
             <option>프레시젼</option>
             <option>PJ</option>
@@ -221,7 +246,7 @@ const Bass = () => {
         </div>
         {/* 프리앰프 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedPreAmplifier(event.target.value)}>
             <option>액티브</option>
             <option>패시브</option>
             <option>전환 가능</option>
@@ -229,7 +254,7 @@ const Bass = () => {
         </div>
         {/* 색상 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
-          <select style={{ height: '40px', borderRadius: '3px' }}>
+          <select style={{ height: '40px', borderRadius: '3px' }} onChange={(event) => setSelectedColor(event.target.value)}>
             <option>Red</option>
             <option>Orange</option>
             <option>Yellow</option>
