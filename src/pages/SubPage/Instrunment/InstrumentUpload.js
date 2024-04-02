@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import axiosPrivate from '../../../api/axios';
 import NavBar from '../../../components/Sub/NavBar';
 // import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
 import UploadPhoto from '../../../components/Sub/UploadPhoto';
@@ -88,7 +87,7 @@ const InstrumentUpload = () => {
     };
    
     try {
-      const response = await axios.post('/instruments/electric-guitars', instrumentData, {
+      const response = await axiosPrivate.post('/instruments/electric-guitars', instrumentData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Hertz-API-Version': 1
@@ -107,6 +106,9 @@ const InstrumentUpload = () => {
     setElectricGuitarData(data);
     console.log("전달 받은 일렉기타 데이터:", data); 
   };
+
+  console.log("선택된 드롭다운 옵션", selectedOption);
+  console.log("선택된 진행사항 옵션", selectProgressStatus);
 
   return (
     <div>
@@ -147,12 +149,30 @@ const InstrumentUpload = () => {
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '10px', marginTop: '40px' }}>필수 입력 사항</p>
               <div style={{ marginTop: '40px', marginRight: '70px' }}>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
-                  onChange={(event) => setSelectProgressStatus(event.target.value)}>판매중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
-                  onChange={(event) => setSelectProgressStatus(event.target.value)}>예약중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}
-                  onChange={(event) => setSelectProgressStatus(event.target.value)}>판매완료</button>
+                <button
+                  style={{
+                    backgroundColor: selectProgressStatus === '판매중' ? '#D6E0F3' : 'white',
+                    border: '1px solid black',
+                    borderRadius: '3px'
+                  }}
+                  onClick={() => setSelectProgressStatus('판매중')}
+                >판매중</button>
+                <button
+                  style={{
+                    backgroundColor: selectProgressStatus === '예약중' ? '#FFD94D' : 'white',
+                    border: '1px solid black',
+                    borderRadius: '3px'
+                  }}
+                  onClick={() => setSelectProgressStatus('예약중')}
+                >예약중</button>
+                <button
+                  style={{
+                    backgroundColor: selectProgressStatus === '판매완료' ? 'lightgray' : 'white',
+                    border: '1px solid black',
+                    borderRadius: '3px'
+                  }}
+                  onClick={() => setSelectProgressStatus('판매완료')}
+                >판매완료</button>
               </div>
             </div>
             <p style={{ marginLeft: '10px' }}>매물의 정보를 정확하게 사실만 입력해주세요.</p>
