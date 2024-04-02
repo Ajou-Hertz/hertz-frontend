@@ -20,7 +20,7 @@ const InstrumentUpload = () => {
     const [selectedOption, setSelectedOption] = useState("일렉기타"); // 드롭다운 초기 선택값
 
     const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
-    const [selectProgressStatus, setSelectProgressStatus] = useState([]); // 판매중 버튼 상태
+    const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
     // const [effectorData, setEffectorData] = useState(null); // 이펙터 컴포넌트에서 받아온 정보 상태

@@ -27,9 +27,9 @@ const ElectricGuitar = ({ updateGuitarData }) => {
     const [Sido, setSido] = useState(); // 거래지역 상태
     const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
     const [selectedBrand, setSelectedBrand] = useState("FENDER_USA"); // 브랜드 선택
-    const [selectedModel, setSelectedModel] = useState(""); // 모델 선택
+    const [selectedModel, setSelectedModel] = useState("TELECASTER"); // 모델 선택
     const [productionYear, setProductionYear] = useState(""); // 생산연도 상태
-    const [selectedColor, setSelectedColor] = useState(""); // 색상 선택
+    const [selectedColor, setSelectedColor] = useState("RED"); // 색상 선택
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
