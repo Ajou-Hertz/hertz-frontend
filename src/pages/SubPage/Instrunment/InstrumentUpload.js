@@ -65,53 +65,44 @@ const InstrumentUpload = () => {
     // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // 악기 정보를 가져오는 부분을 여기로 이동
-        const brand = electricGuitarData.brand;
-        const model = electricGuitarData.model;
-        const color = electricGuitarData.color;
-
-        const instrumentData = {
-            brand: brand,
-            model: model,
-            productionYear: electricGuitarData.productionYear,
-            color: color,
-            title: productName,
-            progressStatus: selectProgressStatus,
-            tradeAddress: {
-                sido: "서울특별시",
-                sgg: "강남구",
-                emd: "청담동",
-            },
-            qualityStatus: electricGuitarData.selectedState,
-            price: electricGuitarData.price,
-            hasAnomaly: electricGuitarData.selectedFeature,
-            description: description,
-            images: selectedImage,
-            // hashtags: electricGuitarData.hashtags,
-        };
-
         try {
-            const response = await axiosPrivate.post(
-                "/instruments/electric-guitars",
-                instrumentData,
-                {
-                    headers: {
-                        // "Content-Type": "multipart/form-data",
-                        accept: "*/*",
-                        "Hertz-API-Version": "1",
-                        Authorization: `Bearer ${auth.accessToken}`,
-                    },
-                }
-            );
-            console.log("매물 등록 성공", response.data); // Assuming you want to log the response data
-            // Reset form fields or do any additional logic after successful submission
-            console.log("생성한 매물 데이터:", instrumentData);
+          const formData = new FormData();
+          formData.append('brand', electricGuitarData.selectedBrand);
+          formData.append('model', electricGuitarData.selectedModel);
+          formData.append('productionYear', electricGuitarData.productionYear);
+          formData.append('color', electricGuitarData.selectedColor);
+          formData.append('title', productName);
+          formData.append('progressStatus', selectProgressStatus);
+          formData.append('tradeAddress.sido', '서울특별시');
+          formData.append('tradeAddress.sgg', '강남구');
+          formData.append('tradeAddress.emd', '청담동');
+          formData.append('qualityStatus', electricGuitarData.selectedState);
+          formData.append('price', electricGuitarData.price);
+          formData.append('hasAnomaly', electricGuitarData.selectedFeature);
+          formData.append('description', description);
+     
+          for (const image of selectedImage) {
+            formData.append('images', image);
+          }
+          for (const hashtag of electricGuitarData.hashtags) {
+            formData.append('hashtags[]', hashtag);
+          }
+        
+          const response = await axiosPrivate.post('/instruments/electric-guitars', formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              'Hertz-API-Version': 1
+            }
+          });
+          console.log("매물 등록 성공",response.data); // Assuming you want to log the response data
+          // Reset form fields or do any additional logic after successful submission
+          
         } catch (error) {
-            console.error("Error submitting instrument data:", error);
-            // Handle error state or display error message to the user
+          console.error('Error submitting instrument data:', error);
+          // Handle error state or display error message to the user
         }
-    };
+      };
+    
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
