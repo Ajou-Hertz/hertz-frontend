@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import axios from 'axios';
+import axios from '../../../api/axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import NavBar from '../../../components/Sub/NavBar';
