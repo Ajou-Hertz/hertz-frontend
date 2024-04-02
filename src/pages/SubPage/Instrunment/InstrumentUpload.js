@@ -65,6 +65,11 @@ const InstrumentUpload = () => {
     // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!productName || !selectProgressStatus || !electricGuitarData || !description || !selectedImage.length) {
+          alert('모든 필수 항목을 입력해주세요.');
+          return;
+      }
         try {
           const Data = new FormData();
           Data.append('brand', electricGuitarData.brand);
