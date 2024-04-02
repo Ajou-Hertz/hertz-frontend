@@ -12,7 +12,13 @@ const Button = ({ label, isSelected, onClick }) => {
                 height: "40px",
                 border: "1px solid black",
             }}
-            onClick={onClick}
+            onClick={(event) => {
+              // 새로고침 방지
+              event.preventDefault();
+      
+              // 원래 onClick 함수 실행
+              onClick();
+            }}
         >
             {label}
         </button>
@@ -77,7 +83,7 @@ const handleBrandChange = (event) => {
 };
 
 
-    // 악기 상태를 위한 핸들러
+    //악기 상태를 위한 핸들러
     const handleButtonClick = (state) => {
         setSelectedState(state);
     };
