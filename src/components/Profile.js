@@ -93,7 +93,11 @@ function Profile({ userData }) {
                         가입일 :{" "}
                         <span style={{ color: "#637DBE" }}>
                             {userData?.createdAt
-                                ? userData.createdAt.split("T")[0]
+                                ? `${userData?.createdAt[0]}-${String(
+                                      userData?.createdAt[1]
+                                  ).padStart(2, "0")}-${String(
+                                      userData?.createdAt[2]
+                                  ).padStart(2, "0")}`
                                 : ""}
                         </span>
                     </div>

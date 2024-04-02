@@ -45,16 +45,16 @@ function Home() {
             <NavBar></NavBar>
 
             <div>
-                <svg
-                    width="41"
-                    height="16"
+                <svg //HOT
+                    width="70"
+                    height="25"
                     viewBox="0 0 41 16"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     style={{
                         position: "absolute", // 추가: 아이콘의 위치를 절대 위치로 설정
-                        top: "33%", // 추가: 아이콘을 수직 중앙으로 이동
-                        left: "6%", // 추가: 아이콘을 수평 중앙으로 이동
+                        top: "31%", // 추가: 아이콘을 수직 중앙으로 이동
+                        left: "7%", // 추가: 아이콘을 수평 중앙으로 이동
                         transform: "translate(-50%, -50%)", // 추가: 아이콘을 정확히 중앙으로 이동
                     }}
                 >
