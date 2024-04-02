@@ -12,11 +12,9 @@ const Button = ({ label, isSelected, onClick }) => {
                 height: "40px",
                 border: "1px solid black",
             }}
-            onClick={(event) => {
-              // 새로고침 방지
+             // 새로고침 방지
+              onClick={(event) => {
               event.preventDefault();
-      
-              // 원래 onClick 함수 실행
               onClick();
             }}
         >
@@ -98,7 +96,7 @@ const handleBrandChange = (event) => {
     // 가격 입력 핸들러
     const handlePrice = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-        const inputPrice = (event.target.value.replace(/[^0-9]/g, ""), 10); // 숫자가 아닌 문자를 제거합니다.
+        const inputPrice = (event.target.value.replace(/[^0-9]/g, "")); // 숫자가 아닌 문자를 제거합니다.
         setPrice(inputPrice /*+ '원'*/);
     };
 
