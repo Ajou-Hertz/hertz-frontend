@@ -22,7 +22,7 @@ const Button = ({ label, isSelected, onClick }) => {
 const ElectricGuitar = ({ updateGuitarData }) => {
     const [Sido, setSido] = useState(); // 거래지역 상태
     const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-    const [selectedBrand, setSelectedBrand] = useState(""); // 브랜드 선택
+    const [selectedBrand, setSelectedBrand] = useState("FENDER_USA"); // 브랜드 선택
     const [selectedModel, setSelectedModel] = useState(""); // 모델 선택
     const [productionYear, setProductionYear] = useState(""); // 생산연도 상태
     const [selectedColor, setSelectedColor] = useState(""); // 색상 선택
@@ -71,6 +71,12 @@ const ElectricGuitar = ({ updateGuitarData }) => {
         }
     }, []);
 
+    // 브랜드 선택 핸들러
+const handleBrandChange = (event) => {
+  setSelectedBrand(event.target.value);
+};
+
+
     // 악기 상태를 위한 핸들러
     const handleButtonClick = (state) => {
         setSelectedState(state);
@@ -86,7 +92,7 @@ const ElectricGuitar = ({ updateGuitarData }) => {
     // 가격 입력 핸들러
     const handlePrice = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-        const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        const inputPrice = (event.target.value.replace(/[^0-9]/g, ""), 10); // 숫자가 아닌 문자를 제거합니다.
         setPrice(inputPrice /*+ '원'*/);
     };
 
@@ -130,7 +136,7 @@ const ElectricGuitar = ({ updateGuitarData }) => {
             selectedFeature: selectedFeature,
             hashtags: hashtags,
         };
-        console.log("전달된 악기 데이터:", guitarData);
+       
         updateGuitarData(guitarData);
     };
 
@@ -362,11 +368,10 @@ const ElectricGuitar = ({ updateGuitarData }) => {
                 >
                     <select
                         style={{ height: "40px", borderRadius: "3px" }}
-                        onChange={(event) =>
-                            setSelectedBrand(event.target.value)
-                        }
+                           onChange={handleBrandChange}
+        value={selectedBrand} // 선택된 값 설정
                     >
-                        <option value="FENDER_USA">Fender(USA)</option>
+                        <option value='FENDER_USA'>Fender(USA)</option>
                         <option value="FENDER_JAPAN">Fender(Japan)</option>
                         <option value="FENDER_MEXICO">Fender(Mexico)</option>
                         <option value="GIBSON">Gibson</option>
@@ -496,13 +501,13 @@ const ElectricGuitar = ({ updateGuitarData }) => {
                 >
                     <Button
                         label="O"
-                        isSelected={selectedFeature === "true"}
-                        onClick={() => handleFeatureButtonClick("true")}
+                        isSelected={selectedFeature === true}
+                        onClick={() => handleFeatureButtonClick(true)}
                     />
                     <Button
                         label="X"
-                        isSelected={selectedFeature === "false"}
-                        onClick={() => handleFeatureButtonClick("false")}
+                        isSelected={selectedFeature === false}
+                        onClick={() => handleFeatureButtonClick(false)}
                     />
                     <p style={{ margin: "5px", marginLeft: "10px" }}>
                         특이사항에 대한 상세 내용은 본문에 기입해주세요

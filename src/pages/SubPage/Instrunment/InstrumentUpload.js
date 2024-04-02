@@ -22,7 +22,7 @@ const InstrumentUpload = () => {
     const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
     const [selectProgressStatus, setSelectProgressStatus] = useState([]); // 판매중 버튼 상태
 
-    const [electricGuitarData, setElectricGuitarData] = useState(null); // 일렉기타 컴포넌트에서 받아온 정보 상태
+    const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
     // const [effectorData, setEffectorData] = useState(null); // 이펙터 컴포넌트에서 받아온 정보 상태
     // const [ampData, setAmprData] = useState(null); // 앰프 컴포넌트에서 받아온 정보 상태
     // const [bassData, setBassData] = useState(null); // 베이스 컴포넌트에서 받아온 정보 상태
@@ -66,57 +66,80 @@ const InstrumentUpload = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const formData = new FormData();
-          formData.append('brand', electricGuitarData.selectedBrand);
-          formData.append('model', electricGuitarData.selectedModel);
-          formData.append('productionYear', electricGuitarData.productionYear);
-          formData.append('color', electricGuitarData.selectedColor);
-          formData.append('title', productName);
-          formData.append('progressStatus', selectProgressStatus);
-          formData.append('tradeAddress.sido', '서울특별시');
-          formData.append('tradeAddress.sgg', '강남구');
-          formData.append('tradeAddress.emd', '청담동');
-          formData.append('qualityStatus', electricGuitarData.selectedState);
-          formData.append('price', electricGuitarData.price);
-          formData.append('hasAnomaly', electricGuitarData.selectedFeature);
-          formData.append('description', description);
+          const Data = new FormData();
+          Data.append('brand', electricGuitarData.brand);
+          Data.append('model', electricGuitarData.model);
+          Data.append('productionYear', electricGuitarData.productionYear);
+          Data.append('color', electricGuitarData.color);
+          Data.append('title', productName);
+          Data.append('progressStatus', selectProgressStatus);
+          Data.append('tradeAddress.sido', '서울특별시');
+          Data.append('tradeAddress.sgg', '강남구');
+          Data.append('tradeAddress.emd', '청담동');
+          Data.append('qualityStatus', electricGuitarData.selectedState);
+          Data.append('price', electricGuitarData.price);
+          Data.append('hasAnomaly', electricGuitarData.selectedFeature);
+          Data.append('description', description);
      
           for (const image of selectedImage) {
-            formData.append('images', image);
+            Data.append('images', image);
           }
           for (const hashtag of electricGuitarData.hashtags) {
-            formData.append('hashtags[]', hashtag);
+            Data.append('hashtags[]', hashtag);
           }
         
-          const response = await axiosPrivate.post('/instruments/electric-guitars', formData, {
+          const response = await axiosPrivate.post('/instruments/electric-guitars', Data, {
             headers: {
               "Content-Type": "multipart/form-data",
               'Hertz-API-Version': 1
             }
           });
-          console.log("매물 등록 성공",response.data); // Assuming you want to log the response data
-          // Reset form fields or do any additional logic after successful submission
+          if (response.status === 201) {
+            alert('악기가 성공적으로 등록되었습니다.');
+            console.log("일렉 기타 매물 등록 성공");
+            console.log("응답 데이터:", response.data);
+          } else {
+            alert('악기 등록에 실패했습니다.');
+          }
+        } catch(err) {
+          console.error(err);
+          alert('악기 등록에 실패했습니다.');
+        } finally {
           
-        } catch (error) {
-          console.error('Error submitting instrument data:', error);
-          // Handle error state or display error message to the user
-        }
+          console.log("서버로 전송할 데이터:", {
+          brand: electricGuitarData.brand,
+          model: electricGuitarData.model,
+          productionYear: electricGuitarData.productionYear,
+          color: electricGuitarData.color,
+          title: productName,
+          progressStatus: selectProgressStatus,
+          tradeAddress: {
+          sido: '서울특별시',
+          sgg: '강남구',
+          emd: '청담동'
+          },
+          qualityStatus: electricGuitarData.selectedState,
+          price: electricGuitarData.price,
+          hasAnomaly: electricGuitarData.selectedFeature,
+          description: description,
+          images: selectedImage,
+          hashtags: electricGuitarData.hashtags
+          });}
       };
     
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
-        console.log("전달 받은 일렉기타 데이터:", data);
     };
 
-    console.log("선택된 드롭다운 옵션", selectedOption);
-    console.log("선택된 진행사항 옵션", selectProgressStatus);
+    console.log("electricGuitarData:", electricGuitarData)
+
 
     return (
         <div>
             <NavBar />
             <div>
-                <form onSubmit={handleSubmit}>
+                <form>
                     {/* 악기 이름 입력 칸 */}
                     <div
                         style={{
