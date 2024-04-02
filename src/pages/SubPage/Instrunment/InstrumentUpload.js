@@ -246,6 +246,7 @@ const InstrumentUpload = () => {
                                 }}
                             >
                                 <button
+                                    type="button"
                                     style={{
                                         backgroundColor:
                                             selectProgressStatus === "SELLING"
@@ -261,6 +262,7 @@ const InstrumentUpload = () => {
                                     판매중
                                 </button>
                                 <button
+                                    type="button"
                                     style={{
                                         backgroundColor:
                                             selectProgressStatus === "RESERVED"
@@ -276,6 +278,7 @@ const InstrumentUpload = () => {
                                     예약중
                                 </button>
                                 <button
+                                    type="button"
                                     style={{
                                         backgroundColor:
                                             selectProgressStatus === "SOLD_OUT"
