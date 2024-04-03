@@ -6,6 +6,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 import useAuth from "../hooks/useAuth";
 
@@ -17,9 +19,11 @@ const Header = () => {
     console.log("토큰 확인", token);
 
     const [isLoggedIn, setIsLoggedIn] = useState(!!token); // 로그인 상태
+    const [user, setUser] = useRecoilState(userState);
 
     // 악기 상태를 위한 핸들러
     const logout = () => {
+        setUser(null);
         localStorage.removeItem("token");
         console.log("토큰 삭제 성공");
     };
@@ -79,7 +83,7 @@ const Header = () => {
                                         판매하기
                                     </Nav.Link>
                                     {/* {auth?.userEmail ? ( */}
-                                    {isLoggedIn ? (
+                                    {user ? (
                                         <Nav.Link
                                             href="/login"
                                             onClick={logout}

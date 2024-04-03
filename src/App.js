@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Sign from "./pages/Sign";
@@ -111,12 +111,18 @@ function App() {
                                     />
                                     <Route path="/login" element={<Login />} />
                                     {/* protected routes */}
-                                    <Route element={<RequireAuth />}>
-                                        <Route
-                                            path="/mypage"
-                                            element={<My />}
-                                        />
-                                    </Route>
+                                    <Route
+                                        path="/*"
+                                        element={
+                                            localStorage.getItem(
+                                                "recoil-persist"
+                                            ) === '{"userState":null}' ? (
+                                                <Navigate to="/login" />
+                                            ) : (
+                                                <My />
+                                            )
+                                        }
+                                    />
                                     <Route path="/sign" element={<Sign />} />
                                     <Route
                                         path="/enroll"

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 import axiosPrivate from "../api/axios";
 import useAuth from "../hooks/useAuth";
@@ -31,6 +33,7 @@ function Login() {
     const [isValidEmail, setIsvalidEmail] = useState(false);
     const [userPassword, setUserPassword] = useState("");
     const [isValidPassword, setIsvalidPassword] = useState(false);
+    const [user, setUser] = useRecoilState(userState);
 
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -106,7 +109,7 @@ function Login() {
 
         try {
             //const response = await axios.post(
-                const response = await axiosPrivate.post(
+            const response = await axiosPrivate.post(
                 LOGIN_URL,
                 {
                     email: userEmail,
@@ -133,8 +136,10 @@ function Login() {
             });
             setUserEmail("");
             setUserPassword("");
+            setUser(response.data);
+            console.log(response);
             alert("로그인이 완료되었습니다.");
-            navigate("/mypage", { replace: true });
+            navigate("/", { replace: true });
         } catch (err) {
             console.log(err?.response);
             if (!err?.response) {
@@ -157,7 +162,6 @@ function Login() {
             // // Extracting authorization code from the URL
             // const urlParams = new URLSearchParams(window.location.search);
             // const authorizationCode = urlParams.get("code");
-
             // // Sending Kakao login request
             // axios
             //     .post(

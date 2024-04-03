@@ -9,17 +9,14 @@ import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 // Components
 import Profile from "../components/Profile";
 import WishProduct from "../components/WishProduct.js";
 
 import "antd/dist/antd.css";
-import {
-    LaptopOutlined,
-    NotificationOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
 
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
@@ -42,12 +39,14 @@ const MyPage = () => {
     const [wishPWishProducts, setWishProducts] = useState([]);
     const refresh = useRefreshToken();
     const axiosPrivate = useAxiosPrivate();
+    const [user, setUser] = useRecoilState(userState);
+    // console.log(user);
 
-    // axios로 유저정보 가져오기
+    //axios로 유저정보 가져오기
     // useEffect(() => {
     //     const getUser = async () => {
     //         try {
-    //             const response = await axiosPrivate.get("/users/");
+    //             const response = await axiosPrivate.get("/users/me");
     //             console.log(response);
     //             setMyData(response.data);
     //         } catch (err) {
@@ -58,27 +57,28 @@ const MyPage = () => {
     //     getUser();
     // }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    "http://43.203.54.249:8080/api/users/me",
-                    {
-                        headers: {
-                            accept: "*/*",
-                            "Hertz-API-Version": "1",
-                            Authorization: `Bearer ${auth.accessToken}`,
-                        },
-                    }
-                );
-                setMyData(response.data);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get(
+    //                 "http://43.203.54.249:8080/api/users/me",
+    //                 {
+    //                     headers: {
+    //                         accept: "*/*",
+    //                         "Hertz-API-Version": "1",
+    //                         Authorization: `Bearer ${user?.token}`,
+    //                     },
+    //                 }
+    //             );
+    //             console.log(response.data);
+    //             setMyData(response.data);
+    //         } catch (error) {
+    //             console.error("Error fetching user data:", error);
+    //         }
+    //     };
 
-        fetchData();
-    }, [auth.accessToken]);
+    //     fetchData();
+    // }, [user?.token]);
 
     return (
         <div className="area-2">

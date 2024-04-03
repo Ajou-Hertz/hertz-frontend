@@ -11,6 +11,8 @@ import { MarketStateContext } from "../App";
 import { useFetch } from "./../hooks/useFetch";
 
 import NavBar from "../components/Sub/NavBar";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil/user.js";
 
 function Home() {
     const marketList = useContext(MarketStateContext);
@@ -18,6 +20,9 @@ function Home() {
 
     const [data, setData] = useState([]); // get으로 가져온 데이터
 
+    const [user, setUser] = useRecoilState(userState);
+
+    console.log(user?.token);
     useEffect(() => {
         const fetchInstruments = async () => {
             try {
