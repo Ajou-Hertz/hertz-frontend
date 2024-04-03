@@ -10,9 +10,12 @@ import Bass from "../../../components/Sub/InstrumentSelection.js/Bass";
 import AcousticClassic from "../../../components/Sub/InstrumentSelection.js/AcousticClassic";
 import Equipement from "../../../components/Sub/InstrumentSelection.js/Equipement";
 import useAuth from "../../../hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { userState } from "../../../recoil";
 
 const InstrumentUpload = () => {
     const { auth } = useAuth();
+    const [user, setUser] = useRecoilState(userState);
     // 매물 정보 상태를 관리합니다. 여기서는 초기값이 비어있거나 기본값을 가질 수 있습니다.
     const [productName, setProductName] = useState(""); // 매물 이름
     const [description, setDescription] = useState(""); // 상세 정보 입력
@@ -65,80 +68,89 @@ const InstrumentUpload = () => {
     // 폼 제출 함수입니다. 여기서 새로운 악기 정보를 서버로 보내는 로직이 들어가야함
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!productName || !selectProgressStatus || !electricGuitarData || !description || !selectedImage.length) {
-          alert('모든 필수 항목을 입력해주세요.');
-          return;
-      }
+
+        if (
+            !productName ||
+            !selectProgressStatus ||
+            !electricGuitarData ||
+            !description ||
+            !selectedImage.length
+        ) {
+            alert("모든 필수 항목을 입력해주세요.");
+            return;
+        }
         try {
-          const Data = new FormData();
-          Data.append('brand', electricGuitarData.brand);
-          Data.append('model', electricGuitarData.model);
-          Data.append('productionYear', electricGuitarData.productionYear);
-          Data.append('color', electricGuitarData.color);
-          Data.append('title', productName);
-          Data.append('progressStatus', selectProgressStatus);
-          Data.append('tradeAddress.sido', '서울특별시');
-          Data.append('tradeAddress.sgg', '강남구');
-          Data.append('tradeAddress.emd', '청담동');
-          Data.append('qualityStatus', electricGuitarData.selectedState);
-          Data.append('price', electricGuitarData.price);
-          Data.append('hasAnomaly', electricGuitarData.selectedFeature);
-          Data.append('description', description);
-     
-          for (const image of selectedImage) {
-            Data.append('images', image);
-          }
-          for (const hashtag of electricGuitarData.hashtags) {
-            Data.append('hashtags[]', hashtag);
-          }
-        
-          const response = await axiosPrivate.post('/instruments/electric-guitars', Data, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              'Hertz-API-Version': 1
+            const Data = new FormData();
+            Data.append("brand", electricGuitarData.brand);
+            Data.append("model", electricGuitarData.model);
+            Data.append("productionYear", electricGuitarData.productionYear);
+            Data.append("color", electricGuitarData.color);
+            Data.append("title", productName);
+            Data.append("progressStatus", selectProgressStatus);
+            Data.append("tradeAddress.sido", "서울특별시");
+            Data.append("tradeAddress.sgg", "강남구");
+            Data.append("tradeAddress.emd", "청담동");
+            Data.append("qualityStatus", electricGuitarData.selectedState);
+            Data.append("price", electricGuitarData.price);
+            Data.append("hasAnomaly", electricGuitarData.selectedFeature);
+            Data.append("description", description);
+
+            for (const image of selectedImage) {
+                Data.append("images", image);
             }
-          });
-          if (response.status === 201) {
-            alert('악기가 성공적으로 등록되었습니다.');
-            console.log("일렉 기타 매물 등록 성공");
-            console.log("응답 데이터:", response.data);
-          } else {
-            alert('악기 등록에 실패했습니다.');
-          }
-        } catch(err) {
-          console.error(err);
-          alert('악기 등록에 실패했습니다.');
+            for (const hashtag of electricGuitarData.hashtags) {
+                Data.append("hashtags[]", hashtag);
+            }
+
+            const response = await axiosPrivate.post(
+                "/instruments/electric-guitars",
+                Data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Hertz-API-Version": 1,
+                        Authorization: `Bearer ${user?.token}`,
+                    },
+                }
+            );
+            if (response.status === 201) {
+                alert("악기가 성공적으로 등록되었습니다.");
+                console.log("일렉 기타 매물 등록 성공");
+                console.log("응답 데이터:", response.data);
+            } else {
+                alert("악기 등록에 실패했습니다.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("악기 등록에 실패했습니다.");
         } finally {
-          
-          console.log("서버로 전송할 데이터:", {
-          brand: electricGuitarData.brand,
-          model: electricGuitarData.model,
-          productionYear: electricGuitarData.productionYear,
-          color: electricGuitarData.color,
-          title: productName,
-          progressStatus: selectProgressStatus,
-          tradeAddress: {
-          sido: '서울특별시',
-          sgg: '강남구',
-          emd: '청담동'
-          },
-          qualityStatus: electricGuitarData.selectedState,
-          price: electricGuitarData.price,
-          hasAnomaly: electricGuitarData.selectedFeature,
-          description: description,
-          images: selectedImage,
-          hashtags: electricGuitarData.hashtags
-          });}
-      };
-    
+            console.log("서버로 전송할 데이터:", {
+                brand: electricGuitarData.brand,
+                model: electricGuitarData.model,
+                productionYear: electricGuitarData.productionYear,
+                color: electricGuitarData.color,
+                title: productName,
+                progressStatus: selectProgressStatus,
+                tradeAddress: {
+                    sido: "서울특별시",
+                    sgg: "강남구",
+                    emd: "청담동",
+                },
+                qualityStatus: electricGuitarData.selectedState,
+                price: electricGuitarData.price,
+                hasAnomaly: electricGuitarData.selectedFeature,
+                description: description,
+                images: selectedImage,
+                hashtags: electricGuitarData.hashtags,
+            });
+        }
+    };
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
     };
 
-    console.log("electricGuitarData:", electricGuitarData)
-
+    console.log("electricGuitarData:", electricGuitarData);
 
     return (
         <div>
