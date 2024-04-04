@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "../../../api/axios";
+import axios, { axiosPrivate } from "../../../api/axios";
 import PopupButton from "../PopupButton";
 
 const Button = ({ label, isSelected, onClick }) => {
@@ -55,30 +55,37 @@ const ElectricGuitar = ({ updateGuitarData }) => {
         setIsPopupOpen(false);
     };
 
+
+
     // 시도 get api
     useEffect(() => {
-        // 헤더를 설정합니다.
-        const headers = {
-            "Hertz-API-Version": 1, // 헤더에 api minor version 추가
-        };
-
-        try {
-            const response = axios.get("/administrative-areas/sido", {
-                headers: headers,
-            });
-
-            console.log("성공");
-            console.log("시도 정보:", response.data.content);
-            // 등록 성공 후 작업, 예: 사용자를 악기 목록 페이지로 리다이렉트
-        } catch (error) {
-            console.error("에러:", error);
-        }
+      try {
+          axios.get("/administrative-areas/sido", {
+              headers: {
+                  "Hertz-API-Version": 1,
+              }
+          })
+          .then(response => {
+              if (response.status === 200) {
+                  const sidoArray = response.data.content.map(item => item.name);
+                  setSido(sidoArray);
+                  console.log("시도 목록을 불러오기", sidoArray);
+              } else {
+                  console.error("시도 목록을 불러오는데 실패했습니다.");
+              }
+          })
+          .catch(error => {
+              console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
+          });
+      } catch (error) {
+          console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
+      }
     }, []);
 
     // 브랜드 선택 핸들러
-const handleBrandChange = (event) => {
-  setSelectedBrand(event.target.value);
-};
+    const handleBrandChange = (event) => {
+      setSelectedBrand(event.target.value);
+    };
 
 
     //악기 상태를 위한 핸들러
