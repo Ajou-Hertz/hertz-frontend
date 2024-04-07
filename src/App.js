@@ -16,11 +16,13 @@ import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
 import Seller from "./pages/Seller";
 import Inquiry from "./pages/Inquiry";
+import KakaoRedirect from "./pages/KakaoRedirect";
 import { marketsDummyData } from "./constants/data";
 
 import { AuthProvider } from "./context/AuthProvider";
 import MainLayout from "./components/MainLayout";
 import RequireAuth from "./components/RequireAuth";
+import SelfSign from "./pages/SelfSign";
 // import requireAuth from "../components/RequireAuth";
 
 const reducer = (state, action) => {
@@ -167,6 +169,14 @@ function App() {
                                     <Route
                                         path="/inquiry"
                                         element={<Inquiry />}
+                                    />
+                                    <Route
+                                        path="/selfsign"
+                                        element={<SelfSign />}
+                                    />
+                                    <Route
+                                        path="/kakao/authorize/redirect-test"
+                                        element={<KakaoRedirect />}
                                     />
                                 </Routes>
                             </MainLayout>

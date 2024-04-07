@@ -38,7 +38,7 @@ function Login() {
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const link = `https://kauth.kakao.com/oauth/authorize?client_id=9644ca78b2842659ee55581bdffa7c58&redirect_uri=http://localhost:8081/kakao/authorize/redirect-test&response_type=code`;
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=9644ca78b2842659ee55581bdffa7c58&redirect_uri=http://localhost:3000/kakao/authorize/redirect-test&response_type=code`;
 
     // 유효성 검사하기
     useEffect(() => {
@@ -94,6 +94,38 @@ function Login() {
     };
     const handleChangePassword = (e) => {
         setUserPassword(e.target.value);
+    };
+
+    const handleKakaoLogin = async () => {
+        // URL에서 인가 코드 추출
+        const urlParams = new URLSearchParams(window.location.search);
+        const authorizationCode = urlParams.get("code");
+        console.log(authorizationCode);
+        if (!authorizationCode) {
+            console.log("URL에서 인가 코드를 찾을 수 없습니다.");
+            return;
+        }
+
+        // Kakao 로그인 요청 보내기
+        try {
+            const response = await axiosPrivate.post(
+                KAKAO_LOGIN_URL,
+                {
+                    authorizationCode,
+                    redirectUri: "https://hertz.com/kakao-login-redirection",
+                },
+                {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                }
+            );
+            // 응답 처리
+            console.log(response.data);
+        } catch (error) {
+            // 오류 처리
+            console.log(error);
+        }
     };
 
     // 서버 로그인 요청
@@ -158,34 +190,6 @@ function Login() {
             }
         }
 
-        const handleKakaoLogin = () => {
-            // // Extracting authorization code from the URL
-            // const urlParams = new URLSearchParams(window.location.search);
-            // const authorizationCode = urlParams.get("code");
-            // // Sending Kakao login request
-            // axios
-            //     .post(
-            //         KAKAO_LOGIN_URL,
-            //         {
-            //             authorizationCode,
-            //             redirectUri:
-            //                 "https://hertz.com/kakao-login-redirection",
-            //         },
-            //         {
-            //             headers: {
-            //                 "Hertz-API-Version": 1,
-            //             },
-            //         }
-            //     )
-            //     .then((response) => {
-            //         // Handle response
-            //         console.log(response.data);
-            //     })
-            //     .catch((error) => {
-            //         // Handle error
-            //         console.log(error);
-            //     });
-        };
         // 파싱된 코드 추출
 
         // requestPost();
@@ -305,7 +309,7 @@ function Login() {
                             </RouterLink>
                             <Divider type="vertical" />
                             <RouterLink
-                                to="/sign"
+                                to="/selfsign"
                                 style={{ textDecoration: "none" }}
                             >
                                 회원가입
