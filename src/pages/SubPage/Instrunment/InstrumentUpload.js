@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosPrivate from "../../../api/axios";
 import NavBar from "../../../components/Sub/NavBar";
-// import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
 import UploadPhoto from "../../../components/Sub/UploadPhoto";
 import ElectricGuitar from "../../../components/Sub/InstrumentSelection.js/ElectricGuitar";
 import Effector from "../../../components/Sub/InstrumentSelection.js/Effector";
@@ -26,11 +25,11 @@ const InstrumentUpload = () => {
     const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
-    // const [effectorData, setEffectorData] = useState(null); // 이펙터 컴포넌트에서 받아온 정보 상태
-    // const [ampData, setAmprData] = useState(null); // 앰프 컴포넌트에서 받아온 정보 상태
-    // const [bassData, setBassData] = useState(null); // 베이스 컴포넌트에서 받아온 정보 상태
-    // const [aCData, setACData] = useState(null); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
-    // const [equipementData, setEquipementData] = useState(null); // 음향장비 컴포넌트에서 받아온 정보 상태
+    // const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
+    const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
+    // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
+    // const [aCData, setACData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
+    // const [equipementData, setEquipementData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
 
     // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
     const handleNameChange = (e) => {
@@ -81,6 +80,7 @@ const InstrumentUpload = () => {
         }
         try {
             const Data = new FormData();
+           
             Data.append("brand", electricGuitarData.brand);
             Data.append("model", electricGuitarData.model);
             Data.append("productionYear", electricGuitarData.productionYear);
@@ -102,7 +102,17 @@ const InstrumentUpload = () => {
                 Data.append("hashtags[]", hashtag);
             }
 
+
+            // 선택된 옵션에 따라 다른 엔드포인트로 데이터 전송
+            // let endpoint = "";
+            // if (selectedOption === "일렉기타") {
+            //     endpoint = "/instruments/electric-guitars";
+            // } else if (selectedOption === "앰프") {
+            //     endpoint = "/instruments/amplifiers";
+            // }
+
             const response = await axiosPrivate.post(
+                //endpoint,
                 "/instruments/electric-guitars",
                 Data,
                 {
@@ -124,6 +134,11 @@ const InstrumentUpload = () => {
             console.error(err);
             alert("악기 등록에 실패했습니다.");
         } finally {
+            // if (selectedOption === "일렉기타") {
+            //     console.log("서버로 전송할 데이터:", electricGuitarData);
+            // } else if (selectedOption === "앰프") {
+            //     console.log("서버로 전송할 데이터:", ampData);
+            // }
             console.log("서버로 전송할 데이터:", {
                 brand: electricGuitarData.brand,
                 model: electricGuitarData.model,
@@ -151,6 +166,7 @@ const InstrumentUpload = () => {
     };
 
     console.log("electricGuitarData:", electricGuitarData);
+
 
     return (
         <div>
@@ -180,11 +196,6 @@ const InstrumentUpload = () => {
                             }}
                         />
                         {/* 드롭다운 */}
-                        {/* <DropdownMenu
-              options={['일렉기타', '이펙터', '앰프', '베이스', '어쿠스틱&클래식', '음향장비', '합주실', '공연장']}
-              onSelect={handleDropdownSelect}
-              selectedOption={selectedOption} // 현재 선택된 옵션을 DropdownMenu 컴포넌트에 전달
-            /> */}
                         <select
                             value={selectedOption}
                             onChange={(e) =>
@@ -317,10 +328,13 @@ const InstrumentUpload = () => {
                         </p>
                         <div style={{ marginLeft: "20px" }}>
                             {/* {SelectedComponent && <SelectedComponent />}
-              <ElectricGuitar updateGuitarData={handleElectricGuitarData} /> */}
+                            <ElectricGuitar updateGuitarData={handleElectricGuitarData} /> */}
                             {SelectedComponent && (
-                                <SelectedComponent
-                                    updateGuitarData={handleElectricGuitarData}
+                                <SelectedComponent 
+                                  updateGuitarData={handleElectricGuitarData}
+                                  // updateAmpData={handleAmpData}
+                                  // updateGuitarData={selectedOption === "일렉기타" ? handleElectricGuitarData : null}
+                                  // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
                                 />
                             )}
                         </div>

@@ -1,25 +1,37 @@
-import React, { useState, useEffect }  from 'react'
-import axios from '../../../api/axios';
-import PopupButton from '../PopupButton';
+import React, { useState, useEffect } from "react";
+import axios from "../../../api/axios";
+import PopupButton from "../PopupButton";
 
 const Button = ({ label, isSelected, onClick }) => {
   return (
-    <button style={{ backgroundColor: isSelected ? '#D6E0F3' : 'white', borderRadius: '3px', 
-      width: '100px', height: '40px', border: '1px solid black' }} onClick={onClick}>
-      {label}
-    </button>
+      <button
+          style={{
+              backgroundColor: isSelected ? "#D6E0F3" : "white",
+              borderRadius: "3px",
+              width: "100px",
+              height: "40px",
+              border: "1px solid black",
+          }}
+           // 새로고침 방지
+            onClick={(event) => {
+            event.preventDefault();
+            onClick();
+          }}
+      >
+          {label}
+      </button>
   );
 };
 
 const Amp = ({updateAmpData}) => {  
-  const [Sido,setSido] = useState();
+  const [Sido, setSido] = useState(); // 거래지역 상태
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-  const [selectedType, setSelectedType] = useState(''); // 종류 상태
-  const [selectedBrand, setSelectedBrand] = useState(''); // 브랜드 선택
-  const [selectedUsage, setSelectedUsage] = useState(''); // 용도 상태
-  const [price, setPrice] = useState(''); // 가격을 위한 상태
+  const [selectedType, setSelectedType] = useState("기타"); // 종류 상태
+  const [selectedBrand, setSelectedBrand] = useState("Fender"); // 브랜드 선택
+  const [selectedUsage, setSelectedUsage] = useState("가정용"); // 용도 상태
+  const [price, setPrice] = useState(""); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
-  const [hashtags, setHashtags] = useState(['']); // 해시태그 상태 추가
+  const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 단계설명 표 열고 닫는 상태
 
@@ -42,18 +54,24 @@ const Amp = ({updateAmpData}) => {
     setIsPopupOpen(false);
   };
 
-  // 시도 get api
+    // 시도 get api
   useEffect(() => {
-    // 매물 정보를 불러오는 API 호출
-    axios.get('/api/administrative-areas/sido') // 가정한 URL, 실제 URL로 변경 필요
-      .then(response => {
-        // 응답으로 받은 매물 정보로 상태 업데이트
-        setSido(response.data);
-        console.log("시도:",response.data );
-      })
-      .catch(error => {
-        console.log(error);
+    // 헤더를 설정합니다.
+    const headers = {
+        "Hertz-API-Version": 1, // 헤더에 api minor version 추가
+    };
+
+    try {
+      const response = axios.get("/administrative-areas/sido", {
+          headers: headers,
       });
+
+      console.log("성공");
+      console.log("시도 정보:", response.data.content);
+      // 등록 성공 후 작업, 예: 사용자를 악기 목록 페이지로 리다이렉트
+    } catch (error) {
+        console.error("에러:", error);
+      }
   }, []);
 
 
@@ -65,7 +83,7 @@ const Amp = ({updateAmpData}) => {
   // 가격 입력 핸들러
   const handlePrice = (event) => {
     // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-    const inputPrice = event.target.value.replace(/[^0-9]/g, ''); // 숫자가 아닌 문자를 제거합니다.
+    const inputPrice = (event.target.value.replace(/[^0-9]/g, "")); // 숫자가 아닌 문자를 제거합니다.
     setPrice(inputPrice/*+ '원'*/);
   };
 
@@ -90,7 +108,7 @@ const Amp = ({updateAmpData}) => {
     }
   };  
 
-    // 해시태그 삭제 핸들러
+  // 해시태그 삭제 핸들러
   const handleRemoveHashtag = (index) => {
     const newHashtags = hashtags.filter((_, i) => i !== index);
     setHashtags(newHashtags);
@@ -106,13 +124,21 @@ const Amp = ({updateAmpData}) => {
       selectedFeature: selectedFeature,
       hashtags: hashtags
     };
-    console.log("전달된 악기 데이터:", ampData);
+
     updateAmpData(ampData);
   };
 
   useEffect(() => {
     updateData();
-  }, [selectedType, selectedBrand, selectedUsage, selectedState, price, selectedFeature, hashtags]);
+  }, [
+      selectedType, 
+      selectedBrand, 
+      selectedUsage, 
+      selectedState, 
+      price, 
+      selectedFeature, 
+      hashtags,
+    ]);
 
 
 
@@ -158,17 +184,20 @@ const Amp = ({updateAmpData}) => {
       <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '200px' }}>
         {/* 거래지역 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
+            onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
+            onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
-          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}>
+          <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
+            onChange={(event) => setSido(event.target.value)}>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
@@ -178,28 +207,28 @@ const Amp = ({updateAmpData}) => {
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
           <Button
             label="1단계"
-            isSelected={selectedState === '1단계'}
-            onClick={() => handleButtonClick('1단계')}
+            isSelected={selectedState === "1"}
+            onClick={() => handleButtonClick("1")}
           />
           <Button
             label="2단계"
-            isSelected={selectedState === '2단계'}
-            onClick={() => handleButtonClick('2단계')}
+            isSelected={selectedState === "2"}
+            onClick={() => handleButtonClick("2")}
           />
           <Button
             label="3단계"
-            isSelected={selectedState === '3단계'}
-            onClick={() => handleButtonClick('3단계')}
+            isSelected={selectedState === "3"}
+            onClick={() => handleButtonClick("3")}
           />
           <Button
             label="4단계"
-            isSelected={selectedState === '4단계'}
-            onClick={() => handleButtonClick('4단계')}
+            isSelected={selectedState === "4"}
+            onClick={() => handleButtonClick("4")}
           />
           <Button
             label="5단계"
-            isSelected={selectedState === '5단계'}
-            onClick={() => handleButtonClick('5단계')}
+            isSelected={selectedState === "5"}
+            onClick={() => handleButtonClick("5")}
           />
           <div style={{ marginTop: '10px', marginLeft: '20px' }}>
             <PopupButton onClick={openPopup} isPopupOpen={isPopupOpen} closePopup={closePopup} popupData={popupData} />
@@ -249,13 +278,13 @@ const Amp = ({updateAmpData}) => {
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '25px' }}>
           <Button
             label="O"
-            isSelected={selectedFeature  === 'O'}
-            onClick={() => handleFeatureButtonClick('O')}
+            isSelected={selectedFeature  === true}
+            onClick={() => handleFeatureButtonClick(true)}
           />
           <Button
             label="X"
-            isSelected={selectedFeature  === 'X'}
-            onClick={() => handleFeatureButtonClick('X')}
+            isSelected={selectedFeature  === false}
+            onClick={() => handleFeatureButtonClick(false)}
           />
           <p style={{ margin: '5px', marginLeft: '10px' }}>특이사항에 대한 상세 내용은 본문에 기입해주세요</p>
         </div>

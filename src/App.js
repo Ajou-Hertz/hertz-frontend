@@ -10,7 +10,8 @@ import InstrumentList from "./pages/SubPage/Instrunment/InstrumentList";
 import InstrumentDetail from "./pages/SubPage/Instrunment/InstrumentDetail";
 import InstrumentModify from "./pages/SubPage/Instrunment/InstrumentModify";
 import InstrumentUpload from "./pages/SubPage/Instrunment/InstrumentUpload";
-import EnsembleRoom from "./pages/SubPage/EnsembleRoon";
+import EnsembleRoomList from "./pages/SubPage/EnsembleRoom/EnsembleRoomList";
+import EnsembleRoomDetail from "./pages/SubPage/EnsembleRoom/EnsembleRoomDetail";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
@@ -147,8 +148,12 @@ function App() {
                                         element={<InstrumentUpload />}
                                     />
                                     <Route
-                                        path="/EnsembleRoom"
-                                        element={<EnsembleRoom />}
+                                        path="/EnsembleRoomList"
+                                        element={<EnsembleRoomList />}
+                                    />
+                                    <Route
+                                        path="/EnsembleRoomDetail"
+                                        element={<EnsembleRoomDetail />}
                                     />
                                     <Route
                                         path="/ConcertHall"
