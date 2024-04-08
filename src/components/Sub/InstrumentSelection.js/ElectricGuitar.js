@@ -372,8 +372,8 @@ const handleBrandChange = (event) => {
                 >
                     <select
                         style={{ height: "40px", borderRadius: "3px" }}
-                           onChange={handleBrandChange}
-        value={selectedBrand} // 선택된 값 설정
+                          onChange={handleBrandChange}
+                          value={selectedBrand} // 선택된 값 설정
                     >
                         <option value='FENDER_USA'>Fender(USA)</option>
                         <option value="FENDER_JAPAN">Fender(Japan)</option>

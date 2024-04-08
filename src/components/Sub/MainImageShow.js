@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import {HeartOutlined, HeartFilled} from '@ant-design/icons';
 
 function MainImageShow({ imageUrls }) {
     const [mainImage, setMainImage] = useState(imageUrls[0]); // 메인 이미지 상태 관리
+    const [isFavorite, setIsFavorite] = useState(false); // 관심 상품 여부 상태 관리
 
     const handleClickImage = (imageUrl) => {
         setMainImage(imageUrl); // 클릭된 이미지로 메인 이미지 변경
+    };
+
+    const handleFavoriteClick = () => {
+        setIsFavorite(!isFavorite); // 관심 상품 여부 토글
     };
 
     return (
@@ -52,7 +58,22 @@ function MainImageShow({ imageUrls }) {
                         fontSize: "18px",
                     }}
                 >
-                    관심상품 등록하기
+                    {/* 텍스트와 하트 버튼을 묶음 */}
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                        관심상품 등록하기{" "}
+                        {/* 하트 모양의 버튼 */}
+                        {isFavorite ? (
+                            <HeartFilled
+                                style={{ color: "red", fontSize: "24px" }}
+                                onClick={handleFavoriteClick}
+                            />
+                        ) : (
+                            <HeartOutlined
+                                style={{ color: "black", fontSize: "24px" }}
+                                onClick={handleFavoriteClick}
+                            />
+                        )}
+                    </span>
                 </p>
             </div>
         </div>

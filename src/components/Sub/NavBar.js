@@ -15,7 +15,9 @@ const NavBar = () => {
               <Nav.Link style={{color: (location.pathname === '/InstrumentList' || location.pathname.startsWith('/InstrumentDetail')) ? '#637DBE' : 'black',
                 fontSize: '18px', fontWeight: (location.pathname === '/InstrumentList' || location.pathname.startsWith('/InstrumentDetail')) ? 'bold' : 'normal'}} href="/InstrumentList">중고악기
               </Nav.Link>
-              <Nav.Link style={{color: location.pathname === '/EnsembleRoom' ? '#637DBE' : 'black', fontSize: '18px', fontWeight: location.pathname === '/EnsembleRoom' ? 'bold' : 'normal'}} href="/EnsembleRoom">합주실</Nav.Link>
+              <Nav.Link style={{color: (location.pathname === '/EnsembleRoomList' || location.pathname.startsWith('/EnsembleRoomList')) ? '#637DBE' : 'black',
+                fontSize: '18px', fontWeight: (location.pathname === '/EnsembleRoomList' || location.pathname.startsWith('/EnsembleRoomList')) ? 'bold' : 'normal'}} href="/EnsembleRoomList">합주실
+              </Nav.Link>
               <Nav.Link style={{color: location.pathname === '/ConcertHall' ? '#637DBE' : 'black', fontSize: '18px', fontWeight: location.pathname === '/ConcertHall' ? 'bold' : 'normal'}} href="/ConcertHall">공연장</Nav.Link>
             </Nav>
             <Form className="d-flex">
