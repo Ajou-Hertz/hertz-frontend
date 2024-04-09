@@ -1,12 +1,14 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
+import My from "../pages/My";
 
 const RequireAuth = () => {
-    const { auth } = useAuth();
+    const [user, setUser] = useRecoilState(userState);
     const location = useLocation();
-    console.log(auth.accessToken);
-    return auth?.userEmail ? (
-        <Outlet />
+    console.log(user);
+    return user ? (
+        <My />
     ) : (
         <Navigate to="/login" state={{ from: location }} replace />
     );

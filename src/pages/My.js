@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
-import styles from "./My.module.css";
 import NavBar from "../components/Sub/NavBar.js";
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import axios from "../api/axios";
-import useAuth from "../hooks/useAuth";
-import useRefreshToken from "../hooks/useRefreshToken";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 
 // Components
 import Profile from "../components/Profile";
 import WishProduct from "../components/WishProduct.js";
+import SellerPage from "./Seller.js";
 
 import "antd/dist/antd.css";
-
-const count = 3;
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 
 export const Summary = ({ userData }) => {
     return (
@@ -31,54 +25,35 @@ export const Summary = ({ userData }) => {
 };
 
 const MyPage = () => {
-    const { auth } = useAuth();
-    const navigate = useNavigate();
-
     const [myData, setMyData] = useState([]);
-    const [wishBooths, setWishBooths] = useState([]);
-    const [wishPWishProducts, setWishProducts] = useState([]);
-    const refresh = useRefreshToken();
-    const axiosPrivate = useAxiosPrivate();
     const [user, setUser] = useRecoilState(userState);
-    // console.log(user);
 
-    //axios로 유저정보 가져오기
-    // useEffect(() => {
-    //     const getUser = async () => {
-    //         try {
-    //             const response = await axiosPrivate.get("/users/me");
-    //             console.log(response);
-    //             setMyData(response.data);
-    //         } catch (err) {
-    //             console.log(err?.response);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = user?.token || user?.access_token;
+                if (!token) return;
 
-    //     getUser();
-    // }, []);
+                const response = await axios.get(
+                    "http://43.203.54.249:8080/api/users/me",
+                    {
+                        headers: {
+                            accept: "*/*",
+                            "Hertz-API-Version": "1",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setMyData(response.data);
+                // setUser(response.data);
+                console.log(response.data.id);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(
-    //                 "http://43.203.54.249:8080/api/users/me",
-    //                 {
-    //                     headers: {
-    //                         accept: "*/*",
-    //                         "Hertz-API-Version": "1",
-    //                         Authorization: `Bearer ${user?.token}`,
-    //                     },
-    //                 }
-    //             );
-    //             console.log(response.data);
-    //             setMyData(response.data);
-    //         } catch (error) {
-    //             console.error("Error fetching user data:", error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [user?.token]);
+        fetchData();
+    }, [user?.token, user?.access_token]);
 
     return (
         <div className="area-2">
@@ -88,7 +63,7 @@ const MyPage = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Summary userData={myData} />}
+                        element={<Summary userData={myData} id={myData.id} />}
                     ></Route>
                     <Route path="/profile" element={<Profile />}></Route>
                     <Route
@@ -160,8 +135,6 @@ const MyPage = () => {
                     </button>
                 </Link>
             </div>
-            {/* <button onClick={() => refresh()}>Refresh</button>
-            <button onClick={() => testGet()}>test</button> */}
         </div>
     );
 };

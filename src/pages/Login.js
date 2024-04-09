@@ -6,18 +6,12 @@ import { userState } from "../recoil";
 import axiosPrivate from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import kakaoLoginImage from "../assets/kakao_login_large_wide.png";
-
-// import { Cookies } from "react-cookie";
-
 import { Container, Box, Avatar, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import "antd/dist/antd.css";
 import { Typography, Divider } from "antd";
 
 const LOGIN_URL = "/auth/login";
-const KAKAO_LOGIN_URL = "/auth/kakao/login";
-// const cookies = new Cookies();
 
 const { Title } = Typography;
 const theme = createTheme();
@@ -96,38 +90,6 @@ function Login() {
         setUserPassword(e.target.value);
     };
 
-    const handleKakaoLogin = async () => {
-        // URL에서 인가 코드 추출
-        const urlParams = new URLSearchParams(window.location.search);
-        const authorizationCode = urlParams.get("code");
-        console.log(authorizationCode);
-        if (!authorizationCode) {
-            console.log("URL에서 인가 코드를 찾을 수 없습니다.");
-            return;
-        }
-
-        // Kakao 로그인 요청 보내기
-        try {
-            const response = await axiosPrivate.post(
-                KAKAO_LOGIN_URL,
-                {
-                    authorizationCode,
-                    redirectUri: "https://hertz.com/kakao-login-redirection",
-                },
-                {
-                    headers: {
-                        "Hertz-API-Version": 1,
-                    },
-                }
-            );
-            // 응답 처리
-            console.log(response.data);
-        } catch (error) {
-            // 오류 처리
-            console.log(error);
-        }
-    };
-
     // 서버 로그인 요청
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -189,24 +151,6 @@ function Login() {
                 alert("일치하는 회원을 찾을 수 없습니다.");
             }
         }
-
-        // 파싱된 코드 추출
-
-        // requestPost();
-        // console.log(auth);
-
-        // axios
-        //   .post(LOGIN_URL, {
-        //     email: state.email,
-        //     password: state.password,
-        //   })
-        //   .then(function (res) {
-        //     console.log(res);
-        //     setCookie('id', res.data.token);// 쿠키에 토큰 저장
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
     };
 
     return (
@@ -221,9 +165,6 @@ function Login() {
                     }}
                 >
                     <Title level={2}>Login</Title>
-                    {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                        <LockOutlinedIcon />
-                    </Avatar> */}
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
@@ -309,7 +250,7 @@ function Login() {
                             </RouterLink>
                             <Divider type="vertical" />
                             <RouterLink
-                                to="/selfsign"
+                                to="/sign"
                                 style={{ textDecoration: "none" }}
                             >
                                 회원가입

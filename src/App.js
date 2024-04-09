@@ -115,6 +115,15 @@ function App() {
                                     <Route path="/login" element={<Login />} />
                                     {/* protected routes */}
                                     <Route
+                                        path="/mypage"
+                                        element={
+                                            <RequireAuth>
+                                                <My />
+                                            </RequireAuth>
+                                        }
+                                    />
+                                    <Route path="/sign" element={<Sign />} />
+                                    <Route
                                         path="/*"
                                         element={
                                             localStorage.getItem(
@@ -122,11 +131,10 @@ function App() {
                                             ) === '{"userState":null}' ? (
                                                 <Navigate to="/login" />
                                             ) : (
-                                                <My />
+                                                <InstrumentUpload />
                                             )
                                         }
                                     />
-                                    <Route path="/sign" element={<Sign />} />
                                     <Route
                                         path="/enroll"
                                         element={<Enroll />}
@@ -142,10 +150,6 @@ function App() {
                                     <Route
                                         path="/InstrumentModify"
                                         element={<InstrumentModify />}
-                                    />
-                                    <Route
-                                        path="/InstrumentUpload"
-                                        element={<InstrumentUpload />}
                                     />
                                     <Route
                                         path="/EnsembleRoomList"

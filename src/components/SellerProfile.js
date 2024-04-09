@@ -1,44 +1,11 @@
 import React, { useEffect } from "react";
-
-import {
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Avatar,
-    BeachAccessIcon,
-    Divider,
-    Typography,
-} from "@mui/material";
-import { deepOrange, deepPurple } from "@mui/material/colors";
-
-// import PersonIcon from "@mui/icons-material/Person";
+import { Avatar } from "@mui/material";
 import { Button } from "antd";
 
 function Profile({ userData }) {
     useEffect(() => {
         console.log(userData);
     }, []);
-    const btnStyle = {
-        padding: "2rem 2rem",
-        // border: "1px solid",
-        borderRadius: ".25rem",
-    };
-
-    const btnStyle2 = {
-        // fontSize: "25px",
-        // padding: "2rem 2rem",
-        margin: "1.2rem",
-        textAlign: "left",
-    };
-
-    const btnStyle3 = {
-        // fontSize: "25px",
-        // padding: "2rem 2rem",
-        margin: "1.2rem",
-        textAlign: "center",
-        color: "red",
-    };
     return (
         <section className="profile">
             <div style={{ textAlign: "left" }}>
@@ -79,47 +46,71 @@ function Profile({ userData }) {
                     {userData?.nickName?.slice(0, 1).toUpperCase()}
                 </Avatar>
                 <div className="detail_box" style={{ flex: 1 }}>
-                    <div style={{ textAlign: "left" }}>
-                        {userData?.nickName}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <div style={{ textAlign: "left" }}>
+                            이메일 :{" "}
+                            <span style={{ color: "#637DBE" }}>
+                                {userData?.email}
+                            </span>
+                        </div>
+                        <div style={{ textAlign: "left" }}>
+                            가입일 :{" "}
+                            <span style={{ color: "#637DBE" }}>
+                                {userData?.createdAt
+                                    ? `${userData?.createdAt[0]}-${String(
+                                          userData?.createdAt[1]
+                                      ).padStart(2, "0")}-${String(
+                                          userData?.createdAt[2]
+                                      ).padStart(2, "0")}`
+                                    : ""}
+                            </span>
+                        </div>
                     </div>
-                    <div style={{ textAlign: "left" }}>
-                        이메일 :{" "}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
                         <span style={{ color: "#637DBE" }}>
-                            pobi555@naver.com
+                            {userData?.contactLink
+                                ? userData.contactLink
+                                : "오픈채팅 링크 없음"}
                         </span>
+                        <div style={{ textAlign: "left" }}>
+                            판매 중인 매물 :{" "}
+                            <span style={{ color: "#637DBE" }}>
+                                {userData?.sellingItemCount}
+                            </span>
+                        </div>
                     </div>
-                    <div style={{ textAlign: "left" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
                         <span style={{ color: "#637DBE" }}>
-                            https://open.kakao.com/o/gRh6C3gg
+                            {userData?.data}
                         </span>
+                        <div style={{ textAlign: "left" }}>
+                            판매 완료 매물 :{" "}
+                            <span style={{ color: "#637DBE" }}>
+                                {userData?.soldItemCount}
+                            </span>
+                        </div>
                     </div>
                 </div>
-                {/* <div className="detail_box" style={{ flex: 1 }}>
-                    <div style={{ textAlign: "left" }}>
-                        {userData?.nickName}
-                    </div>
-                    <div style={{ textAlign: "left" }}>
-                        이메일 :{" "}
-                        <span style={{ color: "#637DBE" }}>
-                            pobi555@naver.com
-                        </span>
-                    </div>
-                    <div style={{ textAlign: "left" }}>
-                        이메일 :{" "}
-                        <span style={{ color: "#637DBE" }}>
-                            pobi555@naver.com
-                        </span>
-                    </div>
-                </div> */}
 
-                <Button style={{ marginLeft: "auto", marginRight: "400px" }}>
+                <Button style={{ marginLeft: "50px", marginRight: "400px" }}>
                     내 프로필 수정
                 </Button>
             </div>
-
-            {/* <Avatar>
-                        <PersonIcon />
-                    </Avatar> */}
         </section>
     );
 }

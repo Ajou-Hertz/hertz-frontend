@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
-import styles from "./My.module.css";
 import NavBar from "../components/Sub/NavBar.js";
-
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
-import useRefreshToken from "../hooks/useRefreshToken";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // Components
 import Profile from "../components/SellerProfile";
 import WishProduct from "../components/SellingProduct.js";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 import "antd/dist/antd.css";
-
-const count = 3;
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 
 export const Summary = ({ userData }) => {
     return (
@@ -28,14 +22,13 @@ export const Summary = ({ userData }) => {
     );
 };
 
-const MyPage = () => {
+const SellerPage = (props) => {
     const { auth } = useAuth();
     const navigate = useNavigate();
 
-    const [myData, setMyData] = useState([]);
-    const refresh = useRefreshToken();
-    const axiosPrivate = useAxiosPrivate();
-
+    const [sellerData, setSellerData] = useState([]);
+    const [user, setUser] = useRecoilState(userState);
+    console.log(user);
     // axios로 유저정보 가져오기
     // useEffect(() => {
     //     const getUser = async () => {
@@ -51,25 +44,32 @@ const MyPage = () => {
     //     getUser();
     // }, []);
 
-    // const testGet = () => {
-    //     console.log("!!!");
-    //     const getUser = async () => {
-    //         try {
-    //             const response = await axios.get("/users/", {
-    //                 headers: {
-    //                     // Authorization: `Bearer ${auth.accessToken}`,
-    //                     "X-Auth-Token": `${auth.accessToken}`,
-    //                 },
-    //             });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const userId = 1;
+                const token = user?.token || user?.access_token;
+                if (!token) return;
+                console.log(token);
+                const response = await axios.get(
+                    `http://43.203.54.249:8080/api/users/${userId}/seller`,
+                    {
+                        headers: {
+                            accept: "*/*",
+                            "Hertz-API-Version": "1",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                console.log(response.data);
+                setSellerData(response.data);
+            } catch (error) {
+                console.error("Error fetching seller data:", error);
+            }
+        };
 
-    //             console.log(response);
-    //         } catch (err) {
-    //             console.log(err?.response);
-    //         }
-    //     };
-
-    //     getUser();
-    // };
+        fetchData();
+    }, [user?.token, user?.access_token]);
 
     return (
         <div className="area-2">
@@ -79,20 +79,13 @@ const MyPage = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Summary userData={myData} />}
+                        element={<Summary userData={sellerData} />}
                     ></Route>
                     <Route path="/profile" element={<Profile />}></Route>
-                    {/* <Route
-                            path="/wishPWishProduct"
-                            element={<WishProduct />}
-                        ></Route> */}
                 </Routes>
             </div>
-
-            {/* <button onClick={() => refresh()}>Refresh</button>
-            <button onClick={() => testGet()}>test</button> */}
         </div>
     );
 };
 
-export default MyPage;
+export default SellerPage;
