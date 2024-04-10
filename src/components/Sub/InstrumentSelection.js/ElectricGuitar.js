@@ -665,6 +665,7 @@ const ElectricGuitar = ({ updateGuitarData }) => {
                     ))}
                     {hashtags.length < 5 && (
                         <button
+                            type="button" // 새로고침 방지
                             onClick={handleAddHashtag}
                             style={{ height: "40px" }}
                         >
