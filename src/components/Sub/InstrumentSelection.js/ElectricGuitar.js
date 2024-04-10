@@ -12,10 +12,10 @@ const Button = ({ label, isSelected, onClick }) => {
                 height: "40px",
                 border: "1px solid black",
             }}
-             // 새로고침 방지
-              onClick={(event) => {
-              event.preventDefault();
-              onClick();
+            // 새로고침 방지
+            onClick={(event) => {
+                event.preventDefault();
+                onClick();
             }}
         >
             {label}
@@ -24,7 +24,12 @@ const Button = ({ label, isSelected, onClick }) => {
 };
 
 const ElectricGuitar = ({ updateGuitarData }) => {
-    const [Sido, setSido] = useState(); // 거래지역 상태
+    const [Sido, setSido] = useState([]); // 거래지역 상태
+    const [Sgg, setSgg] = useState([]); // 시군구 상태 추가
+    const [Emd, setEmd] = useState([]); // 읍면동 상태 추가
+    const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
+    const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
+    const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
     const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
     const [selectedBrand, setSelectedBrand] = useState("FENDER_USA"); // 브랜드 선택
     const [selectedModel, setSelectedModel] = useState("TELECASTER"); // 모델 선택
@@ -35,7 +40,6 @@ const ElectricGuitar = ({ updateGuitarData }) => {
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
 
     const [isPopupOpen, setIsPopupOpen] = useState(false); // 단계설명 표 열고 닫는 상태
-
     // 팝업 내용
     const popupData = [
         { label: "5단계", value: "외관/사용 모두 완벽, 신동품" },
@@ -55,38 +59,115 @@ const ElectricGuitar = ({ updateGuitarData }) => {
         setIsPopupOpen(false);
     };
 
-
-
     // 시도 get api
     useEffect(() => {
-      try {
-          axios.get("/administrative-areas/sido", {
-              headers: {
-                  "Hertz-API-Version": 1,
-              }
-          })
-          .then(response => {
-              if (response.status === 200) {
-                  const sidoArray = response.data.content.map(item => item.name);
-                  setSido(sidoArray);
-                  console.log("시도 목록을 불러오기", sidoArray);
-              } else {
-                  console.error("시도 목록을 불러오는데 실패했습니다.");
-              }
-          })
-          .catch(error => {
-              console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
-          });
-      } catch (error) {
-          console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
-      }
+        try {
+            axios
+                .get("/administrative-areas/sido", {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const sidoArray = response.data.content.map(
+                            (item) => item.name
+                        );
+                        setSido(sidoArray);
+                    } else {
+                        console.error("시도 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "시도 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } catch (error) {
+            console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
+        }
     }, []);
+
+    // 시도 선택 핸들러
+    const handleSidoChange = (event) => {
+        const selectedSidoName = event.target.value; // 선택된 시도의 이름
+        const selectedIndex = Sido.findIndex(
+            (item) => item === selectedSidoName
+        ); // 선택된 시도의 인덱스
+        if (selectedIndex !== -1) {
+            const selectedSidoId = selectedIndex + 1; // 선택된 시도의 인덱스 + 1을 ID로 사용
+            setSelectedSido(selectedSidoName);
+            // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
+            axios
+                .get(`/administrative-areas/sgg?sidoId=${selectedSidoId}`, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const sggArray = response.data.content.map((item) => ({
+                            id: item.id,
+                            name: item.name,
+                        }));
+                        setSgg(sggArray);
+                    } else {
+                        console.error("시군구 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "시군구 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } else {
+            console.error("선택된 시도를 찾을 수 없습니다.");
+        }
+    };
+
+    // 시군구 선택 핸들러
+    const handleSggChange = (event) => {
+        const selectedIndex = event.target.value; // 선택된 시도의 index
+        if (selectedIndex !== -1) {
+            // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
+            axios
+                .get(`/administrative-areas/emd?sggId=${selectedIndex}`, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const emdArray = response.data.content.map((item) => ({
+                            id: item.id,
+                            name: item.name,
+                        }));
+                        setEmd(emdArray);
+                        const selectedSggName = Sgg.find(
+                            (item) => item.id === parseInt(selectedIndex)
+                        )?.name; // 선택된 시군구의 name 값
+                        setSelectedSgg(selectedSggName); // 선택된 시군구 이름 설정
+                    } else {
+                        console.error("읍면동 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "읍면동 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } else {
+            console.error("선택된 읍면동을 찾을 수 없습니다.");
+        }
+    };
 
     // 브랜드 선택 핸들러
     const handleBrandChange = (event) => {
-      setSelectedBrand(event.target.value);
+        setSelectedBrand(event.target.value);
     };
-
 
     //악기 상태를 위한 핸들러
     const handleButtonClick = (state) => {
@@ -103,7 +184,7 @@ const ElectricGuitar = ({ updateGuitarData }) => {
     // 가격 입력 핸들러
     const handlePrice = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-        const inputPrice = (event.target.value.replace(/[^0-9]/g, "")); // 숫자가 아닌 문자를 제거합니다.
+        const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
         setPrice(inputPrice /*+ '원'*/);
     };
 
@@ -147,7 +228,12 @@ const ElectricGuitar = ({ updateGuitarData }) => {
             selectedFeature: selectedFeature,
             hashtags: hashtags,
         };
-       
+        // 선택한 시도, 시군구, 읍면동 값을 guitarData 객체에 추가
+        guitarData.tradeAddress = {
+            sido: selectedSido,
+            sgg: selectedSgg,
+            emd: selectedEmd,
+        };
         updateGuitarData(guitarData);
     };
 
@@ -291,37 +377,46 @@ const ElectricGuitar = ({ updateGuitarData }) => {
                             height: "40px",
                             borderRadius: "3px",
                         }}
-                        onChange={(event) => setSido(event.target.value)}
+                        onChange={(event) => handleSidoChange(event)}
                     >
+                        <option value="">시도 선택</option>
                         {Sido &&
                             Sido.map((item, index) => (
                                 <option key={index}>{item}</option>
                             ))}
                     </select>
+                    {/* 시군구 드롭다운 */}
                     <select
                         style={{
                             width: "100px",
                             height: "40px",
                             borderRadius: "3px",
                         }}
-                        onChange={(event) => setSido(event.target.value)}
+                        onChange={(event) => handleSggChange(event)}
                     >
-                        {Sido &&
-                            Sido.map((item, index) => (
-                                <option key={index}>{item}</option>
+                        <option value="">시군구 선택</option>
+                        {Sgg &&
+                            Sgg.map((item) => (
+                                <option key={item.name} value={item.id}>
+                                    {item.name}
+                                </option>
                             ))}
                     </select>
+                    {/* 읍면동 드롭다운 */}
                     <select
                         style={{
                             width: "100px",
                             height: "40px",
                             borderRadius: "3px",
                         }}
-                        onChange={(event) => setSido(event.target.value)}
+                        onChange={(event) => setSelectedEmd(event.target.value)}
                     >
-                        {Sido &&
-                            Sido.map((item, index) => (
-                                <option key={index}>{item}</option>
+                        <option value="">읍면동 선택</option>
+                        {Emd &&
+                            Emd.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                    {item.name}
+                                </option>
                             ))}
                     </select>
                 </div>
@@ -379,10 +474,10 @@ const ElectricGuitar = ({ updateGuitarData }) => {
                 >
                     <select
                         style={{ height: "40px", borderRadius: "3px" }}
-                          onChange={handleBrandChange}
-                          value={selectedBrand} // 선택된 값 설정
+                        onChange={handleBrandChange}
+                        value={selectedBrand} // 선택된 값 설정
                     >
-                        <option value='FENDER_USA'>Fender(USA)</option>
+                        <option value="FENDER_USA">Fender(USA)</option>
                         <option value="FENDER_JAPAN">Fender(Japan)</option>
                         <option value="FENDER_MEXICO">Fender(Mexico)</option>
                         <option value="GIBSON">Gibson</option>

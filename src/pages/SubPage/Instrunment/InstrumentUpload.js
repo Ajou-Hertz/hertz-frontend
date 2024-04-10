@@ -80,16 +80,25 @@ const InstrumentUpload = () => {
         }
         try {
             const Data = new FormData();
-           
+
             Data.append("brand", electricGuitarData.brand);
             Data.append("model", electricGuitarData.model);
             Data.append("productionYear", electricGuitarData.productionYear);
             Data.append("color", electricGuitarData.color);
             Data.append("title", productName);
             Data.append("progressStatus", selectProgressStatus);
-            Data.append("tradeAddress.sido", "서울특별시");
-            Data.append("tradeAddress.sgg", "강남구");
-            Data.append("tradeAddress.emd", "청담동");
+            Data.append(
+                "tradeAddress.sido",
+                electricGuitarData.tradeAddress.sido
+            );
+            Data.append(
+                "tradeAddress.sgg",
+                electricGuitarData.tradeAddress.sgg
+            );
+            Data.append(
+                "tradeAddress.emd",
+                electricGuitarData.tradeAddress.emd
+            );
             Data.append("qualityStatus", electricGuitarData.selectedState);
             Data.append("price", electricGuitarData.price);
             Data.append("hasAnomaly", electricGuitarData.selectedFeature);
@@ -101,7 +110,6 @@ const InstrumentUpload = () => {
             for (const hashtag of electricGuitarData.hashtags) {
                 Data.append("hashtags[]", hashtag);
             }
-
 
             // 선택된 옵션에 따라 다른 엔드포인트로 데이터 전송
             // let endpoint = "";
@@ -125,8 +133,6 @@ const InstrumentUpload = () => {
             );
             if (response.status === 201) {
                 alert("악기가 성공적으로 등록되었습니다.");
-                console.log("일렉 기타 매물 등록 성공");
-                console.log("응답 데이터:", response.data);
             } else {
                 alert("악기 등록에 실패했습니다.");
             }
@@ -139,34 +145,31 @@ const InstrumentUpload = () => {
             // } else if (selectedOption === "앰프") {
             //     console.log("서버로 전송할 데이터:", ampData);
             // }
-            console.log("서버로 전송할 데이터:", {
-                brand: electricGuitarData.brand,
-                model: electricGuitarData.model,
-                productionYear: electricGuitarData.productionYear,
-                color: electricGuitarData.color,
-                title: productName,
-                progressStatus: selectProgressStatus,
-                tradeAddress: {
-                    sido: "서울특별시",
-                    sgg: "강남구",
-                    emd: "청담동",
-                },
-                qualityStatus: electricGuitarData.selectedState,
-                price: electricGuitarData.price,
-                hasAnomaly: electricGuitarData.selectedFeature,
-                description: description,
-                images: selectedImage,
-                hashtags: electricGuitarData.hashtags,
-            });
+            // console.log("서버로 전송할 데이터:", {
+            //     brand: electricGuitarData.brand,
+            //     model: electricGuitarData.model,
+            //     productionYear: electricGuitarData.productionYear,
+            //     color: electricGuitarData.color,
+            //     title: productName,
+            //     progressStatus: selectProgressStatus,
+            //     tradeAddress: {
+            //         sido: "서울특별시",
+            //         sgg: "강남구",
+            //         emd: "청담동",
+            //     },
+            //     qualityStatus: electricGuitarData.selectedState,
+            //     price: electricGuitarData.price,
+            //     hasAnomaly: electricGuitarData.selectedFeature,
+            //     description: description,
+            //     images: selectedImage,
+            //     hashtags: electricGuitarData.hashtags,
+            // });
         }
     };
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
     };
-
-    console.log("electricGuitarData:", electricGuitarData);
-
 
     return (
         <div>
@@ -330,11 +333,11 @@ const InstrumentUpload = () => {
                             {/* {SelectedComponent && <SelectedComponent />}
                             <ElectricGuitar updateGuitarData={handleElectricGuitarData} /> */}
                             {SelectedComponent && (
-                                <SelectedComponent 
-                                  updateGuitarData={handleElectricGuitarData}
-                                  // updateAmpData={handleAmpData}
-                                  // updateGuitarData={selectedOption === "일렉기타" ? handleElectricGuitarData : null}
-                                  // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
+                                <SelectedComponent
+                                    updateGuitarData={handleElectricGuitarData}
+                                    // updateAmpData={handleAmpData}
+                                    // updateGuitarData={selectedOption === "일렉기타" ? handleElectricGuitarData : null}
+                                    // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
                                 />
                             )}
                         </div>
