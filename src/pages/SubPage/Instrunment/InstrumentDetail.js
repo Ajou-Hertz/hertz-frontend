@@ -113,12 +113,19 @@ const InstrumentDetail = () => {
   return (
     <div>
       <NavBar />
-      <div>
+      {/* <div>
         <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '20px' }}>중고악기</p>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '70px' }}>
         <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
         <p onClick={ clickModify } style={{ marginLeft: '30px', cursor: 'pointer', textDecoration: 'underline' }}>삭제하기</p>
+      </div> */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '40px 50px 0 50px' }}>
+        <p style={{ textAlign: 'left', fontSize: '20px' }}>중고악기</p>
+        <div style={{ marginRight: '40px' }}>
+          <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline', display: 'inline', marginRight: '30px' }}>수정하기</p>
+          <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline', display: 'inline' }}>삭제하기</p>
+        </div>
       </div>
       {/* 제품 이미지 및 제품 정보 */}
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -182,7 +189,7 @@ const InstrumentDetail = () => {
         </div>
       </div>
       {/* 특이사항 및 상세 설명 글 부분 */}
-      <div style={{ border: '1px solid black', margin: '50px', minHeight: '600px' }}>
+      <div style={{ border: '1px solid black', margin: '50px', minHeight: '550px' }}>
         <p style={{ padding: '40px', textAlign: 'left', lineHeight: '3.0' }}>14년 시리얼 펜더 로드원 50 텔러입니다.<br/>
         기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로 교체했습니다.</p>
       </div>
