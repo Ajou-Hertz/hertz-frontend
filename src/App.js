@@ -12,6 +12,7 @@ import InstrumentModify from "./pages/SubPage/Instrunment/InstrumentModify";
 import InstrumentUpload from "./pages/SubPage/Instrunment/InstrumentUpload";
 import EnsembleRoomList from "./pages/SubPage/EnsembleRoom/EnsembleRoomList";
 import EnsembleRoomDetail from "./pages/SubPage/EnsembleRoom/EnsembleRoomDetail";
+import Review from "./pages/SubPage/EnsembleRoom/Review";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
@@ -23,7 +24,7 @@ import { marketsDummyData } from "./constants/data";
 import { AuthProvider } from "./context/AuthProvider";
 import MainLayout from "./components/MainLayout";
 import RequireAuth from "./components/RequireAuth";
-import SelfSign from "./pages/SelfSign";
+// import SelfSign from "./pages/SelfSign";
 // import requireAuth from "../components/RequireAuth";
 
 const reducer = (state, action) => {
@@ -156,6 +157,10 @@ function App() {
                                         element={<EnsembleRoomDetail />}
                                     />
                                     <Route
+                                        path="/Review"
+                                        element={<Review />}
+                                    />
+                                    <Route
                                         path="/ConcertHall"
                                         element={<ConcertHall />}
                                     />
@@ -175,10 +180,10 @@ function App() {
                                         path="/inquiry"
                                         element={<Inquiry />}
                                     />
-                                    <Route
+                                    {/* <Route
                                         path="/selfsign"
                                         element={<SelfSign />}
-                                    />
+                                    /> */}
                                     <Route
                                         path="/kakao/authorize/redirect-test"
                                         element={<KakaoRedirect />}
