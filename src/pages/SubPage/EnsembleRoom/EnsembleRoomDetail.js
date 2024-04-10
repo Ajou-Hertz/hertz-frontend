@@ -162,15 +162,15 @@ const EnsembleRoomDetail = () => {
           {/* 리뷰 확인하기 */}
           <div style={{ border: '1px solid black', marginLeft: '50px', marginTop: '30px', marginBottom: '50px', 
             flexGrow: 2, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-            <p style={{ margin: '10px', textAlign: 'left', 
+            <p style={{ margin: '10px 20px', textAlign: 'left', 
               fontWeight: 'bold', fontSize: '22px' }}>Review</p>
             {/* 리뷰 내용 */}
             <p style={{ margin: '15px 20px', padding: '10px', 
-              backgroundColor: '#D6E0F3', fontWeight: 'bold', fontSize: '18px' }}>시설이 청결해요</p>
+              backgroundColor: '#D6E0F3', fontSize: '18px' }}>시설이 청결해요</p>
             <p style={{ margin: '15px 20px', padding: '10px',
-              backgroundColor: '#D6E0F3', fontWeight: 'bold', fontSize: '18px' }}>응대가 빨라요</p>
+              backgroundColor: '#D6E0F3', fontSize: '18px' }}>응대가 빨라요</p>
             <p style={{ margin: '15px 20px', padding: '10px',
-              backgroundColor: '#D6E0F3', fontWeight: 'bold', fontSize: '18px' }}>방음이 잘돼요</p>
+              backgroundColor: '#D6E0F3', fontSize: '18px' }}>방음이 잘돼요</p>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto' }}>
               <button style={{ backgroundColor: '#637DBE', border: 'none', borderRadius: '10px 0 0 0', 
                 padding: '8px 30px', color: 'white' }}
