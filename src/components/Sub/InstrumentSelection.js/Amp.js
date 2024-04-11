@@ -24,7 +24,11 @@ const Button = ({ label, isSelected, onClick }) => {
 };
 
 const Amp = ({updateAmpData}) => {  
-  const [Sido, setSido] = useState(); // 거래지역 상태
+  const [Sido, setSido] = useState([]); // 거래지역 상태
+  const [Sgg, setSgg] = useState([]); // 시군구 상태 추가
+  const [Emd, setEmd] = useState([]); // 읍면동 상태 추가
+  const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
+  const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
   const [selectedType, setSelectedType] = useState("기타"); // 종류 상태
   const [selectedBrand, setSelectedBrand] = useState("Fender"); // 브랜드 선택
@@ -55,24 +59,109 @@ const Amp = ({updateAmpData}) => {
   };
 
     // 시도 get api
-  useEffect(() => {
-    // 헤더를 설정합니다.
-    const headers = {
-        "Hertz-API-Version": 1, // 헤더에 api minor version 추가
+    useEffect(() => {
+        try {
+            axios
+                .get("/administrative-areas/sido", {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const sidoArray = response.data.content.map(
+                            (item) => item.name
+                        );
+                        setSido(sidoArray);
+                    } else {
+                        console.error("시도 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "시도 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } catch (error) {
+            console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
+        }
+    }, []);
+
+    // 시도 선택 핸들러
+    const handleSidoChange = (event) => {
+        const selectedSidoName = event.target.value; // 선택된 시도의 이름
+        const selectedIndex = Sido.findIndex(
+            (item) => item === selectedSidoName
+        ); // 선택된 시도의 인덱스
+        if (selectedIndex !== -1) {
+            const selectedSidoId = selectedIndex + 1; // 선택된 시도의 인덱스 + 1을 ID로 사용
+            setSelectedSido(selectedSidoName);
+            // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
+            axios
+                .get(`/administrative-areas/sgg?sidoId=${selectedSidoId}`, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const sggArray = response.data.content.map((item) => ({
+                            id: item.id,
+                            name: item.name,
+                        }));
+                        setSgg(sggArray);
+                    } else {
+                        console.error("시군구 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "시군구 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } else {
+            console.error("선택된 시도를 찾을 수 없습니다.");
+        }
     };
 
-    try {
-      const response = axios.get("/administrative-areas/sido", {
-          headers: headers,
-      });
-
-      console.log("성공");
-      console.log("시도 정보:", response.data.content);
-      // 등록 성공 후 작업, 예: 사용자를 악기 목록 페이지로 리다이렉트
-    } catch (error) {
-        console.error("에러:", error);
-      }
-  }, []);
+    // 시군구 선택 핸들러
+    const handleSggChange = (event) => {
+        const selectedIndex = event.target.value; // 선택된 시도의 index
+        if (selectedIndex !== -1) {
+            // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
+            axios
+                .get(`/administrative-areas/emd?sggId=${selectedIndex}`, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        const emdArray = response.data.content.map((item) => ({
+                            id: item.id,
+                            name: item.name,
+                        }));
+                        setEmd(emdArray);
+                        const selectedSggName = Sgg.find(
+                            (item) => item.id === parseInt(selectedIndex)
+                        )?.name; // 선택된 시군구의 name 값
+                        setSelectedSgg(selectedSggName); // 선택된 시군구 이름 설정
+                    } else {
+                        console.error("읍면동 목록을 불러오는데 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        "읍면동 목록 요청 중 오류가 발생했습니다:",
+                        error
+                    );
+                });
+        } else {
+            console.error("선택된 읍면동을 찾을 수 없습니다.");
+        }
+    };
 
 
   // 악기 상태를 위한 핸들러
@@ -185,19 +274,24 @@ const Amp = ({updateAmpData}) => {
         {/* 거래지역 드롭다운 */}
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '20px' }}>
           <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
-            onChange={(event) => setSido(event.target.value)}>
+            onChange={(event) => handleSidoChange(event)}>
+            <option value="">시도 선택</option>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
+          {/* 시군구 드롭다운 */}
           <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
-            onChange={(event) => setSido(event.target.value)}>
+            onChange={(event) => handleSggChange(event)}>
+            <option value="">시군구 선택</option>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}
           </select>
+          {/* 읍면동 드롭다운 */}
           <select style={{ width: '100px', height: '40px', borderRadius: '3px' }}
-            onChange={(event) => setSido(event.target.value)}>
+            onChange={(event) => handleSidoChange(event)}>
+            <option value="">읍면동 선택</option>
             {Sido && Sido.map((item, index) => (
               <option key={index}>{item}</option>
             ))}

@@ -13,7 +13,7 @@ import InstrumentUpload from "./pages/SubPage/Instrunment/InstrumentUpload";
 import EnsembleRoomList from "./pages/SubPage/EnsembleRoom/EnsembleRoomList";
 import EnsembleRoomDetail from "./pages/SubPage/EnsembleRoom/EnsembleRoomDetail";
 import Review from "./pages/SubPage/EnsembleRoom/Review";
-import WriteReview from "./pages/SubPage/EnsembleRoom/WriteReview";
+import WriteKeywordReview from "./pages/SubPage/EnsembleRoom/WriteKeywordReview";
 import WriteTextReview from "./pages/SubPage/EnsembleRoom/WriteTextReview";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
@@ -167,8 +167,8 @@ function App() {
                                         element={<Review />}
                                     />
                                     <Route
-                                        path="/WriteReview"
-                                        element={<WriteReview />}
+                                        path="/WriteKeywordReview"
+                                        element={<WriteKeywordReview />}
                                     />
                                     <Route
                                         path="/WriteTextReview"
