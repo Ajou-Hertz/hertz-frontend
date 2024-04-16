@@ -35,7 +35,7 @@ const MyPage = () => {
                 if (!token) return;
 
                 const response = await axios.get(
-                    "http://43.203.54.249:8080/api/users/me",
+                    "https://hertz-inst.com/api/users/me",
                     {
                         headers: {
                             accept: "*/*",

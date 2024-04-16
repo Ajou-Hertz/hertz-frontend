@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-const KAKAO_LOGIN_URL = "https://kauth.kakao.com/oauth/token";
-const KAKAO_LOGIN_URL2 = "http://43.203.54.249:8080/api/auth/kakao/login";
+// const KAKAO_LOGIN_URL = "https://kauth.kakao.com/oauth/token";
+const KAKAO_LOGIN_URL2 = "https://hertz-inst.com/api/auth/kakao/login";
 
 function KakaoRedirect() {
     const navigate = useNavigate();
