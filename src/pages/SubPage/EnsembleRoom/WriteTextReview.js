@@ -84,7 +84,8 @@ const WriteTextReview = () => {
                 padding: '10px 30px', color: 'white' }}
                 type="submit"
                 onClick={handleSubmit}>
-                제출하기</button>
+                제출하기
+            </button>
         </div>
       </div>
     </div>
