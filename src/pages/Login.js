@@ -32,7 +32,7 @@ function Login() {
     const [isValidAll, setIsvalidAll] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const link = `https://kauth.kakao.com/oauth/authorize?client_id=9644ca78b2842659ee55581bdffa7c58&redirect_uri=http://localhost:3000/kakao/authorize/redirect-test&response_type=code`;
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=9644ca78b2842659ee55581bdffa7c58&redirect_uri=https://hertz-inst.vercel.app/kakao/authorize/redirect-test&response_type=code`;
 
     // 유효성 검사하기
     useEffect(() => {

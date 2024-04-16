@@ -26,11 +26,11 @@ function KakaoRedirect() {
                 const response = await axios.post(
                     // axios로 POST 요청을 보냅니다.
                     KAKAO_LOGIN_URL2,
-                    // `grant_type=authorization_code&client_id=9644ca78b2842659ee55581bdffa7c58&client_secret=9B2rBJOwY9IIC2RXSFBahNWvCArIbPci&redirect_uri=http://localhost:3000/kakao/authorize/redirect-test&code=${authorizationCode}`, // 요청에 필요한 파라미터들을 문자열로 전달합니다.
+                    // `grant_type=authorization_code&client_id=9644ca78b2842659ee55581bdffa7c58&client_secret=9B2rBJOwY9IIC2RXSFBahNWvCArIbPci&redirect_uri=https://hertz-inst.vercel.app/kakao/authorize/redirect-test&code=${authorizationCode}`, // 요청에 필요한 파라미터들을 문자열로 전달합니다.
                     // 요청에 필요한 파라미터들을 객체로 만들어 전달
                     {
                         redirectUri:
-                            "http://localhost:3000/kakao/authorize/redirect-test",
+                            "https://hertz-inst.vercel.app/kakao/authorize/redirect-test",
                         authorizationCode: authorizationCode,
                     },
                     {
