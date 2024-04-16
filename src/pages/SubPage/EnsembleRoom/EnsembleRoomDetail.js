@@ -71,6 +71,11 @@ const EnsembleRoomDetail = () => {
     navigate("/InstrumentModify")
   }
 
+  // 예약 현황 페이지
+  function clickReserve() {
+    navigate("/Reserve")
+  }
+
   // 리뷰 더보기 페이지
   function clickMoreReview() {
     navigate("/Review")
@@ -133,16 +138,16 @@ const EnsembleRoomDetail = () => {
           <div style={{ display: 'flex', margin: '10px', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
             {/* 판매자 연락처가 보여지는 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '15px', borderRadius: '3px', justifyContent: 'space-evenly', 
+              padding: '15px', borderRadius: '10px', justifyContent: 'space-evenly', 
               alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
             </div>
             {/* 판매자 페이지로 넘어가는 버튼 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '10px', borderRadius: '3px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
+              padding: '10px', borderRadius: '10px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>판매자 정보</p>
-              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px', padding: '5px 20px' }} 
+              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '10px', padding: '5px 20px' }} 
                 onClick={clickSeller}>확인하기</button>
             </div>
           </div>
@@ -155,8 +160,9 @@ const EnsembleRoomDetail = () => {
           <div style={{ border: '1px solid black', marginLeft: '50px', flexGrow: 1 }}>
             <p style={{ margin: '20px 0', padding: '10px', 
               backgroundColor: '#D6E0F3', fontWeight: 'bold', fontSize: '20px' }}>예약 현황</p>
-            <button style={{ backgroundColor: '#637DBE', border: 'none', borderRadius: '3px', 
-              padding: '8px 30px', marginBottom: '20px', marginTop: '10px', color: 'white' }}>
+            <button style={{ backgroundColor: '#637DBE', border: 'none', borderRadius: '10px', 
+              padding: '8px 30px', marginBottom: '20px', marginTop: '10px', color: 'white' }}
+              onClick={clickReserve}>
               확인하기</button>
           </div>
           {/* 리뷰 확인하기 */}
@@ -165,11 +171,11 @@ const EnsembleRoomDetail = () => {
             <p style={{ margin: '10px 20px', textAlign: 'left', 
               fontWeight: 'bold', fontSize: '22px' }}>Review</p>
             {/* 리뷰 내용 */}
-            <p style={{ margin: '15px 20px', padding: '10px', 
+            <p style={{ margin: '15px 20px', padding: '10px', borderRadius: '7px',
               backgroundColor: '#D6E0F3', fontSize: '18px' }}>시설이 청결해요</p>
-            <p style={{ margin: '15px 20px', padding: '10px',
+            <p style={{ margin: '15px 20px', padding: '10px', borderRadius: '7px',
               backgroundColor: '#D6E0F3', fontSize: '18px' }}>응대가 빨라요</p>
-            <p style={{ margin: '15px 20px', padding: '10px',
+            <p style={{ margin: '15px 20px', padding: '10px', borderRadius: '7px',
               backgroundColor: '#D6E0F3', fontSize: '18px' }}>방음이 잘돼요</p>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto' }}>
               <button style={{ backgroundColor: '#637DBE', border: 'none', borderRadius: '10px 0 0 0', 

@@ -12,6 +12,8 @@ import InstrumentModify from "./pages/SubPage/Instrunment/InstrumentModify";
 import InstrumentUpload from "./pages/SubPage/Instrunment/InstrumentUpload";
 import EnsembleRoomList from "./pages/SubPage/EnsembleRoom/EnsembleRoomList";
 import EnsembleRoomDetail from "./pages/SubPage/EnsembleRoom/EnsembleRoomDetail";
+import Reserve from "./pages/SubPage/EnsembleRoom/Reserve";
+import ReserveLogout from "./pages/SubPage/EnsembleRoom/ReserveLogout";
 import Review from "./pages/SubPage/EnsembleRoom/Review";
 import WriteKeywordReview from "./pages/SubPage/EnsembleRoom/WriteKeywordReview";
 import WriteTextReview from "./pages/SubPage/EnsembleRoom/WriteTextReview";
@@ -161,6 +163,14 @@ function App() {
                                     <Route
                                         path="/EnsembleRoomDetail"
                                         element={<EnsembleRoomDetail />}
+                                    />
+                                    <Route
+                                        path="/Reserve"
+                                        element={<Reserve />}
+                                    />
+                                    <Route
+                                        path="/ReserveLogout"
+                                        element={<ReserveLogout />}
                                     />
                                     <Route
                                         path="/Review"

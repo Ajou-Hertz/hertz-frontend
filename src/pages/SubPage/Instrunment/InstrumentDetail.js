@@ -160,7 +160,7 @@ const InstrumentDetail = () => {
               <div><p style={{ marginTop: '10px' }}>RED</p>{selectedColor}</div>
             </p>
             {/* 단계설명 확인하기 버튼 */}
-            <div style={{ marginTop: '70px', marginLeft: '20px' }}>
+            <div style={{ marginTop: '65px', marginLeft: '20px' }}>
               <PopupButton onClick={openPopup} isPopupOpen={isPopupOpen} closePopup={closePopup} popupData={popupData} />
             </div>
           </div>
@@ -172,16 +172,16 @@ const InstrumentDetail = () => {
           <div style={{ display: 'flex', margin: '10px', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
             {/* 판매자 연락처가 보여지는 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '15px', borderRadius: '3px', justifyContent: 'space-evenly', 
+              padding: '15px', borderRadius: '10px', justifyContent: 'space-evenly', 
               alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
             </div>
             {/* 판매자 페이지로 넘어가는 버튼 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '10px', borderRadius: '3px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
+              padding: '10px', borderRadius: '10px', justifyContent: 'space-evenly', alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>판매자 정보</p>
-              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '3px',
+              <button style={{ backgroundColor: '#D6E0F3', border: 'none', borderRadius: '10px',
                 padding: '5px', paddingLeft: '10px', paddingRight: '10px' }} 
                 onClick={clickSeller}>확인하기</button>
             </div>
