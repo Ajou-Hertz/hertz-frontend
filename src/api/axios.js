@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://43.203.54.249:8080/api";
+const BASE_URL = "https://hertz-inst.com/api";
 
 export default axios.create({
     baseURL: BASE_URL,
