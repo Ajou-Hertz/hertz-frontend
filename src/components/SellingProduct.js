@@ -6,7 +6,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 // import marketListData from "constants/data.js";
 import Button from "@mui/material/Button";
 
-function WishProduct() {
+function SellingProduct() {
     const btnStyle2 = {
         // fontSize: "25px",
         // padding: "2rem 2rem",
@@ -155,4 +155,4 @@ function WishProduct() {
     );
 }
 
-export default WishProduct;
+export default SellingProduct;

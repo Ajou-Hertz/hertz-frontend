@@ -42,7 +42,7 @@ const ProductCard = ({ id, img, title, location, price, imgs }) => {
                 style={{ cursor: "pointer" }}
                 component={Link}
                 // to={`/market/${id}`}
-                to={`/InstrumentDetail`}
+                to={`/InstrumentDetail/${id}`}
             >
                 <CardMedia
                     component="img"

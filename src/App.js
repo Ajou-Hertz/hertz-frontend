@@ -28,6 +28,8 @@ import { marketsDummyData } from "./constants/data";
 import { AuthProvider } from "./context/AuthProvider";
 import MainLayout from "./components/MainLayout";
 import RequireAuth from "./components/RequireAuth";
+import UpdatePW from "./pages/UpdatePW";
+import MyEditPage from "./pages/MyEdit";
 // import SelfSign from "./pages/SelfSign";
 // import requireAuth from "../components/RequireAuth";
 
@@ -149,7 +151,7 @@ function App() {
                                         element={<InstrumentList />}
                                     />
                                     <Route
-                                        path="/InstrumentDetail"
+                                        path="/InstrumentDetail/:id"
                                         element={<InstrumentDetail />}
                                     />
                                     <Route
@@ -211,6 +213,14 @@ function App() {
                                     <Route
                                         path="/kakao/authorize/redirect-test"
                                         element={<KakaoRedirect />}
+                                    />
+                                    <Route
+                                        path="/myedit"
+                                        element={<MyEditPage />}
+                                    />
+                                    <Route
+                                        path="/updatePW"
+                                        element={<UpdatePW />}
                                     />
                                 </Routes>
                             </MainLayout>

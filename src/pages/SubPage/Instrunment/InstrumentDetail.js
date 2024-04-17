@@ -11,26 +11,34 @@ import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil";
 
 const InstrumentDetail = () => {
+    const { id } = useParams();
     const [user, setUser] = useRecoilState(userState);
-    const [imageUrls, setImageUrls] = useState([
-        "https://m.guitarnara.co.kr/web/product/big/202109/bab81e5b9044ddc5abce16bf4d2a564d.jpg",
-        "https://m.guitark.com/web/product/big/201705/387_shop1_550856.jpg",
-        "https://m.pertriomusic.com/web/product/big/202303/be112e60dc62fd137e029d2215dd7554.jpg",
-        "https://www.freebud.co.kr/shop/data/goods/1575448106133m0.jpg",
-        "https://m.guitark.com/web/product/big/201705/387_shop1_550856.jpg",
-        "https://m.guitarnara.co.kr/web/product/big/202109/bab81e5b9044ddc5abce16bf4d2a564d.jpg",
-        "https://m.pertriomusic.com/web/product/big/202303/be112e60dc62fd137e029d2215dd7554.jpg",
-        //api에서 이미지 받아오기
-    ]);
+    const [imageUrls, setImageUrls] = useState([]);
+    const [instrumentData, setInstrumentData] = useState(null);
 
     useEffect(() => {
+        console.log(id);
         axios
-            .get("/api/images")
-            .then((response) => {
-                setImageUrls(response.data);
+            .get(`/instruments/${id}`, {
+                headers: {
+                    "Hertz-API-Version": 1,
+                },
+                params: {
+                    instrumentId: id,
+                },
             })
-            .catch((error) => {
-                console.error("Failed to load images", error);
+            .then((res) => {
+                // setData(res.data);
+                console.log(res);
+                setInstrumentData(res.data);
+                const images = res.data.images;
+                const urls = images.map((image) => image.url);
+                setImageUrls(urls);
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("존재하지 않는 페이지 입니다.");
+                navigate("/", { replace: true });
             });
     }, []);
 
@@ -118,304 +126,331 @@ const InstrumentDetail = () => {
 
     return (
         <div>
-            <NavBar />
-            {/* <div>
+            {instrumentData && ( // Check if instrumentData is not null
+                <>
+                    <NavBar />
+                    {/* <div>
         <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '20px' }}>중고악기</p>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '70px' }}>
         <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
         <p onClick={ clickModify } style={{ marginLeft: '30px', cursor: 'pointer', textDecoration: 'underline' }}>삭제하기</p>
       </div> */}
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    margin: "40px 50px 0 50px",
-                }}
-            >
-                <p style={{ textAlign: "left", fontSize: "20px" }}>중고악기</p>
-                <div style={{ marginRight: "40px" }}>
-                    <p
-                        onClick={clickModify}
-                        style={{
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                            display: "inline",
-                            marginRight: "30px",
-                        }}
-                    >
-                        수정하기
-                    </p>
-                    <p
-                        onClick={clickModify}
-                        style={{
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                            display: "inline",
-                        }}
-                    >
-                        삭제하기
-                    </p>
-                </div>
-            </div>
-            {/* 제품 이미지 및 제품 정보 */}
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <MainImageShow imageUrls={imageUrls} />
-                <div
-                    style={{
-                        border: "1px solid black",
-                        padding: "10px",
-                        marginLeft: "10px",
-                        marginRight: "10px",
-                        height: "420px",
-                        marginLeft: "50px",
-                        marginRight: "50px",
-                        flexGrow: 1,
-                    }}
-                >
-                    <p
-                        style={{
-                            textAlign: "left",
-                            paddingTop: "20px",
-                            paddingLeft: "20px",
-                            fontSize: "25px",
-                        }}
-                    >
-                        펜더 로드원 텔레케스터 {selectedProductName}
-                    </p>
-                    <div
-                        style={{
-                            textAlign: "left",
-                            paddingLeft: "20px",
-                            paddingBottom: "30px",
-                        }}
-                    >
-                        <span
-                            style={{
-                                marginRight: "50px",
-                                color: "#002074",
-                                fontSize: "20px",
-                            }}
-                        >
-                            1,300,000원 {selectedPrice}
-                        </span>
-                        <span style={{ textAlign: "right" }}>
-                            <i className="bi bi-geo-alt-fill"></i> 경기도 수원시
-                            영통구 {selectedLocation}
-                        </span>
-                    </div>
-                    {/* 매물상태 표 */}
-                    <div style={{ display: "flex", paddingLeft: "20px" }}>
-                        <p
-                            style={{
-                                border: "1px solid black",
-                                padding: "20px",
-                                width: "135px",
-                                height: "100px",
-                            }}
-                        >
-                            <div>매물상태</div>
-                            <div>
-                                <p style={{ marginTop: "10px" }}>5단계</p>
-                                {selectedState}
-                            </div>
-                        </p>
-                        <p
-                            style={{
-                                border: "1px solid black",
-                                padding: "20px",
-                                width: "135px",
-                                height: "100px",
-                            }}
-                        >
-                            <div>브랜드</div>
-                            <div>
-                                <p style={{ marginTop: "10px" }}>펜더</p>
-                                {selectedBrand}
-                            </div>
-                        </p>
-                        <p
-                            style={{
-                                border: "1px solid black",
-                                padding: "20px",
-                                width: "135px",
-                                height: "100px",
-                            }}
-                        >
-                            <div>모델</div>
-                            <div>
-                                <p style={{ marginTop: "10px" }}>텔레케스터</p>
-                                {selectedModel}
-                            </div>
-                        </p>
-                        <p
-                            style={{
-                                border: "1px solid black",
-                                padding: "20px",
-                                width: "135px",
-                                height: "100px",
-                            }}
-                        >
-                            <div>생산연도</div>
-                            <div>
-                                <p style={{ marginTop: "10px" }}>1958</p>
-                                {selectedYear}
-                            </div>
-                        </p>
-                        <p
-                            style={{
-                                border: "1px solid black",
-                                padding: "20px",
-                                width: "135px",
-                                height: "100px",
-                            }}
-                        >
-                            <div>색상</div>
-                            <div>
-                                <p style={{ marginTop: "10px" }}>RED</p>
-                                {selectedColor}
-                            </div>
-                        </p>
-                        {/* 단계설명 확인하기 버튼 */}
-                        <div style={{ marginTop: "70px", marginLeft: "20px" }}>
-                            <PopupButton
-                                onClick={openPopup}
-                                isPopupOpen={isPopupOpen}
-                                closePopup={closePopup}
-                                popupData={popupData}
-                            />
-                        </div>
-                    </div>
-                    {/* 해시태그 */}
-                    <div>
-                        <p
-                            style={{
-                                color: "#637DBE",
-                                margin: "15px",
-                                marginLeft: "20px",
-                                textAlign: "left",
-                            }}
-                        >
-                            #50년대_텔레케스터 #매이플지판 #래릭처리
-                        </p>
-                    </div>
-                    {/* 판매자 정보 확인 */}
                     <div
                         style={{
                             display: "flex",
-                            margin: "10px",
-                            marginTop: "20px",
                             justifyContent: "space-between",
                             alignItems: "center",
+                            margin: "40px 50px 0 50px",
                         }}
                     >
-                        {/* 판매자 연락처가 보여지는 */}
-                        <div
-                            style={{
-                                display: "flex",
-                                flexGrow: 1,
-                                border: "1px solid #637DBE",
-                                padding: "15px",
-                                borderRadius: "7px",
-                                justifyContent: "space-evenly",
-                                alignItems: "center",
-                                marginLeft: "10px",
-                            }}
-                        >
+                        <p style={{ textAlign: "left", fontSize: "20px" }}>
+                            중고악기
+                        </p>
+                        <div style={{ marginRight: "40px" }}>
                             <p
+                                onClick={clickModify}
                                 style={{
-                                    margin: 0,
-                                    display: "flex",
-                                    alignItems: "center",
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                    display: "inline",
+                                    marginRight: "30px",
                                 }}
                             >
-                                연락하기
+                                수정하기
                             </p>
-                            {user ? (
-                                <p
-                                    style={{
-                                        margin: 0,
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    https://open.kakao.com/qwer
-                                </p>
-                            ) : (
-                                <button
-                                    style={{
-                                        backgroundColor: "#D6E0F3",
-                                        border: "none",
-                                        borderRadius: "10px",
-                                        paddingLeft: "10px",
-                                        paddingRight: "10px",
-                                    }}
-                                    onClick={clickSeller}
-                                >
-                                    로그인 후 열람 가능합니다.
-                                </button>
-                            )}
-                        </div>
-                        {/* 판매자 페이지로 넘어가는 버튼 */}
-                        <div
-                            style={{
-                                display: "flex",
-                                flexGrow: 1,
-                                border: "1px solid #637DBE",
-                                padding: "10px",
-                                borderRadius: "7px",
-                                justifyContent: "space-evenly",
-                                alignItems: "center",
-                                marginLeft: "10px",
-                            }}
-                        >
                             <p
+                                onClick={clickModify}
                                 style={{
-                                    margin: 0,
-                                    display: "flex",
-                                    alignItems: "center",
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                    display: "inline",
                                 }}
                             >
-                                판매자 정보
+                                삭제하기
                             </p>
-                            <button
-                                style={{
-                                    backgroundColor: "#D6E0F3",
-                                    border: "none",
-                                    borderRadius: "10px",
-                                    padding: "5px 20px",
-                                }}
-                                onClick={clickSeller}
-                            >
-                                확인하기
-                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
-            {/* 특이사항 및 상세 설명 글 부분 */}
-            <div
-                style={{
-                    border: "1px solid black",
-                    margin: "50px",
-                    minHeight: "550px",
-                }}
-            >
-                <p
-                    style={{
-                        padding: "40px",
-                        textAlign: "left",
-                        lineHeight: "3.0",
-                    }}
-                >
-                    14년 시리얼 펜더 로드원 50 텔러입니다.
-                    <br />
-                    기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어 셋트로
-                    교체했습니다.
-                </p>
-            </div>
-            {/* 로그인 팝업
+                    {/* 제품 이미지 및 제품 정보 */}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                        }}
+                    >
+                        <MainImageShow imageUrls={imageUrls} />
+                        <div
+                            style={{
+                                border: "1px solid black",
+                                padding: "10px",
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                                height: "420px",
+                                marginLeft: "50px",
+                                marginRight: "50px",
+                                flexGrow: 1,
+                            }}
+                        >
+                            <p
+                                style={{
+                                    textAlign: "left",
+                                    paddingTop: "20px",
+                                    paddingLeft: "20px",
+                                    fontSize: "25px",
+                                }}
+                            >
+                                {instrumentData.title}
+                            </p>
+                            <div
+                                style={{
+                                    textAlign: "left",
+                                    paddingLeft: "20px",
+                                    paddingBottom: "30px",
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        marginRight: "50px",
+                                        color: "#002074",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {instrumentData.price.toLocaleString()}원
+                                </span>
+                                <span style={{ textAlign: "right" }}>
+                                    <i className="bi bi-geo-alt-fill"></i>{" "}
+                                    {instrumentData.tradeAddress.sido}{" "}
+                                    {instrumentData.tradeAddress.sgg}{" "}
+                                    {instrumentData.tradeAddress.emd}
+                                </span>
+                            </div>
+                            {/* 매물상태 표 */}
+                            <div
+                                style={{ display: "flex", paddingLeft: "20px" }}
+                            >
+                                <p
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "20px",
+                                        width: "135px",
+                                        height: "100px",
+                                    }}
+                                >
+                                    <div>매물상태</div>
+                                    <div>
+                                        <p style={{ marginTop: "10px" }}>
+                                            {instrumentData.qualityStatus}단계
+                                        </p>
+                                    </div>
+                                </p>
+                                <p
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "20px",
+                                        width: "135px",
+                                        height: "100px",
+                                    }}
+                                >
+                                    <div>브랜드</div>
+                                    <div>
+                                        <p style={{ marginTop: "10px" }}>
+                                            {instrumentData.brand}
+                                        </p>
+                                    </div>
+                                </p>
+                                <p
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "20px",
+                                        width: "135px",
+                                        height: "100px",
+                                    }}
+                                >
+                                    <div>모델</div>
+                                    <div>
+                                        <p style={{ marginTop: "10px" }}>
+                                            {instrumentData.model}
+                                        </p>
+                                    </div>
+                                </p>
+                                <p
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "20px",
+                                        width: "135px",
+                                        height: "100px",
+                                    }}
+                                >
+                                    <div>생산연도</div>
+                                    <div>
+                                        <p style={{ marginTop: "10px" }}>
+                                            {instrumentData.productionYear}
+                                        </p>
+                                    </div>
+                                </p>
+                                <p
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "20px",
+                                        width: "135px",
+                                        height: "100px",
+                                    }}
+                                >
+                                    <div>색상</div>
+                                    <div>
+                                        <p style={{ marginTop: "10px" }}>
+                                            {instrumentData.color}
+                                        </p>
+                                    </div>
+                                </p>
+                                {/* 단계설명 확인하기 버튼 */}
+                                <div
+                                    style={{
+                                        marginTop: "70px",
+                                        marginLeft: "20px",
+                                    }}
+                                >
+                                    <PopupButton
+                                        onClick={openPopup}
+                                        isPopupOpen={isPopupOpen}
+                                        closePopup={closePopup}
+                                        popupData={popupData}
+                                    />
+                                </div>
+                            </div>
+                            {/* 해시태그 */}
+                            <div>
+                                <p
+                                    style={{
+                                        color: "#637DBE",
+                                        margin: "15px",
+                                        marginLeft: "20px",
+                                        textAlign: "left",
+                                    }}
+                                >
+                                    {instrumentData.hashtags.map(
+                                        (tag, index) => (
+                                            <span key={index}>#{tag} </span>
+                                        )
+                                    )}
+                                </p>
+                            </div>
+                            {/* 판매자 정보 확인 */}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    margin: "10px",
+                                    marginTop: "20px",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
+                                {/* 판매자 연락처가 보여지는 */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexGrow: 1,
+                                        border: "1px solid #637DBE",
+                                        padding: "15px",
+                                        borderRadius: "7px",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                        marginLeft: "10px",
+                                    }}
+                                >
+                                    <p
+                                        style={{
+                                            margin: 0,
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        연락하기
+                                    </p>
+                                    {user ? (
+                                        <p
+                                            style={{
+                                                margin: 0,
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            https://open.kakao.com/qwer
+                                        </p>
+                                    ) : (
+                                        <button
+                                            style={{
+                                                backgroundColor: "#D6E0F3",
+                                                border: "none",
+                                                borderRadius: "10px",
+                                                paddingLeft: "10px",
+                                                paddingRight: "10px",
+                                            }}
+                                            onClick={clickSeller}
+                                        >
+                                            로그인 후 열람 가능합니다.
+                                        </button>
+                                    )}
+                                </div>
+                                {/* 판매자 페이지로 넘어가는 버튼 */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexGrow: 1,
+                                        border: "1px solid #637DBE",
+                                        padding: "10px",
+                                        borderRadius: "7px",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                        marginLeft: "10px",
+                                    }}
+                                >
+                                    <p
+                                        style={{
+                                            margin: 0,
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        판매자 정보
+                                    </p>
+                                    <button
+                                        style={{
+                                            backgroundColor: "#D6E0F3",
+                                            border: "none",
+                                            borderRadius: "10px",
+                                            padding: "5px 20px",
+                                        }}
+                                        onClick={clickSeller}
+                                    >
+                                        확인하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* 특이사항 및 상세 설명 글 부분 */}
+                    <div
+                        style={{
+                            border: "1px solid black",
+                            margin: "50px",
+                            minHeight: "550px",
+                        }}
+                    >
+                        <p
+                            style={{
+                                padding: "40px",
+                                textAlign: "left",
+                                lineHeight: "3.0",
+                            }}
+                        >
+                            {instrumentData.description}
+                            <br />
+                            {/* 기존 픽업을 던컨 STK-T1n 프론트와 Little59 리어
+                            셋트로 교체했습니다. */}
+                        </p>
+                    </div>
+                    {/* 로그인 팝업
       {isLoginPopupOpen && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
           backgroundColor: 'white', padding: '50px', paddingRight: '80px', paddingLeft: '80px', borderRadius: '10px', zIndex: '9999' }}>
@@ -426,6 +461,8 @@ const InstrumentDetail = () => {
             >확인</button>
         </div>
       )} */}
+                </>
+            )}
         </div>
     );
 };
