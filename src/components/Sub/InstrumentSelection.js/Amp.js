@@ -203,31 +203,31 @@ const Amp = ({updateAmpData}) => {
     setHashtags(newHashtags);
   };
 
-  const updateData = () => {
-    const ampData = {
-      type: selectedType,
-      brand: selectedBrand,
-      usage: selectedUsage,
-      selectedState: selectedState,
-      price: price,
-      selectedFeature: selectedFeature,
-      hashtags: hashtags
-    };
+  // const updateData = () => {
+  //   const ampData = {
+  //     type: selectedType,
+  //     brand: selectedBrand,
+  //     usage: selectedUsage,
+  //     selectedState: selectedState,
+  //     price: price,
+  //     selectedFeature: selectedFeature,
+  //     hashtags: hashtags
+  //   };
 
-    updateAmpData(ampData);
-  };
+  //   updateAmpData(ampData);
+  // };
 
-  useEffect(() => {
-    updateData();
-  }, [
-      selectedType, 
-      selectedBrand, 
-      selectedUsage, 
-      selectedState, 
-      price, 
-      selectedFeature, 
-      hashtags,
-    ]);
+  // useEffect(() => {
+  //   updateData();
+  // }, [
+  //     selectedType, 
+  //     selectedBrand, 
+  //     selectedUsage, 
+  //     selectedState, 
+  //     price, 
+  //     selectedFeature, 
+  //     hashtags,
+  //   ]);
 
 
 

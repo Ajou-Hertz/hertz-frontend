@@ -12,13 +12,18 @@ const Button = ({ label, isSelected, onClick }) => {
 };
 
 const Effector = () => {  
-  const [Sido,setSido] = useState();
+  const [Sido, setSido] = useState([]); // 거래지역 상태
+  const [Sgg, setSgg] = useState([]); // 시군구 상태 추가
+  const [Emd, setEmd] = useState([]); // 읍면동 상태 추가
+  const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
+  const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
+  const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
   const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-  const [selectedType, setSelectedType] = useState(''); // 종류 상태
+  const [selectedType, setSelectedType] = useState(""); // 종류 상태
   const [functions, setFunctions] = useState([]); // 기능 상태
-  const [price, setPrice] = useState(''); // 가격을 위한 상태
+  const [price, setPrice] = useState(""); // 가격을 위한 상태
   const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
-  const [hashtags, setHashtags] = useState(['']); // 해시태그 상태
+  const [hashtags, setHashtags] = useState([""]); // 해시태그 상태
 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 단계설명 표 열고 닫는 상태
 

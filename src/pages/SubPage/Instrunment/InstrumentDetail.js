@@ -317,7 +317,7 @@ const InstrumentDetail = () => {
                                 flexGrow: 1,
                                 border: "1px solid #637DBE",
                                 padding: "15px",
-                                borderRadius: "3px",
+                                borderRadius: "7px",
                                 justifyContent: "space-evenly",
                                 alignItems: "center",
                                 marginLeft: "10px",
@@ -347,7 +347,7 @@ const InstrumentDetail = () => {
                                     style={{
                                         backgroundColor: "#D6E0F3",
                                         border: "none",
-                                        borderRadius: "3px",
+                                        borderRadius: "10px",
                                         paddingLeft: "10px",
                                         paddingRight: "10px",
                                     }}
@@ -364,7 +364,7 @@ const InstrumentDetail = () => {
                                 flexGrow: 1,
                                 border: "1px solid #637DBE",
                                 padding: "10px",
-                                borderRadius: "3px",
+                                borderRadius: "7px",
                                 justifyContent: "space-evenly",
                                 alignItems: "center",
                                 marginLeft: "10px",
@@ -383,10 +383,8 @@ const InstrumentDetail = () => {
                                 style={{
                                     backgroundColor: "#D6E0F3",
                                     border: "none",
-                                    borderRadius: "3px",
-                                    padding: "5px",
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
+                                    borderRadius: "10px",
+                                    padding: "5px 20px",
                                 }}
                                 onClick={clickSeller}
                             >
