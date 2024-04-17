@@ -8,6 +8,7 @@ import Amp from "../../../components/Sub/InstrumentSelection.js/Amp";
 import Bass from "../../../components/Sub/InstrumentSelection.js/Bass";
 import AcousticClassic from "../../../components/Sub/InstrumentSelection.js/AcousticClassic";
 import Equipement from "../../../components/Sub/InstrumentSelection.js/Equipement";
+import EnsembleRoom from "../../../components/Sub/InstrumentSelection.js/EnsembleRoom";
 import useAuth from "../../../hooks/useAuth";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil";
@@ -30,6 +31,8 @@ const InstrumentUpload = () => {
     // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
     // const [aCData, setACData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
     // const [equipementData, setEquipementData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
+    // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
+
 
     // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
     const handleNameChange = (e) => {
@@ -53,6 +56,7 @@ const InstrumentUpload = () => {
         베이스: Bass,
         "어쿠스틱&클래식": AcousticClassic,
         음향장비: Equipement,
+        합주실: EnsembleRoom,
     };
 
     // 선택된 옵션에 따라 렌더링할 컴포넌트 결정

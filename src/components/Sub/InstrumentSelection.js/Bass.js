@@ -99,24 +99,24 @@ const Bass = ({updateBassData}) => {
   };
 
 
-  const updateData = () => {
-    const bassData = {
-      brand: selectedBrand,
-      pickUp: selectedPickUp,
-      preAmplifier: selectedPreAmplifier,
-      color: selectedColor,
-      selectedState: selectedState,
-      price: price,
-      selectedFeature: selectedFeature,
-      hashtags: hashtags
-    };
-    console.log("전달된 악기 데이터:", bassData);
-    updateBassData(bassData);
-  };
+  // const updateData = () => {
+  //   const bassData = {
+  //     brand: selectedBrand,
+  //     pickUp: selectedPickUp,
+  //     preAmplifier: selectedPreAmplifier,
+  //     color: selectedColor,
+  //     selectedState: selectedState,
+  //     price: price,
+  //     selectedFeature: selectedFeature,
+  //     hashtags: hashtags
+  //   };
+  //   console.log("전달된 악기 데이터:", bassData);
+  //   updateBassData(bassData);
+  // };
 
-  useEffect(() => {
-    updateData();
-  }, [selectedBrand, selectedPickUp, selectedPreAmplifier, selectedColor, selectedState, price, selectedFeature, hashtags]);
+  // useEffect(() => {
+  //   updateData();
+  // }, [selectedBrand, selectedPickUp, selectedPreAmplifier, selectedColor, selectedState, price, selectedFeature, hashtags]);
 
 
 

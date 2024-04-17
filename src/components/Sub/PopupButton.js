@@ -10,7 +10,7 @@ const PopupButton = ({ onClick, isPopupOpen, closePopup, popupData }) => {
                     backgroundColor: "#D6E0F3",
                     border: "none",
                     borderRadius: "10px",
-                    padding: '5px',
+                    padding: '5px 10px 5px 10px',
                 }}
             >
                 단계설명 확인하기

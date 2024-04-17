@@ -1,577 +1,540 @@
-// import React, { useState, useEffect } from "react";
-// import axios, { axiosPrivate } from "../../../api/axios";
-// import PopupButton from "../PopupButton";
+import React, { useState, useEffect } from "react";
+import DaumPostcode from "react-daum-postcode";
+import axios, { axiosPrivate } from "../../../api/axios";
 
-// const Button = ({ label, isSelected, onClick }) => {
-//     return (
-//         <button
-//             style={{
-//                 backgroundColor: isSelected ? "#D6E0F3" : "white",
-//                 borderRadius: "3px",
-//                 width: "100px",
-//                 height: "40px",
-//                 border: "1px solid black",
-//             }}
-//             // 새로고침 방지
-//             onClick={(event) => {
-//                 event.preventDefault();
-//                 onClick();
-//             }}
-//         >
-//             {label}
-//         </button>
-//     );
-// };
+const Button = ({ label, isSelected, onClick }) => {
+    return (
+        <button
+            style={{
+                backgroundColor: isSelected ? "#D6E0F3" : "white",
+                borderRadius: "3px",
+                width: "100px",
+                height: "40px",
+                border: "1px solid black",
+            }}
+            // 새로고침 방지
+            onClick={(event) => {
+                event.preventDefault();
+                onClick();
+            }}
+        >
+            {label}
+        </button>
+    );
+};
 
-// const EnsembleRoom = ({  }) => {
-//     // const [Sido, setSido] = useState([]); // 거래지역 상태
-//     // const [Sgg, setSgg] = useState([]); // 시군구 상태 추가
-//     // const [Emd, setEmd] = useState([]); // 읍면동 상태 추가
-//     // const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
-//     // const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
-//     // const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
-//     const [selectedEquipment, setSelectedEquipment] = useState(null); // 음향장비 유무를 위한 상태
-//     const [selectedInstrument, setSelectedInstrument] = useState(null); // 악기 유무를 위한 상태
-//     const [productionYear, setProductionYear] = useState(""); // 생산연도 상태
-//     const [selectedCapacity, setSelectedCapacity] = useState(""); // 수용인원 상태
-//     const [selectedSize, setSelectedSize] = useState(""); // 사이즈 상태
-//     const [price, setPrice] = useState(""); // 가격을 위한 상태
-//     const [selectedFeature, setSelectedFeature] = useState(null); // 주차 가능 여부를 위한 상태
-//     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
+const EnsembleRoom = () => {
+    const [selectedAddress, setSelectedAddress] = useState(""); // 주소 상태
+    const [selectedAddressDetail, setSelectedAddressDetail] = useState(""); // 상세 주소 상태
+    const [isPostOpen, setIsPostOpen] = useState(false); // 주소찾기 창 상태
 
-//     // 시도 get api
-//     useEffect(() => {
-//         try {
-//             axios
-//                 .get("/administrative-areas/sido", {
-//                     headers: {
-//                         "Hertz-API-Version": 1,
-//                     },
-//                 })
-//                 .then((response) => {
-//                     if (response.status === 200) {
-//                         const sidoArray = response.data.content.map(
-//                             (item) => item.name
-//                         );
-//                         setSido(sidoArray);
-//                     } else {
-//                         console.error("시도 목록을 불러오는데 실패했습니다.");
-//                     }
-//                 })
-//                 .catch((error) => {
-//                     console.error(
-//                         "시도 목록 요청 중 오류가 발생했습니다:",
-//                         error
-//                     );
-//                 });
-//         } catch (error) {
-//             console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
-//         }
-//     }, []);
+    const [selectedEquipment, setSelectedEquipment] = useState(null); // 음향장비 유무를 위한 상태
+    const [selectedInstrument, setSelectedInstrument] = useState(null); // 악기 유무를 위한 상태
+    const [price, setPrice] = useState(""); // 가격을 위한 상태
+    const [selectedCapacity, setSelectedCapacity] = useState(""); // 수용인원 상태
+    const [selectedSize, setSelectedSize] = useState(""); // 사이즈 상태
+    const [selectedParking, setSelectedParking] = useState(null); // 주차 가능 여부를 위한 상태
+    const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
 
-//     // 시도 선택 핸들러
-//     const handleSidoChange = (event) => {
-//         const selectedSidoName = event.target.value; // 선택된 시도의 이름
-//         const selectedIndex = Sido.findIndex(
-//             (item) => item === selectedSidoName
-//         ); // 선택된 시도의 인덱스
-//         if (selectedIndex !== -1) {
-//             const selectedSidoId = selectedIndex + 1; // 선택된 시도의 인덱스 + 1을 ID로 사용
-//             setSelectedSido(selectedSidoName);
-//             // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
-//             axios
-//                 .get(`/administrative-areas/sgg?sidoId=${selectedSidoId}`, {
-//                     headers: {
-//                         "Hertz-API-Version": 1,
-//                     },
-//                 })
-//                 .then((response) => {
-//                     if (response.status === 200) {
-//                         const sggArray = response.data.content.map((item) => ({
-//                             id: item.id,
-//                             name: item.name,
-//                         }));
-//                         setSgg(sggArray);
-//                     } else {
-//                         console.error("시군구 목록을 불러오는데 실패했습니다.");
-//                     }
-//                 })
-//                 .catch((error) => {
-//                     console.error(
-//                         "시군구 목록 요청 중 오류가 발생했습니다:",
-//                         error
-//                     );
-//                 });
-//         } else {
-//             console.error("선택된 시도를 찾을 수 없습니다.");
-//         }
-//     };
 
-//     // 시군구 선택 핸들러
-//     const handleSggChange = (event) => {
-//         const selectedIndex = event.target.value; // 선택된 시도의 index
-//         if (selectedIndex !== -1) {
-//             // 선택된 시도에 해당하는 시군구 목록을 불러오기 위해 api 호출
-//             axios
-//                 .get(`/administrative-areas/emd?sggId=${selectedIndex}`, {
-//                     headers: {
-//                         "Hertz-API-Version": 1,
-//                     },
-//                 })
-//                 .then((response) => {
-//                     if (response.status === 200) {
-//                         const emdArray = response.data.content.map((item) => ({
-//                             id: item.id,
-//                             name: item.name,
-//                         }));
-//                         setEmd(emdArray);
-//                         const selectedSggName = Sgg.find(
-//                             (item) => item.id === parseInt(selectedIndex)
-//                         )?.name; // 선택된 시군구의 name 값
-//                         setSelectedSgg(selectedSggName); // 선택된 시군구 이름 설정
-//                     } else {
-//                         console.error("읍면동 목록을 불러오는데 실패했습니다.");
-//                     }
-//                 })
-//                 .catch((error) => {
-//                     console.error(
-//                         "읍면동 목록 요청 중 오류가 발생했습니다:",
-//                         error
-//                     );
-//                 });
-//         } else {
-//             console.error("선택된 읍면동을 찾을 수 없습니다.");
-//         }
-//     };
+    // 주소 선택 핸들러
+    const handleAddressComplete = (data) => {
+        setSelectedAddress(data.address);
+        setIsPostOpen(false); // 주소 선택시 팝업 창 닫기
+    };
 
-//     //음향장비 유무를 위한 핸들러
-//     const handleEquipmentButtonClick = (state) => {
-//         setSelectedEquipment(state);
-//     };
+    // 상세 주소 입력 핸들러
+    const handleAddressDetail = (event) => {
+        const inputAddressDetail = event.target.value;
+        setSelectedAddressDetail(inputAddressDetail);
+    };
 
-//     //악기 유무를 위한 핸들러
-//     const handleInstrumentButtonClick = (state) => {
-//         setSelectedInstrument(state);
-//     };
+    // 팝업 창 닫기
+    const closePostcode = () => {
+        setIsPostOpen(false);
+    };
 
-//     // 수용인원 입력 핸들러
-//     const handleProductionYear = (event) => {
-//         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-//         const inputProductionYear = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-//         setProductionYear(inputProductionYear);
-//     };
+    //음향장비 유무를 위한 핸들러
+    const handleEquipmentButtonClick = (state) => {
+        setSelectedEquipment(state);
+    };
 
-//     // 가격 입력 핸들러
-//     const handlePrice = (event) => {
-//         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-//         const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-//         setPrice(inputPrice /*+ '원'*/);
-//     };
+    //악기 유무를 위한 핸들러
+    const handleInstrumentButtonClick = (state) => {
+        setSelectedInstrument(state);
+    };
 
-//     // 특이사항 유무를 위한 핸들러
-//     const handleFeatureButtonClick = (feature) => {
-//         setSelectedFeature(feature);
-//     };
+    // 가격 입력 핸들러
+    const handlePrice = (event) => {
+        // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
+        const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        setPrice(inputPrice /*+ '원'*/);
+    };
 
-//     // 해시태그 입력 핸들러
-//     const handleHashtagChange = (event, index) => {
-//         const value = event.target.value.startsWith("#")
-//             ? event.target.value
-//             : `#${event.target.value}`;
-//         const newHashtags = [...hashtags];
-//         newHashtags[index] = value.slice(0, 11); // '#' 포함 최대 11자
-//         setHashtags(newHashtags);
-//     };
+    // 수용인원 입력 핸들러
+    const handleCapacity = (event) => {
+        // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
+        const inputCapacity = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        setSelectedCapacity(inputCapacity);
+    };
 
-//     // 해시태그 추가 핸들러
-//     const handleAddHashtag = () => {
-//         if (hashtags.length < 5) {
-//             // 해시태그 최대 5개 제한
-//             setHashtags([...hashtags, "#"]); // 새 해시태그 기본값으로 '#' 설정
-//         }
-//     };
+    // 사이즈 입력 핸들러
+    const handleSize = (event) => {
+        const inputSize = event.target.value;
+        setSelectedSize(inputSize);
+    };
 
-//     // 해시태그 삭제 핸들러
-//     const handleRemoveHashtag = (index) => {
-//         const newHashtags = hashtags.filter((_, i) => i !== index);
-//         setHashtags(newHashtags);
-//     };
+    // 주차 가능 여부 버튼을 위한 핸들러
+    const handleParkingButtonClick = (parking) => {
+        setSelectedParking(parking);
+    };
 
-//     const updateData = () => {
-//         const guitarData = {
-//             brand: selectedBrand,
-//             model: selectedModel,
-//             productionYear: productionYear,
-//             color: selectedColor,
-//             selectedState: selectedState,
-//             price: price,
-//             selectedFeature: selectedFeature,
-//             hashtags: hashtags,
-//         };
-//         // 선택한 시도, 시군구, 읍면동 값을 guitarData 객체에 추가
-//         guitarData.tradeAddress = {
-//             sido: selectedSido,
-//             sgg: selectedSgg,
-//             emd: selectedEmd,
-//         };
-//         updateGuitarData(guitarData);
-//     };
+    // 해시태그 입력 핸들러
+    const handleHashtagChange = (event, index) => {
+        const value = event.target.value.startsWith("#")
+            ? event.target.value
+            : `#${event.target.value}`;
+        const newHashtags = [...hashtags];
+        newHashtags[index] = value.slice(0, 11); // '#' 포함 최대 11자
+        setHashtags(newHashtags);
+    };
 
-//     useEffect(() => {
-//         updateData();
-//     }, [
-//         selectedBrand,
-//         selectedModel,
-//         productionYear,
-//         selectedColor,
-//         selectedState,
-//         price,
-//         selectedFeature,
-//         hashtags,
-//     ]);
+    // 해시태그 추가 핸들러
+    const handleAddHashtag = () => {
+        if (hashtags.length < 5) {
+            // 해시태그 최대 5개 제한
+            setHashtags([...hashtags, "#"]); // 새 해시태그 기본값으로 '#' 설정
+        }
+    };
 
-//     return (
-//         <div style={{ display: "flex", flexDirection: "row" }}>
-//             <div>
-//                 {/* 거래지역 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>거래 지역</p>
-//                 </div>
-//                 {/* 음향장비 유무 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>음향장비 여부</p>
-//                 </div>
-//                 {/* 악기 여부 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>악기 여부</p>
-//                 </div>
-//                 {/* 생산연도 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>생산 연도</p>
-//                 </div>
-//                 {/* 가격 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>가격</p>
-//                 </div>
-//                 {/* 특이사항 유무 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>특이사항 유무</p>
-//                 </div>
-//                 {/* 해시태그 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <p style={{ fontSize: "20px" }}>해시태그(선택)</p>
-//                 </div>
-//             </div>
+    // 해시태그 삭제 핸들러
+    const handleRemoveHashtag = (index) => {
+        const newHashtags = hashtags.filter((_, i) => i !== index);
+        setHashtags(newHashtags);
+    };
 
-//             {/* 옵션들 */}
-//             <div
-//                 style={{
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     marginLeft: "200px",
-//                 }}
-//             >
-//                 {/* 거래지역 드롭다운 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "20px",
-//                     }}
-//                 >
-//                     <select
-//                         style={{
-//                             width: "100px",
-//                             height: "40px",
-//                             borderRadius: "3px",
-//                         }}
-//                         onChange={(event) => handleSidoChange(event)}
-//                     >
-//                         <option value="">시도 선택</option>
-//                         {Sido &&
-//                             Sido.map((item, index) => (
-//                                 <option key={index}>{item}</option>
-//                             ))}
-//                     </select>
-//                     {/* 시군구 드롭다운 */}
-//                     <select
-//                         style={{
-//                             width: "100px",
-//                             height: "40px",
-//                             borderRadius: "3px",
-//                         }}
-//                         onChange={(event) => handleSggChange(event)}
-//                     >
-//                         <option value="">시군구 선택</option>
-//                         {Sgg &&
-//                             Sgg.map((item) => (
-//                                 <option key={item.name} value={item.id}>
-//                                     {item.name}
-//                                 </option>
-//                             ))}
-//                     </select>
-//                     {/* 읍면동 드롭다운 */}
-//                     <select
-//                         style={{
-//                             width: "100px",
-//                             height: "40px",
-//                             borderRadius: "3px",
-//                         }}
-//                         onChange={(event) => setSelectedEmd(event.target.value)}
-//                     >
-//                         <option value="">읍면동 선택</option>
-//                         {Emd &&
-//                             Emd.map((item) => (
-//                                 <option key={item.id} value={item.name}>
-//                                     {item.name}
-//                                 </option>
-//                             ))}
-//                     </select>
-//                 </div>
-//                 {/* 음향 장비 유무 버튼 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <Button
-//                         label="O"
-//                         isSelected={selectedEquipment === true}
-//                         onClick={() => handleEquipmentButtonClick(true)}
-//                     />
-//                     <Button
-//                         label="X"
-//                         isSelected={selectedEquipment === false}
-//                         onClick={() => handleEquipmentButtonClick(false)}
-//                     />
-//                 </div>
-//                 {/* 악기 유무 버튼 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <Button
-//                         label="O"
-//                         isSelected={selectedInstrument === true}
-//                         onClick={() => handleInstrumentButtonClick(true)}
-//                     />
-//                     <Button
-//                         label="X"
-//                         isSelected={selectedInstrument === false}
-//                         onClick={() => handleInstrumentButtonClick(false)}
-//                     />
-//                 </div>
-//                 {/* 생산연도 입력칸 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <input
-//                         type="text"
-//                         value={productionYear}
-//                         onChange={handleProductionYear}
-//                         placeholder="숫자만 기입해주세요"
-//                         style={{
-//                             width: "500px",
-//                             height: "40px",
-//                             padding: "10px",
-//                             borderRadius: "3px",
-//                             border: "1px solid black",
-//                         }}
-//                     />
-//                 </div>
-//                 {/* 색상 드롭다운 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <select
-//                         style={{ height: "40px", borderRadius: "3px" }}
-//                         onChange={(event) =>
-//                             setSelectedColor(event.target.value)
-//                         }
-//                     >
-//                         <option value="RED">Red</option>
-//                         <option value="ORANGE">Orange</option>
-//                         <option value="YELLOW">Yellow</option>
-//                         <option value="GREEN">Green</option>
-//                         <option value="BLUE">Blue</option>
-//                         <option value="NAVY">Navy</option>
-//                         <option value="VIOLET">Violet</option>
-//                         <option value="WHITE">White</option>
-//                         <option value="BLACK">Black</option>
-//                         <option value="ETC">그 외</option>
-//                     </select>
-//                 </div>
-//                 {/* 가격입력칸 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <input
-//                         type="text"
-//                         value={price}
-//                         onChange={handlePrice}
-//                         placeholder="숫자만 기입해주세요"
-//                         style={{
-//                             width: "200px",
-//                             height: "40px",
-//                             borderRadius: "3px",
-//                             border: "1px solid black",
-//                             padding: "10px",
-//                         }}
-//                     />
-//                     <span style={{ margin: "10px" }}>원</span>
-//                 </div>
-//                 {/* 특이사항 유무 버튼 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     <Button
-//                         label="O"
-//                         isSelected={selectedFeature === true}
-//                         onClick={() => handleFeatureButtonClick(true)}
-//                     />
-//                     <Button
-//                         label="X"
-//                         isSelected={selectedFeature === false}
-//                         onClick={() => handleFeatureButtonClick(false)}
-//                     />
-//                     <p style={{ margin: "5px", marginLeft: "10px" }}>
-//                         특이사항에 대한 상세 내용은 본문에 기입해주세요
-//                     </p>
-//                 </div>
-//                 {/* 해시태그 입력칸 */}
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         flexDirection: "row",
-//                         flexWrap: "wrap",
-//                         marginTop: "25px",
-//                     }}
-//                 >
-//                     {hashtags.map((hashtag, index) => (
-//                         <div
-//                             key={index}
-//                             style={{
-//                                 display: "flex",
-//                                 alignItems: "center",
-//                                 marginRight: "5px",
-//                             }}
-//                         >
-//                             <input
-//                                 type="text"
-//                                 value={hashtag}
-//                                 onChange={(event) =>
-//                                     handleHashtagChange(event, index)
-//                                 }
-//                                 placeholder="해시태그 입력"
-//                                 style={{
-//                                     width: "170px",
-//                                     height: "40px",
-//                                     borderRadius: "3px",
-//                                     border: "1px solid black",
-//                                 }}
-//                             />
-//                             <button
-//                                 onClick={() => handleRemoveHashtag(index)}
-//                                 style={{
-//                                     height: "40px",
-//                                     width: "25px",
-//                                     marginLeft: "5px",
-//                                 }}
-//                             >
-//                                 -
-//                             </button>
-//                         </div>
-//                     ))}
-//                     {hashtags.length < 5 && (
-//                         <button
-//                             type="button" // 새로고침 방지
-//                             onClick={handleAddHashtag}
-//                             style={{ height: "40px" }}
-//                         >
-//                             +
-//                         </button>
-//                     )}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
+    // const updateData = () => {
+    //     const ensembleRoomData = {
+    //         brand: selectedBrand,
+    //         model: selectedModel,
+    //         productionYear: productionYear,
+    //         color: selectedColor,
+    //         selectedState: selectedState,
+    //         price: price,
+    //         selectedFeature: selectedFeature,
+    //         hashtags: hashtags,
+    //     };
+    //     // 선택한 시도, 시군구, 읍면동 값을 guitarData 객체에 추가
+    //     guitarData.tradeAddress = {
+    //         sido: selectedSido,
+    //         sgg: selectedSgg,
+    //         emd: selectedEmd,
+    //     };
+    //     updateEnsembleRoomData(ensembleRoomData);
+    // };
 
-// export default EnsembleRoom;
+    // useEffect(() => {
+    //     updateData();
+    // }, [
+    //     selectedBrand,
+    //     selectedModel,
+    //     productionYear,
+    //     selectedColor,
+    //     selectedState,
+    //     price,
+    //     selectedFeature,
+    //     hashtags,
+    // ]);
+
+    return (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+            <div>
+                {/* 주소 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>주소</p>
+                </div>
+                {/* 음향장비 유무 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "80px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>음향장비 여부</p>
+                </div>
+                {/* 악기 여부 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>악기 여부</p>
+                </div>
+                {/* 가격 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>가격</p>
+                </div>
+                {/* 수용 인원 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>수용 인원</p>
+                </div>
+                {/* 사이즈 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>사이즈</p>
+                </div>
+                {/* 주차 가능 여부 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>주차 가능 여부</p>
+                </div>
+                {/* 해시태그 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "20px",
+                    }}
+                >
+                    <p style={{ fontSize: "20px" }}>해시태그(선택)</p>
+                </div>
+            </div>
+
+            {/* 옵션들 */}
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginLeft: "200px",
+                }}
+            >
+                {/* 주소 입력 칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <input
+                        type="text"
+                        value={selectedAddress}
+                        readOnly
+                        style={{
+                            width: "600px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                            marginRight: "10px",
+                        }}
+                    />
+                    <button
+                        style={{
+                            backgroundColor: "#D6E0F3",
+                            borderRadius: "7px",
+                            width: "100px",
+                            height: "40px",
+                            border: "none",
+                            cursor: "pointer",
+                        }}
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setIsPostOpen(true);
+                        }}
+                    >
+                        주소 찾기
+                    </ button>
+                    {isPostOpen && (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    position: "relative",
+                                    width: "600px",
+                                    height: "510px",
+                                    backgroundColor: "white",
+                                    padding: "20px",
+                                }}
+                            >
+                                <DaumPostcode onComplete={handleAddressComplete} style={{ width: "100%", height: "100%" }} />
+                                <button
+                                    onClick={closePostcode}
+                                    style={{
+                                        position: "absolute",
+                                        top: "10px",
+                                        right: "10px",
+                                        border: "none",
+                                        backgroundColor: "white"
+                                    }}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                {/* 상세 주소 입력 칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "15px",
+                    }}
+                >
+                    <input
+                        type="text"
+                        value={selectedAddressDetail}
+                        onChange={handleAddressDetail}
+                        placeholder="정확한 상세 주소를 입력해주세요"
+                        style={{
+                            minWidth: "710px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                            marginRight: "10px",
+                        }}
+                    />
+                </div>
+                {/* 음향 장비 유무 버튼 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <Button
+                        label="O"
+                        isSelected={selectedEquipment === true}
+                        onClick={() => handleEquipmentButtonClick(true)}
+                    />
+                    <Button
+                        label="X"
+                        isSelected={selectedEquipment === false}
+                        onClick={() => handleEquipmentButtonClick(false)}
+                    />
+                </div>
+                {/* 악기 유무 버튼 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <Button
+                        label="O"
+                        isSelected={selectedInstrument === true}
+                        onClick={() => handleInstrumentButtonClick(true)}
+                    />
+                    <Button
+                        label="X"
+                        isSelected={selectedInstrument === false}
+                        onClick={() => handleInstrumentButtonClick(false)}
+                    />
+                </div>
+                {/* 가격입력칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <input
+                        type="text"
+                        value={price}
+                        onChange={handlePrice}
+                        placeholder="숫자만 기입해주세요"
+                        style={{
+                            width: "200px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                        }}
+                    />
+                </div>
+                {/* 수용 인원 입력 칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <input
+                        type="text"
+                        value={selectedCapacity}
+                        onChange={handleCapacity}
+                        placeholder="숫자만 기입해주세요"
+                        style={{
+                            width: "200px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                        }}
+                    />
+                </div>
+                {/* 사이즈 입력 칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <input
+                        type="text"
+                        value={selectedSize}
+                        onChange={handleSize}
+                        placeholder="단위까지 기입해주세요. ex) 5평, 100m^3"
+                        style={{
+                            width: "200px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                        }}
+                    />
+                </div>
+                {/* 주차 가능 여부 버튼 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    <Button
+                        label="O"
+                        isSelected={selectedParking === true}
+                        onClick={() => handleParkingButtonClick(true)}
+                    />
+                    <Button
+                        label="X"
+                        isSelected={selectedParking === false}
+                        onClick={() => handleParkingButtonClick(false)}
+                    />
+                </div>
+                {/* 해시태그 입력칸 */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginTop: "25px",
+                    }}
+                >
+                    {hashtags.map((hashtag, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginRight: "5px",
+                            }}
+                        >
+                            <input
+                                type="text"
+                                value={hashtag}
+                                onChange={(event) =>
+                                    handleHashtagChange(event, index)
+                                }
+                                placeholder="해시태그 입력"
+                                style={{
+                                    width: "170px",
+                                    height: "40px",
+                                    borderRadius: "3px",
+                                    border: "1px solid black",
+                                }}
+                            />
+                            <button
+                                onClick={() => handleRemoveHashtag(index)}
+                                style={{
+                                    height: "40px",
+                                    width: "25px",
+                                    marginLeft: "5px",
+                                }}
+                            >
+                                -
+                            </button>
+                        </div>
+                    ))}
+                    {hashtags.length < 5 && (
+                        <button
+                            type="button" // 새로고침 방지
+                            onClick={handleAddHashtag}
+                            style={{ height: "40px" }}
+                        >
+                            +
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default EnsembleRoom;

@@ -101,21 +101,21 @@ const Equipement = ({updateEquipmentData}) => {
     setHashtags(newHashtags);
   };
 
-  const updateData = () => {
-    const equipmentData = {
-      type: selectedType,
-      selectedState: selectedState,
-      price: price,
-      selectedFeature: selectedFeature,
-      hashtags: hashtags
-    };
-    console.log("전달된 악기 데이터:", equipmentData);
-    updateEquipmentData(equipmentData);
-  };
+  // const updateData = () => {
+  //   const equipmentData = {
+  //     type: selectedType,
+  //     selectedState: selectedState,
+  //     price: price,
+  //     selectedFeature: selectedFeature,
+  //     hashtags: hashtags
+  //   };
+  //   console.log("전달된 악기 데이터:", equipmentData);
+  //   updateEquipmentData(equipmentData);
+  // };
 
-  useEffect(() => {
-    updateData();
-  }, [selectedType, selectedState, price, selectedFeature, hashtags]);
+  // useEffect(() => {
+  //   updateData();
+  // }, [selectedType, selectedState, price, selectedFeature, hashtags]);
 
 
   return (
