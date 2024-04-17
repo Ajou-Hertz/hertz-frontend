@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Avatar } from "@mui/material";
 
@@ -9,7 +10,11 @@ function Profile({ userData }) {
     useEffect(() => {
         console.log(userData);
     }, []);
-
+    const navigate = useNavigate();
+    // '내 프로필 수정' 버튼 클릭 시 '/myedit' 페이지로 이동하는 함수
+    const handleEditProfile = () => {
+        navigate("/myedit"); // '/myedit' 페이지로 이동
+    };
     return (
         <section className="profile">
             <div style={{ textAlign: "left" }}>
@@ -90,7 +95,10 @@ function Profile({ userData }) {
                     </span>
                 </div>
 
-                <Button style={{ marginLeft: "auto", marginRight: "400px" }}>
+                <Button
+                    style={{ marginLeft: "auto", marginRight: "400px" }}
+                    onClick={handleEditProfile}
+                >
                     내 프로필 수정
                 </Button>
             </div>
