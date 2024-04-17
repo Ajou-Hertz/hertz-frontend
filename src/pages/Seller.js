@@ -7,7 +7,7 @@ import useAuth from "../hooks/useAuth";
 
 // Components
 import Profile from "../components/SellerProfile";
-import WishProduct from "../components/SellingProduct.js";
+import SellingProduct from "../components/SellingProduct.js";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 
@@ -17,7 +17,7 @@ export const Summary = ({ userData }) => {
     return (
         <>
             <Profile userData={userData} />
-            <WishProduct />
+            <SellingProduct userData={userData} />
         </>
     );
 };
