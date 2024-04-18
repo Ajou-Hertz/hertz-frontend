@@ -145,6 +145,7 @@ const EnsembleRoomDetail = () => {
               padding: '15px', borderRadius: '7px', justifyContent: 'space-evenly', 
               alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
+              {/* 로그 아웃 상태 시 확인 불가 */}
               {user ? (
                 <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
               ) : (
