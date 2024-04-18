@@ -285,6 +285,7 @@ const EnsembleRoom = () => {
                     >
                         주소 찾기
                     </ button>
+                    {/* 주소 찾기 팝업 창 */}
                     {isPostOpen && (
                         <div
                             style={{
@@ -411,6 +412,34 @@ const EnsembleRoom = () => {
                             padding: "10px",
                         }}
                     />
+                    <input
+                        type="text"
+                        value={price}
+                        onChange={handlePrice}
+                        placeholder="숫자만 기입해주세요"
+                        style={{
+                            width: "200px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                            marginLeft: "20px",
+                        }}
+                    />
+                    <input
+                        type="text"
+                        value={price}
+                        onChange={handlePrice}
+                        placeholder="숫자만 기입해주세요"
+                        style={{
+                            width: "200px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            border: "1px solid black",
+                            padding: "10px",
+                            marginLeft: "20px",
+                        }}
+                    />
                 </div>
                 {/* 수용 인원 입력 칸 */}
                 <div
@@ -514,8 +543,12 @@ const EnsembleRoom = () => {
                                 onClick={() => handleRemoveHashtag(index)}
                                 style={{
                                     height: "40px",
-                                    width: "25px",
+                                    width: "30px",
                                     marginLeft: "5px",
+                                    border: "none",
+                                    borderRadius: "7px",
+                                    backgroundColor: "#D6E0F3",
+                                    fontSize: "25px"
                                 }}
                             >
                                 -
@@ -526,7 +559,13 @@ const EnsembleRoom = () => {
                         <button
                             type="button" // 새로고침 방지
                             onClick={handleAddHashtag}
-                            style={{ height: "40px" }}
+                            style={{ 
+                                height: "40px",
+                                width: "30px",
+                                border: "none",
+                                borderRadius: "7px",
+                                backgroundColor: "#D6E0F3"
+                            }}
                         >
                             +
                         </button>
