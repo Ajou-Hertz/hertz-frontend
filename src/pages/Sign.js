@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import axios from "../api/axios";
-
-import { Typography, Menu } from "antd";
+import { Typography } from "antd";
 import {
     Avatar,
     Button,
@@ -22,14 +21,9 @@ import {
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const EMAIL_REGEX =
-    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,16}$/;
-
-const REGISTER_URL = "/register";
-
 const Sign = (props) => {
+    const location = useLocation();
+    const userInfo = { ...location.state };
     const navigate = useNavigate();
 
     const theme = createTheme();
@@ -141,16 +135,6 @@ const Sign = (props) => {
     const handleChangeName = (e) => {
         setUserBirth(e.target.value);
     };
-    const handleChangeId = (e) => {
-        setUserId(e.target.value);
-    };
-
-    const handleUserChecked = (e) => {
-        setUserChecked({
-            ...userChecked,
-            [e.target.name]: e.target.checked,
-        });
-    };
 
     // 성별 선택 핸들러
     const handleChangeGender = (e) => {
@@ -166,10 +150,12 @@ const Sign = (props) => {
             console.log("오류");
             return;
         }
+        const phoneNumber = userInfo ? userInfo.phoneNumber : "";
+
         const requestData = {
             email: userEmail,
             password: userPassword,
-            phone: "01012345678",
+            phone: `${userInfo.phoneNumber}`,
         };
 
         // birth와 gender가 빈 문자열이 아닌 경우에만 requestData에 추가

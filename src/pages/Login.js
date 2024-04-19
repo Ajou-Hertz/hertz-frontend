@@ -250,7 +250,7 @@ function Login() {
                             </RouterLink>
                             <Divider type="vertical" />
                             <RouterLink
-                                to="/sign"
+                                to="/selfsign"
                                 style={{ textDecoration: "none" }}
                             >
                                 회원가입

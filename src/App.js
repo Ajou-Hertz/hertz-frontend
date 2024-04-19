@@ -30,7 +30,7 @@ import MainLayout from "./components/MainLayout";
 import RequireAuth from "./components/RequireAuth";
 import UpdatePW from "./pages/UpdatePW";
 import MyEditPage from "./pages/MyEdit";
-// import SelfSign from "./pages/SelfSign";
+import SelfSign from "./pages/SelfSign";
 // import requireAuth from "../components/RequireAuth";
 
 const reducer = (state, action) => {
@@ -206,10 +206,10 @@ function App() {
                                         path="/inquiry"
                                         element={<Inquiry />}
                                     />
-                                    {/* <Route
+                                    <Route
                                         path="/selfsign"
                                         element={<SelfSign />}
-                                    /> */}
+                                    />
                                     <Route
                                         path="/kakao/authorize/redirect-test"
                                         element={<KakaoRedirect />}
