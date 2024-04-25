@@ -29,7 +29,7 @@ const InstrumentUpload = () => {
     const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
     const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
     const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
-    // const [aCData, setACData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
+    const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
     // const [equipementData, setEquipementData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
     // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
 
@@ -213,6 +213,26 @@ const InstrumentUpload = () => {
                     // 엔드포인트 설정
                     var endpoint = "/instruments/bass-guitars";
                     break;
+                case "어쿠스틱&클래식":
+                    Data.append("brand", aCData.brand);
+                    Data.append("model", aCData.model);
+                    Data.append("wood", aCData.wood);
+                    Data.append("pickUp", aCData.pickup);
+                    Data.append("tradeAddress.sido", aCData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", aCData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", aCData.tradeAddress.emd);
+                    Data.append("qualityStatus", aCData.selectedState);
+                    Data.append("price", aCData.price);
+                    Data.append("hasAnomaly", aCData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of aCData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/acoustic-and-classic-guitars";
+                    break;
                 default:
                     break;
             }
@@ -255,6 +275,10 @@ const InstrumentUpload = () => {
 
     const handleBassData = (data) => {
         setBassData(data);
+    };
+
+    const handleAcousticClassicData = (data) => {
+        setAcousticClassicData(data);
     };
 
     return (
@@ -424,7 +448,9 @@ const InstrumentUpload = () => {
                                     updateGuitarData={handleElectricGuitarData}
                                     updateAmpData={handleAmpData}
                                     updateBassData={handleBassData}
-                                    // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
+                                    updateAcousticClassicData={
+                                        handleAcousticClassicData
+                                    }
                                 />
                             )}
                         </div>
