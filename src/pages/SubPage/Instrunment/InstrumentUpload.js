@@ -28,7 +28,7 @@ const InstrumentUpload = () => {
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
     const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
     const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
-    // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
+    const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
     // const [aCData, setACData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
     // const [equipementData, setEquipementData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
     // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
@@ -190,7 +190,29 @@ const InstrumentUpload = () => {
                     // 엔드포인트 설정
                     var endpoint = "/instruments/amplifiers";
                     break;
-                // 다른 옵션들에 대한 처리 추가 가능
+                case "베이스":
+                    Data.append("brand", bassData.brand);
+                    Data.append("pickUp", bassData.pickUp);
+                    Data.append("preAmplifier", bassData.preAmplifier);
+                    Data.append("color", bassData.color);
+                    Data.append(
+                        "tradeAddress.sido",
+                        bassData.tradeAddress.sido
+                    );
+                    Data.append("tradeAddress.sgg", bassData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", bassData.tradeAddress.emd);
+                    Data.append("qualityStatus", bassData.selectedState);
+                    Data.append("price", bassData.price);
+                    Data.append("hasAnomaly", bassData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of bassData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/bass-guitars";
+                    break;
                 default:
                     break;
             }
@@ -229,6 +251,10 @@ const InstrumentUpload = () => {
 
     const handleAmpData = (data) => {
         setAmpData(data);
+    };
+
+    const handleBassData = (data) => {
+        setBassData(data);
     };
 
     return (
@@ -397,7 +423,7 @@ const InstrumentUpload = () => {
                                     updateEffectorData={handleEffectorData}
                                     updateGuitarData={handleElectricGuitarData}
                                     updateAmpData={handleAmpData}
-                                    // updateGuitarData={selectedOption === "일렉기타" ? handleElectricGuitarData : null}
+                                    updateBassData={handleBassData}
                                     // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
                                 />
                             )}
