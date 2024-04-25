@@ -330,7 +330,7 @@ const InstrumentDetail = () => {
                                 >
                                     {instrumentData.hashtags.map(
                                         (tag, index) => (
-                                            <span key={index}>#{tag} </span>
+                                            <span key={index}>{tag} </span>
                                         )
                                     )}
                                 </p>
