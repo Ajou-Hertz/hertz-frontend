@@ -26,7 +26,7 @@ const InstrumentUpload = () => {
     const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
-    // const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
+    const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
     const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
     // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
     // const [aCData, setACData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
@@ -86,7 +86,7 @@ const InstrumentUpload = () => {
         if (
             !productName ||
             !selectProgressStatus ||
-            !electricGuitarData ||
+            // !electricGuitarData ||
             !description ||
             !selectedImage.length
         ) {
@@ -96,56 +96,105 @@ const InstrumentUpload = () => {
         try {
             const Data = new FormData();
 
-            Data.append("brand", electricGuitarData.brand);
-            Data.append("model", electricGuitarData.model);
-            Data.append("productionYear", electricGuitarData.productionYear);
-            Data.append("color", electricGuitarData.color);
+            // 공통적으로 필요한 데이터 추가
             Data.append("title", productName);
             Data.append("progressStatus", selectProgressStatus);
-            Data.append(
-                "tradeAddress.sido",
-                electricGuitarData.tradeAddress.sido
-            );
-            Data.append(
-                "tradeAddress.sgg",
-                electricGuitarData.tradeAddress.sgg
-            );
-            Data.append(
-                "tradeAddress.emd",
-                electricGuitarData.tradeAddress.emd
-            );
-            Data.append("qualityStatus", electricGuitarData.selectedState);
-            Data.append("price", electricGuitarData.price);
-            Data.append("hasAnomaly", electricGuitarData.selectedFeature);
             Data.append("description", description);
 
+            // 선택된 옵션에 따라 필요한 데이터 추가
+            switch (selectedOption) {
+                case "일렉기타":
+                    // 추가적으로 필요한 데이터 추가
+                    Data.append("brand", electricGuitarData.brand);
+                    Data.append("model", electricGuitarData.model);
+                    Data.append(
+                        "productionYear",
+                        electricGuitarData.productionYear
+                    );
+                    Data.append("color", electricGuitarData.color);
+                    Data.append(
+                        "tradeAddress.sido",
+                        electricGuitarData.tradeAddress.sido
+                    );
+                    Data.append(
+                        "tradeAddress.sgg",
+                        electricGuitarData.tradeAddress.sgg
+                    );
+                    Data.append(
+                        "tradeAddress.emd",
+                        electricGuitarData.tradeAddress.emd
+                    );
+                    Data.append(
+                        "qualityStatus",
+                        electricGuitarData.selectedState
+                    );
+                    Data.append("price", electricGuitarData.price);
+                    Data.append(
+                        "hasAnomaly",
+                        electricGuitarData.selectedFeature
+                    );
+
+                    // 해시태그 추가
+                    for (const hashtag of electricGuitarData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/electric-guitars";
+                    break;
+                case "이펙터":
+                    // 이펙터 데이터 추가
+                    Data.append("feature", effectorData.selectedFunction);
+                    Data.append("type", effectorData.selectedType);
+                    Data.append(
+                        "tradeAddress.sido",
+                        effectorData.tradeAddress.sido
+                    );
+                    Data.append(
+                        "tradeAddress.sgg",
+                        effectorData.tradeAddress.sgg
+                    );
+                    Data.append(
+                        "tradeAddress.emd",
+                        effectorData.tradeAddress.emd
+                    );
+                    Data.append("qualityStatus", effectorData.selectedState);
+                    Data.append("price", effectorData.price);
+                    Data.append("hasAnomaly", effectorData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of effectorData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/effectors";
+                    break;
+                case "앰프":
+                    // 앰프 데이터 추가
+                    Data.append("ampData", ampData);
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/amplifiers";
+                    break;
+                // 다른 옵션들에 대한 처리 추가 가능
+                default:
+                    break;
+            }
+
+            // 이미지 추가
             for (const image of selectedImage) {
                 Data.append("images", image);
             }
-            for (const hashtag of electricGuitarData.hashtags) {
-                Data.append("hashtags[]", hashtag);
-            }
 
-            // 선택된 옵션에 따라 다른 엔드포인트로 데이터 전송
-            // let endpoint = "";
-            // if (selectedOption === "일렉기타") {
-            //     endpoint = "/instruments/electric-guitars";
-            // } else if (selectedOption === "앰프") {
-            //     endpoint = "/instruments/amplifiers";
-            // }
-
-            const response = await axiosPrivate.post(
-                //endpoint,
-                "/instruments/electric-guitars",
-                Data,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Hertz-API-Version": 1,
-                        Authorization: `Bearer ${user?.token}`,
-                    },
-                }
-            );
+            // API 호출
+            const response = await axiosPrivate.post(endpoint, Data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Hertz-API-Version": 1,
+                    Authorization: `Bearer ${user?.token}`,
+                },
+            });
             if (response.status === 201) {
                 alert("악기가 성공적으로 등록되었습니다.");
             } else {
@@ -154,36 +203,19 @@ const InstrumentUpload = () => {
         } catch (err) {
             console.error(err);
             alert("악기 등록에 실패했습니다.");
-        } finally {
-            // if (selectedOption === "일렉기타") {
-            //     console.log("서버로 전송할 데이터:", electricGuitarData);
-            // } else if (selectedOption === "앰프") {
-            //     console.log("서버로 전송할 데이터:", ampData);
-            // }
-            // console.log("서버로 전송할 데이터:", {
-            //     brand: electricGuitarData.brand,
-            //     model: electricGuitarData.model,
-            //     productionYear: electricGuitarData.productionYear,
-            //     color: electricGuitarData.color,
-            //     title: productName,
-            //     progressStatus: selectProgressStatus,
-            //     tradeAddress: {
-            //         sido: "서울특별시",
-            //         sgg: "강남구",
-            //         emd: "청담동",
-            //     },
-            //     qualityStatus: electricGuitarData.selectedState,
-            //     price: electricGuitarData.price,
-            //     hasAnomaly: electricGuitarData.selectedFeature,
-            //     description: description,
-            //     images: selectedImage,
-            //     hashtags: electricGuitarData.hashtags,
-            // });
         }
     };
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
+    };
+
+    const handleEffectorData = (data) => {
+        setEffectorData(data);
+    };
+
+    const handleAmpData = (data) => {
+        setAmpData(data);
     };
 
     return (
@@ -349,8 +381,9 @@ const InstrumentUpload = () => {
                             <ElectricGuitar updateGuitarData={handleElectricGuitarData} /> */}
                             {SelectedComponent && (
                                 <SelectedComponent
+                                    updateEffectorData={handleEffectorData}
                                     updateGuitarData={handleElectricGuitarData}
-                                    // updateAmpData={handleAmpData}
+                                    updateAmpData={handleAmpData}
                                     // updateGuitarData={selectedOption === "일렉기타" ? handleElectricGuitarData : null}
                                     // updateAmpData={selectedOption === "앰프" ? handleAmpData : null}
                                 />
