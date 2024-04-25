@@ -172,7 +172,20 @@ const InstrumentUpload = () => {
                     break;
                 case "앰프":
                     // 앰프 데이터 추가
-                    Data.append("ampData", ampData);
+                    Data.append("brand", ampData.brand);
+                    Data.append("type", ampData.type);
+                    Data.append("usage", ampData.usage);
+                    Data.append("tradeAddress.sido", ampData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", ampData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", ampData.tradeAddress.emd);
+                    Data.append("qualityStatus", ampData.selectedState);
+                    Data.append("price", ampData.price);
+                    Data.append("hasAnomaly", ampData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of ampData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
 
                     // 엔드포인트 설정
                     var endpoint = "/instruments/amplifiers";
