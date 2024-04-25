@@ -33,6 +33,7 @@ const Effector = ({ updateEffectorData }) => {
     const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
     const [selectedType, setSelectedType] = useState(""); // 종류 상태
     const [functions, setFunctions] = useState([]); // 기능 상태
+    const [selectedFunction, setSelectedFunction] = useState([]); // 기능 상태
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태
@@ -168,7 +169,7 @@ const Effector = ({ updateEffectorData }) => {
     };
 
     const typeToFunctions = {
-        기타: [
+        GUITAR: [
             "와우",
             "Eq",
             "볼륨",
@@ -183,21 +184,97 @@ const Effector = ({ updateEffectorData }) => {
             "보드용부품",
             "그 외",
         ],
-        베이스: ["컴프레서", "리미터", "드라이브", "그 외"],
-        멀티: ["선택불가 display"],
-        페달보드: ["보드", "파워서플라이", "버퍼", "병렬믹서", "그 외"],
+        BASS: ["컴프레서", "리미터", "드라이브", "그 외"],
+        MULTI: ["선택불가"],
+        PEDAL_BOARD: ["보드", "파워서플라이", "버퍼", "병렬믹서", "그 외"],
     };
 
-    useEffect(() => {
-        // 종류 선택에 따라 기능 옵션 업데이트
-        setFunctions(typeToFunctions[selectedType] || []);
-    }, [selectedType]);
+    // 종류 변경 핸들러
+    const handleTypeChange = (event) => {
+        setSelectedType(event.target.value);
+        setFunctions(""); // 종류 타입이 변경될 때 기능 선택을 초기화
+    };
 
     // 가격 입력 핸들러
     const handlePrice = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
         const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
         setPrice(inputPrice /*+ '원'*/);
+    };
+
+    // 기능 드롭다운 핸들러
+    const handleFuncChange = (event) => {
+        const selectedFunction = event.target.value;
+        let formattedFunction = "";
+
+        switch (selectedFunction) {
+            case "와우":
+                formattedFunction = "GUITAR_WAH";
+                break;
+            case "Eq":
+                formattedFunction = "GUITAR_EQ";
+                break;
+            case "볼륨":
+                formattedFunction = "GUITAR_VOLUME";
+                break;
+            case "컴프":
+                formattedFunction = "GUITAR_COMPRESSOR";
+                break;
+            case "오버":
+                formattedFunction = "GUITAR_OVER";
+                break;
+            case "디스토션":
+                formattedFunction = "GUITAR_DISTORTION";
+                break;
+            case "부스트":
+                formattedFunction = "GUITAR_BOOST";
+                break;
+            case "공간계":
+                formattedFunction = "GUITAR_SPATIOTEMPORAL_EFFECT";
+                break;
+            case "모듈레이션":
+                formattedFunction = "GUITAR_MODULATION";
+                break;
+            case "앰프시뮬":
+                formattedFunction = "GUITAR_AMPLIFIER_SIMULATOR";
+                break;
+            case "멀티":
+                formattedFunction = "GUITAR_MULTI";
+                break;
+            case "보드용부품":
+                formattedFunction = "GUITAR_BOARD_PARTS";
+                break;
+            case "컴프레서":
+                formattedFunction = "BASS_COMPRESSOR";
+                break;
+            case "리미터":
+                formattedFunction = "BASS_LIMITER";
+                break;
+            case "드라이브":
+                formattedFunction = "BASS_DRIVE";
+                break;
+            case "선택불가":
+                formattedFunction = "MULTI_MULTI";
+                break;
+            case "보드":
+                formattedFunction = "PEDAL_BOARD_BOARD";
+                break;
+            case "파워서플라이":
+                formattedFunction = "PEDAL_BOARD_POWER_SUPPLY";
+                break;
+            case "버퍼":
+                formattedFunction = "PEDAL_BOARD_BUFFER";
+                break;
+            case "병렬믹서":
+                formattedFunction = "PEDAL_BOARD_PARALLEL_MIXER";
+                break;
+            default:
+                formattedFunction = "ETC";
+                break;
+        }
+
+        setSelectedFunction(formattedFunction);
+        setFunctions(selectedFunction); // 선택된 기능을 화면에 반영
     };
 
     // 특이사항 유무를 위한 핸들러
@@ -225,7 +302,7 @@ const Effector = ({ updateEffectorData }) => {
 
     const updateData = () => {
         const guitarData = {
-            selectedFunction: "GUITAR_WAH",
+            selectedFunction: selectedFunction,
             selectedType: selectedType,
             selectedState: selectedState,
             price: price,
@@ -245,7 +322,7 @@ const Effector = ({ updateEffectorData }) => {
         updateData();
     }, [
         selectedType,
-        functions,
+        selectedFunction,
         selectedState,
         price,
         selectedFeature,
@@ -461,7 +538,7 @@ const Effector = ({ updateEffectorData }) => {
                     <select
                         style={{ height: "40px", borderRadius: "3px" }}
                         value={selectedType}
-                        onChange={(e) => setSelectedType(e.target.value)}
+                        onChange={handleTypeChange}
                     >
                         <option value="">선택해주세요</option>
                         <option value="GUITAR">기타</option>
@@ -479,14 +556,17 @@ const Effector = ({ updateEffectorData }) => {
                         marginTop: "25px",
                     }}
                 >
-                    <select style={{ height: "40px", borderRadius: "3px" }}>
-                        {functions.length > 0 ? (
-                            functions.map((functions, index) => (
-                                <option key={index}>{functions}</option>
-                            ))
-                        ) : (
-                            <option>먼저 종류를 선택해주세요</option>
-                        )}
+                    <select
+                        value={functions}
+                        onChange={handleFuncChange}
+                        style={{ height: "40px", borderRadius: "3px" }}
+                    >
+                        <option value="">먼저 종류를 선택해주세요.</option>
+                        {typeToFunctions[selectedType]?.map((func, index) => (
+                            <option key={index} value={func}>
+                                {func}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 {/* 가격입력칸 */}
