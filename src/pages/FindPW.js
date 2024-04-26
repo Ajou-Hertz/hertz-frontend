@@ -193,7 +193,7 @@ function FindPW() {
                             helperText={
                                 isValidEmail || userEmail == ""
                                     ? ""
-                                    : "전화번호를 정확히 입력해주세요."
+                                    : "이메일을 정확히 입력해주세요."
                             }
                             value={userEmail}
                             onChange={handleChangeEmail}
