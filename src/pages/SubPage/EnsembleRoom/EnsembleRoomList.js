@@ -12,8 +12,6 @@ import { MarketStateContext } from "../../../App.js";
 import { useFetch } from "../../../hooks/useFetch.js";
 
 import NavBar from "../../../components/Sub/NavBar.js";
-import DropdownInstrument from "../../../components/Sub/Dropdown/DropdownInstrument.js";
-
 import EnsembleRoomDetail from "./EnsembleRoomDetail.js";
 
 // 공통 드롭다운 스타일
@@ -32,7 +30,7 @@ function EnsembleRoomList() {
     const [data, setData] = useState([]); // get으로 가져온 데이터
 
     const [selectedDate, setSelectedDate] = useState("전체"); // 선택한 날짜 종류 상태
-    const [selectedSido, setSelectedSido] = useState("false"); // 선택한 시도 상태
+    const [selectedSido, setSelectedSido] = useState(false); // 선택한 시도 상태
     const [selectedSgg, setSelectedSgg] = useState("시/군/구"); // 선택한 시군구 상태
 
 
