@@ -3,6 +3,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import axios from '../../../api/axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from "recoil";
+import { userState } from "../../../recoil";
 
 import NavBar from '../../../components/Sub/NavBar';
 import MainImageShow from '../../../components/Sub/MainImageShow';
@@ -44,6 +46,8 @@ const EnsembleRoomDetail = () => {
 
   const [inputHashtag, setInputHashtag] = useState(''); // 판매자가 입력한 해시태그
   const [inputDescription, setInputDescription] = useState(""); // 상세 정보 입력
+
+  const [user, setUser] = useRecoilState(userState);
 
   // 토큰 가져오기
   const token = localStorage.getItem("token");
@@ -141,7 +145,14 @@ const EnsembleRoomDetail = () => {
               padding: '15px', borderRadius: '7px', justifyContent: 'space-evenly', 
               alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
-              <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
+              {/* 로그 아웃 상태 시 확인 불가 */}
+              {user ? (
+                <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
+              ) : (
+                <button style={{ backgroundColor: "#D6E0F3", border: "none", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px" }}
+                  onClick={clickSeller}>로그인 후 열람 가능합니다.
+                </button>
+              )}
             </div>
             {/* 판매자 페이지로 넘어가는 버튼 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
