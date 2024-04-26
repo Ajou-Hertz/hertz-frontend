@@ -142,14 +142,14 @@ const EnsembleRoomDetail = () => {
           <div style={{ display: 'flex', margin: '10px', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
             {/* 판매자 연락처가 보여지는 */}
             <div style={{ display: 'flex', flexGrow: 1, border: '1px solid #637DBE', 
-              padding: '15px', borderRadius: '7px', justifyContent: 'space-evenly', 
+              padding: '10px', borderRadius: '7px', justifyContent: 'space-evenly', 
               alignItems: 'center', marginLeft: '10px' }}>
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
               {/* 로그 아웃 상태 시 확인 불가 */}
               {user ? (
                 <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
               ) : (
-                <button style={{ backgroundColor: "#D6E0F3", border: "none", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px" }}
+                <button style={{ backgroundColor: "#D6E0F3", border: "none", borderRadius: "10px", padding: '5px 20px' }}
                   onClick={clickSeller}>로그인 후 열람 가능합니다.
                 </button>
               )}

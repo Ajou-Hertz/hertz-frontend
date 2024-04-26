@@ -330,7 +330,7 @@ const InstrumentDetail = () => {
                                 >
                                     {instrumentData.hashtags.map(
                                         (tag, index) => (
-                                            <span key={index}>{tag} </span>
+                                            <span key={index}>#{tag} </span>
                                         )
                                     )}
                                 </p>
@@ -351,7 +351,7 @@ const InstrumentDetail = () => {
                                         display: "flex",
                                         flexGrow: 1,
                                         border: "1px solid #637DBE",
-                                        padding: "15px",
+                                        padding: "10px",
                                         borderRadius: "7px",
                                         justifyContent: "space-evenly",
                                         alignItems: "center",
@@ -383,8 +383,7 @@ const InstrumentDetail = () => {
                                                 backgroundColor: "#D6E0F3",
                                                 border: "none",
                                                 borderRadius: "10px",
-                                                paddingLeft: "10px",
-                                                paddingRight: "10px",
+                                                padding: "5px 20px",
                                             }}
                                             onClick={clickSeller}
                                         >
