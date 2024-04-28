@@ -652,8 +652,12 @@ const Effector = ({ updateEffectorData }) => {
                                 onClick={() => handleRemoveHashtag(index)}
                                 style={{
                                     height: "40px",
-                                    width: "25px",
+                                    width: "30px",
                                     marginLeft: "5px",
+                                    border: "none",
+                                    borderRadius: "7px",
+                                    backgroundColor: "#D6E0F3",
+                                    fontSize: "25px"
                                 }}
                             >
                                 -
@@ -664,7 +668,13 @@ const Effector = ({ updateEffectorData }) => {
                         <button
                             type="button" // 새로고침 방지
                             onClick={handleAddHashtag}
-                            style={{ height: "40px" }}
+                            style={{
+                                height: "40px",
+                                width: "30px",
+                                border: "none",
+                                borderRadius: "7px",
+                                backgroundColor: "#D6E0F3"
+                            }}
                         >
                             +
                         </button>

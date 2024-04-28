@@ -9,7 +9,7 @@ import Effector from '../../../components/Sub/InstrumentSelection.js/Effector';
 import Amp from '../../../components/Sub/InstrumentSelection.js/Amp';
 import Bass from '../../../components/Sub/InstrumentSelection.js/Bass';
 import AcousticClassic from '../../../components/Sub/InstrumentSelection.js/AcousticClassic';
-import Equipement from '../../../components/Sub/InstrumentSelection.js/Equipement';
+import Equipment from '../../../components/Sub/InstrumentSelection.js/Equipment';
 import EnsembleRoom from '../../../components/Sub/InstrumentSelection.js/EnsembleRoom';
 
 const InstrumentModify = () => {
@@ -57,7 +57,7 @@ const InstrumentModify = () => {
     '앰프': Amp,
     '베이스': Bass,
     '어쿠스틱&클래식': AcousticClassic,
-    '음향장비': Equipement,
+    '음향장비': Equipment,
     '합주실': EnsembleRoom,
   };
 

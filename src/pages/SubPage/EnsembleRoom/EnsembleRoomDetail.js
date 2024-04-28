@@ -147,7 +147,7 @@ const EnsembleRoomDetail = () => {
               <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>연락하기</p>
               {/* 로그 아웃 상태 시 확인 불가 */}
               {user ? (
-                <p style={{ margin: 0, display: 'flex', alignItems: 'center' }}>https://open.kakao.com/qwer</p>
+                <p style={{ margin: 0, display: 'flex', alignItems: 'center', padding: '5px' }}>https://open.kakao.com/qwer</p>
               ) : (
                 <button style={{ backgroundColor: "#D6E0F3", border: "none", borderRadius: "10px", padding: '5px 20px' }}
                   onClick={clickSeller}>로그인 후 열람 가능합니다.
