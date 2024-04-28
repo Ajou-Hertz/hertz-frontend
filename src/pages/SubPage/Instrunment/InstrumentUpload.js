@@ -7,7 +7,7 @@ import Effector from "../../../components/Sub/InstrumentSelection.js/Effector";
 import Amp from "../../../components/Sub/InstrumentSelection.js/Amp";
 import Bass from "../../../components/Sub/InstrumentSelection.js/Bass";
 import AcousticClassic from "../../../components/Sub/InstrumentSelection.js/AcousticClassic";
-import Equipement from "../../../components/Sub/InstrumentSelection.js/Equipement";
+import Equipement from "../../../components/Sub/InstrumentSelection.js/Equipment";
 import EnsembleRoom from "../../../components/Sub/InstrumentSelection.js/EnsembleRoom";
 import useAuth from "../../../hooks/useAuth";
 import { useRecoilState } from "recoil";
@@ -30,7 +30,7 @@ const InstrumentUpload = () => {
     const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
     const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
     const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
-    // const [equipementData, setEquipementData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
+    const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
     // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
 
     // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
@@ -233,6 +233,24 @@ const InstrumentUpload = () => {
                     // 엔드포인트 설정
                     var endpoint = "/instruments/acoustic-and-classic-guitars";
                     break;
+                case "음향장비":
+                    // 음향장비 데이터 추가
+                    Data.append("type", equipmentData.selectedType);
+                    Data.append("tradeAddress.sido", equipmentData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", equipmentData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", equipmentData.tradeAddress.emd);
+                    Data.append("qualityStatus", equipmentData.selectedState);
+                    Data.append("price", equipmentData.price);
+                    Data.append("hasAnomaly", equipmentData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of equipmentData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/audio-equipments";
+                    break;
                 default:
                     break;
             }
@@ -279,6 +297,10 @@ const InstrumentUpload = () => {
 
     const handleAcousticClassicData = (data) => {
         setAcousticClassicData(data);
+    };
+
+    const handleEquipmentData = (data) => {
+        setEquipmentData(data);
     };
 
     return (
@@ -451,6 +473,7 @@ const InstrumentUpload = () => {
                                     updateAcousticClassicData={
                                         handleAcousticClassicData
                                     }
+                                    updateEquipmentData={handleEquipmentData}
                                 />
                             )}
                         </div>

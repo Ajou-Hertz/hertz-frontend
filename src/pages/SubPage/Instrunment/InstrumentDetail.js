@@ -373,6 +373,7 @@ const InstrumentDetail = () => {
                                                 margin: 0,
                                                 display: "flex",
                                                 alignItems: "center",
+                                                padding: '5px',
                                             }}
                                         >
                                             https://open.kakao.com/qwer
