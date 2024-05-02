@@ -23,7 +23,7 @@ const Button = ({ label, isSelected, onClick }) => {
     );
 };
 
-const EnsembleRoom = () => {
+const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [selectedAddress, setSelectedAddress] = useState(""); // 주소 상태
     const [selectedAddressDetail, setSelectedAddressDetail] = useState(""); // 상세 주소 상태
     const [isPostOpen, setIsPostOpen] = useState(false); // 주소찾기 창 상태
