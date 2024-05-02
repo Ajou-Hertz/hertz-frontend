@@ -8,6 +8,7 @@ import { userState } from "../../../recoil";
 
 import NavBar from '../../../components/Sub/NavBar';
 import MainImageShow from '../../../components/Sub/MainImageShow';
+import KakaoMap from '../../../components/Sub/KakaoMap';
 
 const EnsembleRoomDetail = () => {
   const [imageUrls, setImageUrls] = useState([
@@ -101,35 +102,42 @@ const EnsembleRoomDetail = () => {
         <div style={{ border: '1px solid black', padding: '10px',  
                 height: '420px', marginLeft: '40px', marginRight: '50px', flexGrow: 1 }}>
           <p style={{ textAlign: 'left', paddingTop: '20px', paddingLeft: '20px', fontSize: '25px' }}>수원역 헤르츠 합주실 {selectedProductName}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '20px', paddingBottom: '15px' }}>
-            <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>3,000원 / 시간 {selectedPriceTime}</span> 
-            <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>30,000원 / 일 {selectedPriceDay}</span> 
-            {/* <span style={{ textAlign: 'right' }}>
-              <i className="bi bi-geo-alt-fill"></i> 경기도 수원시 영통구 {selectedLocation}
-            </span> */}
-          </div>
-          {/* 매물상태 표 */}
-          <div style={{ display: 'flex', paddingLeft: '20px' }}>
-            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
-              <div>음향장비</div>
-              <div><p style={{ marginTop: '10px' }}>보유</p>{selectedEquipment}</div>
-            </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
-              <div>악기</div>
-              <div><p style={{ marginTop: '10px' }}>보유</p>{selectedInstrument}</div>
-            </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
-              <div>사이즈</div>
-              <div><p style={{ marginTop: '10px' }}>12평</p>{selectedSize}</div>
-            </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
-              <div>수용인원</div>
-              <div><p style={{ marginTop: '10px' }}>최대 7명</p>{selectedCapacity}</div>
-            </p>
-            <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
-              <div>주차장</div>
-              <div style={{ marginTop: '10px' }}><p>보유</p>{selectedParking}</div>
-            </p>
+          <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '20px' }}>
+              <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>3,000원 / 시간 {selectedPriceTime}</span> 
+              <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>30,000원 / 일 {selectedPriceDay}</span> 
+              {/* 매물상태 표 */}
+              <div style={{ display: 'flex', marginTop: '15px', textAlign: 'center' }}>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px', textAlign: 'center' }}>
+                  <div>음향장비</div>
+                  <div><p style={{ marginTop: '10px' }}>보유</p>{selectedEquipment}</div>
+                </p>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
+                  <div>악기</div>
+                  <div><p style={{ marginTop: '10px' }}>보유</p>{selectedInstrument}</div>
+                </p>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
+                  <div>사이즈</div>
+                  <div><p style={{ marginTop: '10px' }}>12평</p>{selectedSize}</div>
+                </p>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
+                  <div>수용인원</div>
+                  <div><p style={{ marginTop: '10px' }}>최대 7명</p>{selectedCapacity}</div>
+                </p>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
+                  <div>주차장</div>
+                  <div style={{ marginTop: '10px' }}><p>보유</p>{selectedParking}</div>
+                </p>
+              </div>
+            </div>
+            <div>
+              <span>
+                <i className="bi bi-geo-alt-fill"></i> 경기도 수원시 영통구 {selectedLocation}
+              </span>
+              <div style={{ marginTop: '10px' }}>
+                <KakaoMap />
+              </div>
+            </div>
           </div>
           {/* 해시태그 */}
           <div>
