@@ -321,7 +321,11 @@ const InstrumentUpload = () => {
                             id="name"
                             value={productName}
                             onChange={handleNameChange}
-                            placeholder="악기 이름" // 사용자가 입력을 시작할 때 가이드를 제공
+                            placeholder={
+                                selectedOption === "합주실"
+                                ? "도보로 이용가능한 랜드마크와 이름만 입력 부탁드립니다. ex) 수원역 헤르츠 합주실"
+                                : "정확한 모델명을 입력해주세요. ex) 펜더 로드원 텔레캐스터"
+                            } // 사용자가 입력을 시작할 때 가이드를 제공
                             style={{
                                 borderRadius: "5px",
                                 minWidth: "1000px",
@@ -363,9 +367,15 @@ const InstrumentUpload = () => {
                     {/* 필수사항 */}
                     <div style={{ margin: "15px" }}>
                         <p style={{ textAlign: "left", marginLeft: "55px" }}>
-                            필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 /
-                            덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 ,
-                            배선 문제, 녹이 슮 등)
+                            {selectedOption === "합주실" ? (
+                                <>
+                                    필수사항 : 문(입구)에서 찍은 정면샷 / 측면에서 찍은 샷 / 음향장비나 악기의 인증샷 / 특이사항이나 구비된 특별한 것들의 인증샷
+                                </>
+                            ) : (
+                                <>
+                                    필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)
+                                </>
+                            )}
                         </p>
                     </div>
                     {/* 이미지 업로드 */}
@@ -470,9 +480,7 @@ const InstrumentUpload = () => {
                                     updateGuitarData={handleElectricGuitarData}
                                     updateAmpData={handleAmpData}
                                     updateBassData={handleBassData}
-                                    updateAcousticClassicData={
-                                        handleAcousticClassicData
-                                    }
+                                    updateAcousticClassicData={handleAcousticClassicData}
                                     updateEquipmentData={handleEquipmentData}
                                 />
                             )}

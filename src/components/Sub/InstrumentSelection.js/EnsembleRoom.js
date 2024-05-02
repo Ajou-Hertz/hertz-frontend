@@ -30,7 +30,9 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
 
     const [selectedEquipment, setSelectedEquipment] = useState(null); // 음향장비 유무를 위한 상태
     const [selectedInstrument, setSelectedInstrument] = useState(null); // 악기 유무를 위한 상태
-    const [price, setPrice] = useState(""); // 가격을 위한 상태
+    const [priceTime, setPriceTime] = useState("/ 시간"); // 시간별 가격을 위한 상태
+    const [priceDay, setPriceDay] = useState("/ 일"); // 일별 가격을 위한 상태
+    const [priceMonth, setPriceMonth] = useState("/ 월"); // 월별 가격을 위한 상태
     const [selectedCapacity, setSelectedCapacity] = useState(""); // 수용인원 상태
     const [selectedSize, setSelectedSize] = useState(""); // 사이즈 상태
     const [selectedParking, setSelectedParking] = useState(null); // 주차 가능 여부를 위한 상태
@@ -64,11 +66,25 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         setSelectedInstrument(state);
     };
 
-    // 가격 입력 핸들러
-    const handlePrice = (event) => {
+    // 시간 별 가격 입력 핸들러
+    const handlePriceTime = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
-        const inputPrice = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-        setPrice(inputPrice /*+ '원'*/);
+        const inputPriceTime = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        setPriceTime(inputPriceTime + '/ 시간');
+    };
+
+    // 일 별 가격 입력 핸들러
+    const handlePriceDay = (event) => {
+        // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
+        const inputPriceDay = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        setPriceDay(inputPriceDay + '/ 일');
+    };
+
+    // 월 별 가격 입력 핸들러
+    const handlePriceMonth = (event) => {
+        // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
+        const inputPriceMonth = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
+        setPriceMonth(inputPriceMonth + '/ 월');
     };
 
     // 수용인원 입력 핸들러
@@ -401,22 +417,21 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                 >
                     <input
                         type="text"
-                        value={price}
-                        onChange={handlePrice}
-                        placeholder="숫자만 기입해주세요"
+                        value={priceTime}
+                        onChange={handlePriceTime}
                         style={{
                             width: "200px",
                             height: "40px",
                             borderRadius: "3px",
                             border: "1px solid black",
                             padding: "10px",
+                            textAlign: "right"
                         }}
                     />
                     <input
                         type="text"
-                        value={price}
-                        onChange={handlePrice}
-                        placeholder="숫자만 기입해주세요"
+                        value={priceDay}
+                        onChange={handlePriceDay}
                         style={{
                             width: "200px",
                             height: "40px",
@@ -424,13 +439,13 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             border: "1px solid black",
                             padding: "10px",
                             marginLeft: "20px",
+                            textAlign: "right"
                         }}
                     />
                     <input
                         type="text"
-                        value={price}
-                        onChange={handlePrice}
-                        placeholder="숫자만 기입해주세요"
+                        value={priceMonth}
+                        onChange={handlePriceMonth}
                         style={{
                             width: "200px",
                             height: "40px",
@@ -438,6 +453,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             border: "1px solid black",
                             padding: "10px",
                             marginLeft: "20px",
+                            textAlign: "right"
                         }}
                     />
                 </div>
