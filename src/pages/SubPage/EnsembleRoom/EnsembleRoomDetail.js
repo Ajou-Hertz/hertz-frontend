@@ -108,7 +108,7 @@ const EnsembleRoomDetail = () => {
               <span style={{ marginRight: '50px', color: '#002074', fontSize: '20px' }}>30,000원 / 일 {selectedPriceDay}</span> 
               {/* 매물상태 표 */}
               <div style={{ display: 'flex', marginTop: '15px', textAlign: 'center' }}>
-                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px', textAlign: 'center' }}>
+                <p style={{ border: '1px solid black', padding: '20px', width: '135px', height: '100px' }}>
                   <div>음향장비</div>
                   <div><p style={{ marginTop: '10px' }}>보유</p>{selectedEquipment}</div>
                 </p>

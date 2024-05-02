@@ -20,6 +20,7 @@ import WriteTextReview from "./pages/SubPage/EnsembleRoom/WriteTextReview";
 import ConcertHall from "./pages/SubPage/ConcertHall";
 import FindEmail from "./pages/FindEmail";
 import FindPW from "./pages/FindPW";
+import IdentityVerification from "./pages/IdentityVerification";
 import Seller from "./pages/Seller";
 import Inquiry from "./pages/Inquiry";
 import KakaoRedirect from "./pages/KakaoRedirect";
@@ -197,6 +198,10 @@ function App() {
                                     <Route
                                         path="/findPw"
                                         element={<FindPW />}
+                                    />
+                                    <Route
+                                        path="/IdentityVerification"
+                                        element={<IdentityVerification />}
                                     />
                                     <Route
                                         path="/seller"
