@@ -27,7 +27,7 @@ function FindPW() {
 
     const [userEmail, setUserEmail] = useState("");
     const [isValidEmail, setIsvalidEmail] = useState(false);
-    const [userPassword, setUserPassword] = useState("");
+    const [userNumber, setUserNumber] = useState("");
     const [isValidPassword, setIsvalidPassword] = useState(false);
 
     const [isValidAll, setIsvalidAll] = useState(false);
@@ -39,8 +39,8 @@ function FindPW() {
     }, [userEmail]);
 
     useEffect(() => {
-        checkValidPassword(userPassword);
-    }, [userPassword]);
+        checkValidNumber(userNumber);
+    }, [userNumber]);
 
     useEffect(() => {
         checkValidTotal();
@@ -50,7 +50,7 @@ function FindPW() {
     const checkValidTotal = () => {
         console.log("check total");
 
-        if (userEmail === "" || userPassword === "") {
+        if (userEmail === "" || userNumber === "") {
             console.log("모든 칸을 작성하세요");
             setIsvalidAll(false);
             return;
@@ -63,13 +63,17 @@ function FindPW() {
         setIsvalidAll(false);
     };
 
-    //비밀번호 유효성 검사
-    const checkValidPassword = (pwd) => {
-        //  8 ~ 16자 영문, 숫자 조합
-        var regExp = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
-        // 형식에 맞는 경우 true 리턴
-        // console.log("비밀번호 유효성 검사 :: ", regExp.test(pwd));
-        setIsvalidPassword(regExp.test(pwd));
+    //전화번호 유효성 검사
+    const checkValidNumber = (num) => {
+        // 입력값이 공백이 아닌 경우에만 유효성 검사를 수행하도록 수정
+        if (num.trim() !== "") {
+            // 숫자만 입력되도록 수정
+            var regExp = /^[0-9]*$/;
+            // 형식에 맞는 경우 true 리턴
+            setIsvalidPassword(regExp.test(num));
+        } else {
+            setIsvalidPassword(false); // 입력값이 공백인 경우 false로 설정
+        }
     };
 
     // 이메일 유효성 검사
@@ -85,8 +89,8 @@ function FindPW() {
     const handleChangeEmail = (e) => {
         setUserEmail(e.target.value);
     };
-    const handleChangePassword = (e) => {
-        setUserPassword(e.target.value);
+    const handleChangeNumber = (e) => {
+        setUserNumber(e.target.value);
     };
 
     // 서버 로그인 요청
@@ -98,65 +102,7 @@ function FindPW() {
             return;
         }
 
-        console.log("login 요청중");
-
-        try {
-            const response = await axios.post(
-                LOGIN_URL,
-                {
-                    email: userEmail,
-                    password: userPassword,
-                },
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                }
-            );
-            console.log(response?.data);
-            // console.log(response);
-            const accessToken = response?.data?.userToken.accessToken;
-            const refreshToken = response?.data?.userToken.refreshToken;
-            const role = response?.data?.roleType;
-            setAuth({
-                userEmail,
-                userPassword,
-                accessToken,
-                refreshToken,
-                role,
-            });
-            setUserEmail("");
-            setUserPassword("");
-            navigate(from, { replace: true });
-        } catch (err) {
-            console.log(err?.response);
-            if (!err?.response) {
-                alert("No Server Response");
-            } else if (err.response?.status === 400) {
-                alert("Missing Username or Password");
-            } else if (err.response?.status === 401) {
-                alert("Unauthorized");
-            } else if (err.response?.status === 500) {
-                alert(err.response?.data?.message);
-            } else {
-                alert("Login Failed");
-            }
-        }
-
-        // requestPost();
-        // console.log(auth);
-
-        // axios
-        //   .post(LOGIN_URL, {
-        //     email: state.email,
-        //     password: state.password,
-        //   })
-        //   .then(function (res) {
-        //     console.log(res);
-        //     setCookie('id', res.data.token);// 쿠키에 토큰 저장
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
+        alert("개발 중");
     };
 
     return (
@@ -202,20 +148,20 @@ function FindPW() {
                             margin="normal"
                             required
                             fullWidth
-                            type="password"
-                            id="password"
-                            name="password"
+                            type="tel"
+                            id="number"
+                            name="number"
                             label="전화번호"
-                            autoComplete="current-password"
-                            placeholder="영문, 숫자, 특수문자 조합 8-16자"
-                            error={!isValidPassword && userPassword != ""}
+                            autoComplete="current-number"
+                            placeholder="예) 01012345678"
+                            error={!isValidPassword && userNumber != ""}
                             helperText={
-                                isValidPassword || userPassword == ""
+                                isValidPassword || userNumber == ""
                                     ? ""
-                                    : "영문, 숫자, 특수문자를 조합하여 입력해주세요. (8-16자)"
+                                    : "숫자로만 입력해주세요."
                             }
-                            value={userPassword}
-                            onChange={handleChangePassword}
+                            value={userNumber}
+                            onChange={handleChangeNumber}
                             inputProps={{
                                 maxLength: 16,
                             }}
