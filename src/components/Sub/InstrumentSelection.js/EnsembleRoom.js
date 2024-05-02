@@ -424,7 +424,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             height: "40px",
                             borderRadius: "3px",
                             border: "1px solid black",
-                            padding: "10px",
+                            padding: "10px 10px 10px 20px",
                             textAlign: "right"
                         }}
                     />
