@@ -204,7 +204,7 @@ function App() {
                                         element={<IdentityVerification />}
                                     />
                                     <Route
-                                        path="/seller"
+                                        path="/seller/:id"
                                         element={<Seller />}
                                     />
                                     <Route

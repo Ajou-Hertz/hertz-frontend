@@ -15,7 +15,7 @@ const InstrumentDetail = () => {
     const [user, setUser] = useRecoilState(userState);
     const [imageUrls, setImageUrls] = useState([]);
     const [instrumentData, setInstrumentData] = useState(null);
-
+    const [sellerId, setSellerId] = useState(null);
     useEffect(() => {
         console.log(id);
         axios
@@ -31,6 +31,7 @@ const InstrumentDetail = () => {
                 // setData(res.data);
                 console.log(res);
                 setInstrumentData(res.data);
+                setSellerId(res.data.sellerId);
                 const images = res.data.images;
                 const urls = images.map((image) => image.url);
                 setImageUrls(urls);
@@ -89,7 +90,7 @@ const InstrumentDetail = () => {
         if (isLoggedIn) {
             // 로그인 상태일 때, 판매자 페이지로 이동
             console.log("로그인 완료로"); // 로그인 상태 확인
-            navigate("/Seller"); // 예시 URL, 실제 판매자 페이지 URL로 변경 필요
+            navigate(`/seller/${sellerId}`, { state: { sellerId } });
         } else {
             // 로그인 상태가 아닐 때, 팝업 메시지를 보여주고 로그인 페이지로 이동
             alert("로그인 후에 사용해주세요.");
@@ -373,7 +374,7 @@ const InstrumentDetail = () => {
                                                 margin: 0,
                                                 display: "flex",
                                                 alignItems: "center",
-                                                padding: '5px',
+                                                padding: "5px",
                                             }}
                                         >
                                             https://open.kakao.com/qwer

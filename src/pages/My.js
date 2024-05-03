@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/Sub/NavBar.js";
 
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import axios from "../api/axios";
@@ -11,7 +11,6 @@ import { userState } from "../recoil";
 // Components
 import Profile from "../components/Profile";
 import WishProduct from "../components/WishProduct.js";
-import SellerPage from "./Seller.js";
 
 import "antd/dist/antd.css";
 
@@ -45,7 +44,6 @@ const MyPage = () => {
                     }
                 );
                 setMyData(response.data);
-                // setUser(response.data);
                 console.log(response.data.id);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -58,7 +56,6 @@ const MyPage = () => {
     return (
         <div className="area-2">
             <NavBar />
-            {/* <Sidebar /> */}
             <div className="content_area">
                 <Routes>
                     <Route
@@ -73,7 +70,7 @@ const MyPage = () => {
                 </Routes>
             </div>
             <div style={{ textAlign: "left" }}>
-                <Link to="/seller">
+                <Link to={`/seller/${myData.id}`} state={{ id: myData.id }}>
                     <button
                         style={{
                             marginLeft: "40px",

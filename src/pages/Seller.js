@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/Sub/NavBar.js";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import axios from "../api/axios";
-import useAuth from "../hooks/useAuth";
 
 // Components
 import Profile from "../components/SellerProfile";
@@ -23,31 +22,17 @@ export const Summary = ({ userData }) => {
 };
 
 const SellerPage = (props) => {
-    const { auth } = useAuth();
-    const navigate = useNavigate();
+    const location = useLocation();
+    const id = location.state.id || location.state.sellerId;
 
     const [sellerData, setSellerData] = useState([]);
     const [user, setUser] = useRecoilState(userState);
     console.log(user);
-    // axios로 유저정보 가져오기
-    // useEffect(() => {
-    //     const getUser = async () => {
-    //         try {
-    //             const response = await axiosPrivate.get("/users/");
-    //             console.log(response);
-    //             setMyData(response.data);
-    //         } catch (err) {
-    //             console.log(err?.response);
-    //         }
-    //     };
-
-    //     getUser();
-    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userId = 4;
+                const userId = id;
                 const token = user?.token || user?.access_token;
                 if (!token) return;
                 console.log(token);
