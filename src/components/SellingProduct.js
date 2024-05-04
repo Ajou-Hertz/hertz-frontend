@@ -3,8 +3,12 @@ import Divider from "@mui/material/Divider";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import axios from "../api/axios";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 function SellingProduct({ userData }) {
+    const [user, setUser] = useRecoilState(userState);
     const btnStyle2 = {
         // fontSize: "25px",
         // padding: "2rem 2rem",
@@ -13,6 +17,35 @@ function SellingProduct({ userData }) {
     };
     console.log(userData);
 
+    // 매물 삭제 함수
+    const handleDeleteItem = async (instrumentId) => {
+        try {
+            const token = user?.token || user?.access_token;
+            if (!token) return;
+
+            // confirm을 통해 사용자의 동의 여부 확인
+            const confirmation = window.confirm("정말로 삭제하시겠습니까?");
+            if (!confirmation) return;
+
+            // 매물 삭제 API 호출
+            await axios.delete(`/instruments/${instrumentId}`, {
+                headers: {
+                    "Hertz-API-Version": "1",
+                    accept: "*/*",
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {
+                    instrumentId: instrumentId,
+                },
+            });
+            alert("정상적으로 삭제되었습니다.");
+            // 삭제 성공 시 화면 갱신을 위해 페이지 새로고침
+            window.location.reload();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            alert("삭제가 실패하였습니다.");
+        }
+    };
     return (
         <div
             style={{
@@ -33,8 +66,13 @@ function SellingProduct({ userData }) {
                             <span>
                                 {item.progressStatus === "SELLING"
                                     ? "판매중"
+                                    : item.progressStatus === "RESERVED"
+                                    ? "예약중"
                                     : "판매완료"}
                             </span>
+                            <button onClick={() => handleDeleteItem(item.id)}>
+                                X
+                            </button>
                             <img
                                 src={item.images[0]?.url}
                                 alt={item.title}
@@ -71,12 +109,24 @@ function SellingProduct({ userData }) {
                                                 fill="#757575"
                                             />
                                         </svg>
-                                        <span>
+                                        <span stype={{ margin_top: 200 }}>
                                             {" "}
                                             {item.tradeAddress?.sido}{" "}
                                             {item.tradeAddress?.sgg}{" "}
                                             {item.tradeAddress?.emd}
                                         </span>
+                                        <br />
+                                        <button
+                                            style={{
+                                                color: "#FF4B4B",
+                                                fontSize: "14px",
+                                                backgroundColor: "white", // 배경색상
+                                                border: "1px solid white", // 테두리 색상 및 굵기
+                                                height: 30,
+                                            }}
+                                        >
+                                            매물 상세 수정하기
+                                        </button>
                                     </React.Fragment>
                                 }
                                 position="below"

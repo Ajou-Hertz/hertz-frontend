@@ -44,7 +44,7 @@ const InstrumentCard = ({
                 style={{ cursor: "pointer" }}
                 component={Link}
                 // to={`/market/${id}`}
-                to={`/InstrumentDetail`}
+                to={`/InstrumentDetail/${id}`}
             >
                 <CardMedia
                     component="img"

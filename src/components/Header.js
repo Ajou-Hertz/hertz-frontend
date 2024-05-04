@@ -79,7 +79,7 @@ const Header = () => {
                 />
                 <Button variant="outline-success">Search</Button>
               </Form> */}
-                                    <Nav.Link href="InstrumentUpload">
+                                    <Nav.Link href="/InstrumentUpload">
                                         판매하기
                                     </Nav.Link>
                                     {/* {auth?.userEmail ? ( */}
@@ -99,7 +99,7 @@ const Header = () => {
                                             로그인/회원가입
                                         </Nav.Link>
                                     )}
-                                    <Nav.Link href="mypage">
+                                    <Nav.Link href="/mypage">
                                         <svg
                                             width="37"
                                             height="37"
