@@ -56,6 +56,9 @@ const SellerPage = (props) => {
         fetchData();
     }, [user?.token, user?.access_token]);
 
+    // userData에 'root' 값을 추가하여 전달
+    const userDataWithRoot = { ...sellerData, root: location.state.root };
+
     return (
         <div className="area-2">
             <NavBar />
@@ -64,7 +67,7 @@ const SellerPage = (props) => {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Summary userData={sellerData} />}
+                        element={<Summary userData={userDataWithRoot} />}
                     ></Route>
                     <Route path="/profile" element={<Profile />}></Route>
                 </Routes>

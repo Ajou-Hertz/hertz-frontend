@@ -70,7 +70,10 @@ const MyPage = () => {
                 </Routes>
             </div>
             <div style={{ textAlign: "left" }}>
-                <Link to={`/seller/${myData.id}`} state={{ id: myData.id }}>
+                <Link
+                    to={`/seller/${myData.id}`}
+                    state={{ id: myData.id, root: "my" }}
+                >
                     <button
                         style={{
                             marginLeft: "40px",

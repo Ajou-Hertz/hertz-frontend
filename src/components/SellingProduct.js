@@ -55,7 +55,11 @@ function SellingProduct({ userData }) {
             }}
         >
             <div>
-                <h3 style={btnStyle2}>판매 내역</h3>
+                {userData?.root === undefined ? (
+                    <h3 style={btnStyle2}>판매 내역</h3>
+                ) : (
+                    <h3 style={btnStyle2}>나의 판매 내역</h3>
+                )}
                 <Divider />
                 <ImageList sx={{ width: "100%", height: 460 }} cols={6}>
                     {userData?.createdInstruments?.map((item) => (
@@ -63,16 +67,28 @@ function SellingProduct({ userData }) {
                             key={item.img}
                             sx={{ width: "100%", height: "auto" }}
                         >
-                            <span>
-                                {item.progressStatus === "SELLING"
-                                    ? "판매중"
-                                    : item.progressStatus === "RESERVED"
-                                    ? "예약중"
-                                    : "판매완료"}
-                            </span>
-                            <button onClick={() => handleDeleteItem(item.id)}>
-                                X
-                            </button>
+                            {userData?.root === "my" ? null : (
+                                <span style={{ backgroundColor: "#D6E0F3" }}>
+                                    {item.progressStatus === "SELLING" ? (
+                                        "판매중"
+                                    ) : item.progressStatus === "RESERVED" ? (
+                                        <span style={{ color: "#637DBE" }}>
+                                            예약중
+                                        </span>
+                                    ) : (
+                                        <span style={{ color: "#757575" }}>
+                                            판매완료
+                                        </span>
+                                    )}
+                                </span>
+                            )}
+                            {userData?.root === undefined ? null : (
+                                <button
+                                    onClick={() => handleDeleteItem(item.id)}
+                                >
+                                    X
+                                </button>
+                            )}
                             <img
                                 src={item.images[0]?.url}
                                 alt={item.title}
@@ -116,17 +132,19 @@ function SellingProduct({ userData }) {
                                             {item.tradeAddress?.emd}
                                         </span>
                                         <br />
-                                        <button
-                                            style={{
-                                                color: "#FF4B4B",
-                                                fontSize: "14px",
-                                                backgroundColor: "white", // 배경색상
-                                                border: "1px solid white", // 테두리 색상 및 굵기
-                                                height: 30,
-                                            }}
-                                        >
-                                            매물 상세 수정하기
-                                        </button>
+                                        {userData?.root === undefined ? null : (
+                                            <button
+                                                style={{
+                                                    color: "#FF4B4B",
+                                                    fontSize: "14px",
+                                                    backgroundColor: "white", // 배경색상
+                                                    border: "1px solid white", // 테두리 색상 및 굵기
+                                                    height: 30,
+                                                }}
+                                            >
+                                                매물 상세 수정하기
+                                            </button>
+                                        )}
                                     </React.Fragment>
                                 }
                                 position="below"
