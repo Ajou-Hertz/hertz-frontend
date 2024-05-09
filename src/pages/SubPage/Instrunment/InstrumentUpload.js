@@ -31,7 +31,7 @@ const InstrumentUpload = () => {
     const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
     const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
     const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
-    // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
+    const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
 
     // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
     const handleNameChange = (e) => {
@@ -54,13 +54,13 @@ const InstrumentUpload = () => {
 
     // 드롭다운 메뉴 옵션과 컴포넌트 매핑
     const componentMapping = {
-        일렉기타: ElectricGuitar,
-        이펙터: Effector,
-        앰프: Amp,
-        베이스: Bass,
-        "어쿠스틱&클래식": AcousticClassic,
-        음향장비: Equipement,
-        합주실: EnsembleRoom,
+        '일렉기타': ElectricGuitar,
+        '이펙터': Effector,
+        '앰프': Amp,
+        '베이스': Bass,
+        '어쿠스틱&클래식': AcousticClassic,
+        '음향장비': Equipement,
+        '합주실': EnsembleRoom,
     };
 
     // 선택된 옵션에 따라 렌더링할 컴포넌트 결정
@@ -195,10 +195,7 @@ const InstrumentUpload = () => {
                     Data.append("pickUp", bassData.pickUp);
                     Data.append("preAmplifier", bassData.preAmplifier);
                     Data.append("color", bassData.color);
-                    Data.append(
-                        "tradeAddress.sido",
-                        bassData.tradeAddress.sido
-                    );
+                    Data.append("tradeAddress.sido", bassData.tradeAddress.sido);
                     Data.append("tradeAddress.sgg", bassData.tradeAddress.sgg);
                     Data.append("tradeAddress.emd", bassData.tradeAddress.emd);
                     Data.append("qualityStatus", bassData.selectedState);
@@ -251,6 +248,27 @@ const InstrumentUpload = () => {
                     // 엔드포인트 설정
                     var endpoint = "/instruments/audio-equipments";
                     break;
+                    case "합주실":
+                    // 추가적으로 필요한 데이터 추가
+                    Data.append("tradeAddress.fullAddress", ensembleRoomData.tradeAddress.fullAddress);
+                    Data.append("tradeAddress.detailAddress", ensembleRoomData.tradeAddress.detailAddress);
+                    Data.append("hasSoundEquipment", ensembleRoomData.selectedEquipment);
+                    Data.append("hasInstrument", ensembleRoomData.selectedInstrument);
+                    Data.append("pricePerDay", ensembleRoomData.priceDay);
+                    Data.append("pricePerHour", ensembleRoomData.priceTime);
+                    Data.append("pricePerMonth", ensembleRoomData.priceMonth);
+                    Data.append("capacity", ensembleRoomData.selectedCapacity);
+                    Data.append("size", ensembleRoomData.selectedSize);
+                    Data.append("hasParkingLot", ensembleRoomData.selectedParking);
+
+                    // 해시태그 추가
+                    for (const hashtag of ensembleRoomData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/practice-rooms";
+                    break;
                 default:
                     break;
             }
@@ -301,6 +319,10 @@ const InstrumentUpload = () => {
 
     const handleEquipmentData = (data) => {
         setEquipmentData(data);
+    };
+
+    const handleEnsembleRoomData = (data) => {
+        setEnsembleRoomData(data);
     };
 
     return (
@@ -482,6 +504,7 @@ const InstrumentUpload = () => {
                                     updateBassData={handleBassData}
                                     updateAcousticClassicData={handleAcousticClassicData}
                                     updateEquipmentData={handleEquipmentData}
+                                    updateEnsembleRoomData={handleEnsembleRoomData}
                                 />
                             )}
                         </div>

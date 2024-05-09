@@ -156,7 +156,7 @@ function App() {
                                         element={<InstrumentDetail />}
                                     />
                                     <Route
-                                        path="/InstrumentModify"
+                                        path="/Instruments/modify/:id"
                                         element={<InstrumentModify />}
                                     />
                                     <Route

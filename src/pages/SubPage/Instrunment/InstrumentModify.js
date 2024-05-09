@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import axios, { axiosPrivate } from "../../../api/axios";
 
 import NavBar from '../../../components/Sub/NavBar';
 import DropdownMenu from '../../../components/Sub/Dropdown/DropdownMenu';
@@ -12,33 +12,86 @@ import AcousticClassic from '../../../components/Sub/InstrumentSelection.js/Acou
 import Equipment from '../../../components/Sub/InstrumentSelection.js/Equipment';
 import EnsembleRoom from '../../../components/Sub/InstrumentSelection.js/EnsembleRoom';
 
+import useAuth from "../../../hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { userState } from "../../../recoil";
+import { useParams } from 'react-router-dom';
+
 const InstrumentModify = () => {
   // 매물 정보 상태를 관리. 실제로는 API 호출을 통해 초기값을 설정할 수 있습니다.
-  const [selectedProductName, setName] = useState('기존 매물 이름');
+  const [selectedProductName, setSelectedProductName] = useState('기존 매물 이름');
   const [description, setDescription] = useState('기존 매물 설명');
 
   const [selectedOption, setSelectedOption] = useState('일렉기타'); // 드롭다운 선택 상태
 
-  const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태 추가
+  const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
+  const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
+  const [deletedImageIds, setDeletedImageIds] = useState(""); // 삭제한 이미지의 id 리스트
+  const [newImages, setNewImages] = useState(""); // 새로 추가된 악기 이미지 리스트
+  const [deletedHashtagIds, setDeletedHashtagIds] = useState(""); // 삭제한 해시태그의 id 리스트
+  const [newdHashtags, setNewdHashtags] = useState(""); // 새로 추가된 해시태그 리스트  
+  
+  const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
+  // const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
+  // const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
+  // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
+  // const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
+  // const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
+  // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
+  
+  const { id } = useParams();
+  const [user, setUser] = useRecoilState(userState);
+  const [imageUrls, setImageUrls] = useState([]);
 
-  /*useEffect(() => {
-    // 매물 정보를 불러오는 API 호출
-    axios.get('/api/instruments/{instrumentId}') // 가정한 URL, 실제 URL로 변경 필요
-      .then(response => {
-        // 응답으로 받은 매물 정보로 상태 업데이트
-        setName(response.data.name);
-        setDescription(response.data.description);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);*/
+  
+  useEffect(() => {
+    console.log(id);
+    axios
+        .get(`/instruments/${id}`, {
+            headers: {
+                "Hertz-API-Version": 1,
+            },
+            params: {
+                instrumentId: id,
+            },
+        })
+        .then((res) => {
+            // setData(res.data);
+            console.log(res);
+            const images = res.data.images;
+            const urls = images.map((image) => image.url);
+            setImageUrls(urls);
+            setSelectedProductName(res.data.title);
+            setDescription(res.data.description);
+            setSelectProgressStatus(res.data.progressStatus);
+            setElectricGuitarData(res.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("존재하지 않는 페이지 입니다.");
+        });
+  }, [id]);
+
+  console.log("추출 상세설명: ", imageUrls);
+  console.log("추출 상태 : ", electricGuitarData);
+  // useEffect(() => {
+  //   // 매물 정보를 불러오는 API 호출
+  //   axios.get('/instruments/electric-guirars/{electricGuitarId}')
+  //     .then(response => {
+  //       // 응답으로 받은 매물 정보로 상태 업데이트
+  //       setSelectedProductName(response.data.name);
+  //       setDescription(response.data.description);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
 
   // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수입니다.
   const handleNameChange = (e) => {
-    setName(e.target.value);
+    setSelectedProductName(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
@@ -67,14 +120,87 @@ const InstrumentModify = () => {
   // 이미지 변경 시 호출될 함수
   const handleImageChange = (image) => {
     setSelectedImage(image);
+    console.log("선택한 이미지:", image);
   };
 
   // 폼 제출 함수입니다. 실제로는 여기서 수정된 정보를 서버로 보내는 로직이 필요합니다.
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Updated Name:', selectedProductName);
-    console.log('Updated Description:', description);
-    // 여기서 수정 API를 호출할 수 있습니다.
+
+    if (
+      !selectedProductName ||
+      !selectProgressStatus ||
+      // !electricGuitarData ||
+      !description ||
+      !selectedImage.length
+    ) {
+      alert("모든 필수 항목을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const Data = new FormData();
+
+      // 공통적으로 필요한 데이터 추가
+      Data.append("title", selectedProductName);
+      Data.append("progressStatus", selectProgressStatus);
+      Data.append("description", description);
+
+      // 선택된 옵션에 따라 필요한 데이터 추가
+      switch (selectedOption) {
+          case "일렉기타":
+              // 추가적으로 필요한 데이터 추가
+              Data.append("brand", electricGuitarData.brand);
+              Data.append("model", electricGuitarData.model);
+              Data.append("productionYear", electricGuitarData.productionYear);
+              Data.append("color", electricGuitarData.color);
+              Data.append("tradeAddress.sido", electricGuitarData.tradeAddress.sido);
+              Data.append("tradeAddress.sgg", electricGuitarData.tradeAddress.sgg);
+              Data.append("tradeAddress.emd", electricGuitarData.tradeAddress.emd);
+              Data.append("qualityStatus", electricGuitarData.selectedState);
+              Data.append("price", electricGuitarData.price);
+              Data.append("hasAnomaly", electricGuitarData.selectedFeature);
+
+              // 해시태그 추가
+              for (const hashtag of electricGuitarData.hashtags) {
+                  Data.append("newHashtags[]", hashtag);
+              }
+
+              // 엔드포인트 설정
+              var endpoint = "/instruments/electric-guitars/{electricGuitarId}";
+              break;
+            default:
+              break;
+      }
+      // 이미지 추가
+      for (const image of selectedImage) {
+        Data.append("newImages", image);
+      }
+
+      // API 호출
+      const response = await axiosPrivate.patch(endpoint, Data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "Hertz-API-Version": 1,
+            Authorization: `Bearer ${user?.token}`,
+        },
+      });
+      if (response.status === 201) {
+          alert("악기가 성공적으로 수정되었습니다.");
+      } else {
+          alert("악기 수정에 실패했습니다.");
+      }
+  } catch (err) {
+      console.error(err);
+      alert("악기 수정에 실패했습니다.");
+  }
+    // console.log('Updated Name:', selectedProductName);
+    // console.log('Updated Description:', description);
+    // // 여기서 수정 API를 호출할 수 있습니다.
+  };
+
+  const handleElectricGuitarData = (data) => {
+    setElectricGuitarData(data);
   };
 
   return (
@@ -95,11 +221,21 @@ const InstrumentModify = () => {
           </div>
           {/* 필수사항 */}
           <div style={{ margin: '15px' }}>
-            <p style={{ textAlign: 'left', marginLeft: '55px' }}>필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)</p>
+            <p style={{ textAlign: 'left', marginLeft: '55px' }}>
+              {selectedOption === "합주실" ? (
+                <>
+                  필수사항 : 문(입구)에서 찍은 정면샷 / 측면에서 찍은 샷 / 음향장비나 악기의 인증샷 / 특이사항이나 구비된 특별한 것들의 인증샷
+                </>
+              ) : (
+                <>
+                  필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)
+                </>
+              )}
+            </p>
           </div>
           {/* 이미지 업로드 수정 */}
           <div style={{ textAlign: 'left', marginLeft: '70px', marginTop: '30px' }}>
-            <UploadPhoto onImagesChange={handleImageChange} />
+            <UploadPhoto onImagesChange={handleImageChange} imageUrls={imageUrls} />
           </div>
           <div></div>
           {/* 필수 입력 사항 수정 */}
@@ -107,14 +243,39 @@ const InstrumentModify = () => {
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '10px', marginTop: '40px' }}>필수 입력 사항</p>
               <div style={{ marginTop: '40px', marginRight: '70px' }}>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>예약중</button>
-                <button style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '3px' }}>판매완료</button>
+                <button type="button"
+                  style={{ backgroundColor: selectProgressStatus === "SELLING" ? "#D6E0F3" : "white",
+                  border: "1px solid black", borderRadius: "3px", }}
+                  onClick={() => setSelectProgressStatus("SELLING")}
+                >판매중
+                </button>
+                <button type="button"
+                  style={{ backgroundColor: selectProgressStatus === "RESERVED" ? "#FFD94D" : "white",
+                  border: "1px solid black", borderRadius: "3px", }}
+                  onClick={() => setSelectProgressStatus("RESERVED")}
+                >예약중
+                </button>
+                <button type="button"
+                  style={{ backgroundColor: selectProgressStatus === "SOLD_OUT" ? "lightgray" : "white",
+                  border: "1px solid black", borderRadius: "3px", }}
+                  onClick={() => setSelectProgressStatus("SOLD_OUT")}
+                >판매완료
+                </button>
               </div>
             </div>
             <p style={{ marginLeft: '10px' }}>매물의 정보를 정확하게 사실만 입력해주세요.</p>
             <div style={{ marginLeft: '20px' }}>
-              {SelectedComponent && <SelectedComponent />}
+              {SelectedComponent && (
+                <SelectedComponent 
+                  updateGuitarData={handleElectricGuitarData}
+                  // updateEffectorData={handleEffectorData}
+                  // updateAmpData={handleAmpData}
+                  // updateBassData={handleBassData}
+                  // updateAcousticClassicData={handleAcousticClassicData}
+                  // updateEquipmentData={handleEquipmentData}
+                  // updateEnsembleRoomData={handleEnsembleRoomData}
+                />
+              )}
             </div>
           </div>
           {/* 상세 정보 입력(수정)하는 칸 */}
@@ -126,9 +287,10 @@ const InstrumentModify = () => {
           </div>
           {/* 올리기 버튼 */}
           <div style={{ textAlign: 'right', margin: '30px 70px 30px 30px' }}>
-            <button type="submit"
+            <button type="submit" onClick={handleSubmit}
               style={{ backgroundColor: '#D6E0F3', borderRadius: '5px', border: 'none',
-                paddingRight: '15px', paddingLeft: '15px' }}>올리기</button>
+                paddingRight: '15px', paddingLeft: '15px' }}>올리기
+              </button>
           </div>
         </form>
       </div>
