@@ -40,7 +40,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
 
 
     // 주소 선택 핸들러
-    const handleAddressComplete = (data) => {
+    const handleAddressFull = (data) => {
         setSelectedAddress(data.address);
         setIsPostOpen(false); // 주소 선택시 팝업 창 닫기
     };
@@ -129,38 +129,39 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         setHashtags(newHashtags);
     };
 
-    // const updateData = () => {
-    //     const ensembleRoomData = {
-    //         brand: selectedBrand,
-    //         model: selectedModel,
-    //         productionYear: productionYear,
-    //         color: selectedColor,
-    //         selectedState: selectedState,
-    //         price: price,
-    //         selectedFeature: selectedFeature,
-    //         hashtags: hashtags,
-    //     };
-    //     // 선택한 시도, 시군구, 읍면동 값을 guitarData 객체에 추가
-    //     guitarData.tradeAddress = {
-    //         sido: selectedSido,
-    //         sgg: selectedSgg,
-    //         emd: selectedEmd,
-    //     };
-    //     updateEnsembleRoomData(ensembleRoomData);
-    // };
+    const updateData = () => {
+        const ensembleRoomData = {
+            selectedEquipment: selectedEquipment,
+            selectedInstrument: selectedInstrument,
+            priceTime: priceTime,
+            priceDay: priceDay,
+            priceMonth: priceMonth,
+            capacity: selectedCapacity,
+            size: selectedSize,
+            selectedParking: selectedParking,
+            hashtags: hashtags,
+        };
+        // 검색한 주소와 입력한 상세 주소 값을 ensembleRoomData 객체에 추가
+        ensembleRoomData.tradeAddress = {
+            fullAddress: selectedAddress,
+            detailAddress: selectedAddressDetail,
+        };
+        updateEnsembleRoomData(ensembleRoomData);
+    };
 
-    // useEffect(() => {
-    //     updateData();
-    // }, [
-    //     selectedBrand,
-    //     selectedModel,
-    //     productionYear,
-    //     selectedColor,
-    //     selectedState,
-    //     price,
-    //     selectedFeature,
-    //     hashtags,
-    // ]);
+    useEffect(() => {
+        updateData();
+    }, [
+        selectedEquipment,
+        selectedInstrument,
+        priceTime,
+        priceDay,
+        priceMonth,
+        selectedCapacity,
+        selectedSize,
+        selectedParking,
+        hashtags,
+    ]);
 
     return (
         <div style={{ display: "flex", flexDirection: "row" }}>
@@ -325,7 +326,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                                     padding: "20px",
                                 }}
                             >
-                                <DaumPostcode onComplete={handleAddressComplete} style={{ width: "100%", height: "100%" }} />
+                                <DaumPostcode onComplete={handleAddressFull} style={{ width: "100%", height: "100%" }} />
                                 <button
                                     onClick={closePostcode}
                                     style={{
@@ -424,7 +425,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             height: "40px",
                             borderRadius: "3px",
                             border: "1px solid black",
-                            padding: "10px 10px 10px 20px",
+                            padding: "10px",
                             textAlign: "right"
                         }}
                     />

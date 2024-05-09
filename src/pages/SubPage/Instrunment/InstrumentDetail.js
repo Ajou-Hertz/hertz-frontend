@@ -122,7 +122,7 @@ const InstrumentDetail = () => {
 
     // 수정하기 페이지
     function clickModify() {
-        navigate("/InstrumentModify");
+        navigate(`/instruments/modify/${id}`);
     }
 
     return (
