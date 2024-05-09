@@ -13,6 +13,8 @@ import {
     MenuItem,
     Select,
     InputLabel,
+    FormControlLabel,
+    Checkbox,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -20,22 +22,49 @@ const SelfSign = (props) => {
     const navigate = useNavigate();
     const theme = createTheme();
 
+    const [userChecked, setUserChecked] = useState({
+        check1: false,
+    });
+
     const [userCode, setUserCode] = useState("");
     const [userNumber, setUserNumber] = useState("");
     const [userTelecom, setUserTelecom] = useState("");
 
     const [isValidAll, setIsvalidAll] = useState(false);
     const [isCodeInputVisible, setIsCodeInputVisible] = useState(false);
+    const [isCodeSent, setIsCodeSent] = useState(false);
+    const [timer, setTimer] = useState(300);
 
     useEffect(() => {
-        setIsCodeInputVisible(userTelecom !== "" && userNumber !== "");
-    }, [userTelecom, userNumber]);
+        setIsCodeInputVisible(
+            userTelecom !== "" &&
+                userNumber !== "" &&
+                userChecked.check1 !== false
+        );
+    }, [userTelecom, userNumber, userChecked.check1]);
 
     useEffect(() => {
         setIsvalidAll(
             userCode !== "" && userNumber !== "" && userTelecom !== ""
         );
     }, [userCode, userNumber, userTelecom]);
+
+    useEffect(() => {
+        let interval;
+        if (isCodeSent) {
+            interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isCodeSent]);
+
+    useEffect(() => {
+        if (timer === 0) {
+            setTimer(0); // 타이머가 음수가 되지 않도록 수정
+            setIsCodeSent(false); // 코드가 보내지지 않은 상태로 변경
+        }
+    }, [timer]);
 
     const handleChangeNumber = (e) => {
         setUserNumber(e.target.value);
@@ -82,6 +111,8 @@ const SelfSign = (props) => {
 
     const handleSendCode = () => {
         if (true) {
+            setIsCodeSent(true);
+            setTimer(300);
             axios
                 .post(
                     `/auth/codes/send`,
@@ -115,6 +146,13 @@ const SelfSign = (props) => {
 
     const handleChangeCode = (e) => {
         setUserCode(e.target.value);
+    };
+
+    const handleUserChecked = (e) => {
+        setUserChecked({
+            ...userChecked,
+            [e.target.name]: e.target.checked,
+        });
     };
 
     return (
@@ -175,7 +213,7 @@ const SelfSign = (props) => {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={8}>
+                                <Grid item xs={12}>
                                     <TextField
                                         fullWidth
                                         id="userNumber"
@@ -184,6 +222,27 @@ const SelfSign = (props) => {
                                         placeholder="예) 01012345678"
                                         value={userNumber}
                                         onChange={handleChangeNumber}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={8}
+                                    className="join_terms"
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                    }}
+                                >
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                name="check1"
+                                                color="primary"
+                                                checked={userChecked.check1}
+                                                onChange={handleUserChecked}
+                                            />
+                                        }
+                                        label="개인정보 수집 및 이용 (필수)"
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
@@ -196,21 +255,41 @@ const SelfSign = (props) => {
                                             backgroundColor: "gray",
                                         }}
                                         onClick={handleSendCode}
-                                        disabled={!userTelecom || !userNumber}
+                                        disabled={
+                                            !userTelecom ||
+                                            !userNumber ||
+                                            !userChecked.check1
+                                        }
                                     >
                                         문자 발송
                                     </Button>
                                 </Grid>
                                 {isCodeInputVisible && (
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            id="userCode"
-                                            name="userCode"
-                                            label="인증번호"
-                                            value={userCode}
-                                            onChange={handleChangeCode}
-                                        />
+                                    <Grid
+                                        container
+                                        item
+                                        xs={12}
+                                        alignItems="center"
+                                    >
+                                        <Grid item xs={10}>
+                                            <TextField
+                                                fullWidth
+                                                id="userCode"
+                                                name="userCode"
+                                                label="인증번호"
+                                                value={userCode}
+                                                onChange={handleChangeCode}
+                                            />
+                                        </Grid>
+                                        {isCodeSent && (
+                                            <Grid item xs={2}>
+                                                <Typography>
+                                                    {Math.floor(timer / 60)}:
+                                                    {timer % 60 < 10 ? "0" : ""}
+                                                    {timer % 60}
+                                                </Typography>
+                                            </Grid>
+                                        )}
                                     </Grid>
                                 )}
                             </Grid>
