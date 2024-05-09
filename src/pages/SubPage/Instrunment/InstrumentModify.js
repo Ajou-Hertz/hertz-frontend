@@ -123,6 +123,11 @@ const InstrumentModify = () => {
     console.log("선택한 이미지:", image);
   };
 
+  // 이미지 삭제 시 호출될 함수
+  const handleImageDelete = (deletedId) => {
+    setDeletedImageIds(prevIds => [...prevIds, deletedId]);
+  };
+
   // 폼 제출 함수입니다. 실제로는 여기서 수정된 정보를 서버로 보내는 로직이 필요합니다.
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -176,6 +181,10 @@ const InstrumentModify = () => {
       for (const image of selectedImage) {
         Data.append("newImages", image);
       }
+      // 삭제한 이미지 ID들을 FormData에 추가
+      deletedImageIds.forEach((id) => {
+        Data.append("deletedImageIds[]", id);
+      });
 
       // API 호출
       const response = await axiosPrivate.patch(endpoint, Data, {
@@ -235,7 +244,7 @@ const InstrumentModify = () => {
           </div>
           {/* 이미지 업로드 수정 */}
           <div style={{ textAlign: 'left', marginLeft: '70px', marginTop: '30px' }}>
-            <UploadPhoto onImagesChange={handleImageChange} imageUrls={imageUrls} />
+            <UploadPhoto onImagesChange={handleImageChange} onImagesDelete={handleImageDelete} imageUrls={imageUrls} />
           </div>
           <div></div>
           {/* 필수 입력 사항 수정 */}
