@@ -31,7 +31,7 @@ const InstrumentDetail = () => {
                 // setData(res.data);
                 console.log(res);
                 setInstrumentData(res.data);
-                setSellerId(res.data.sellerId);
+                setSellerId(res.data.seller.id);
                 const images = res.data.images;
                 const urls = images.map((image) => image.url);
                 setImageUrls(urls);
@@ -377,7 +377,7 @@ const InstrumentDetail = () => {
                                                 padding: "5px",
                                             }}
                                         >
-                                            https://open.kakao.com/qwer
+                                            {instrumentData.seller.contactLink}
                                         </p>
                                     ) : (
                                         <button
