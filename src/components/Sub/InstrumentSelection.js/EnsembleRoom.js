@@ -1,3 +1,4 @@
+/* global kakao */
 import React, { useState, useEffect } from "react";
 import DaumPostcode from "react-daum-postcode";
 import axios, { axiosPrivate } from "../../../api/axios";
@@ -27,6 +28,9 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [selectedAddress, setSelectedAddress] = useState(""); // 주소 상태
     const [selectedAddressDetail, setSelectedAddressDetail] = useState(""); // 상세 주소 상태
     const [isPostOpen, setIsPostOpen] = useState(false); // 주소찾기 창 상태
+    const [latitude, setLatitude] = useState(""); // 주소의 위 상태
+    const [longitude, setLongitude] = useState(""); // 주소의 경도 상태
+
 
     const [selectedEquipment, setSelectedEquipment] = useState(null); // 음향장비 유무를 위한 상태
     const [selectedInstrument, setSelectedInstrument] = useState(null); // 악기 유무를 위한 상태
@@ -39,10 +43,33 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
 
 
+    // // 주소 선택 핸들러
+    // const handleAddressFull = (data) => {
+    //     setSelectedAddress(data.address);
+    //     setIsPostOpen(false); // 주소 선택시 팝업 창 닫기
+    // };
+
     // 주소 선택 핸들러
     const handleAddressFull = (data) => {
         setSelectedAddress(data.address);
         setIsPostOpen(false); // 주소 선택시 팝업 창 닫기
+
+        // 카카오 지도 서비스의 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(data.address, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 경도, 위도 상태 설정
+                setLatitude(coords.getLat().toString());
+                setLongitude(coords.getLng().toString());
+            } 
+        });    
     };
 
     // 상세 주소 입력 핸들러
@@ -145,6 +172,11 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         ensembleRoomData.tradeAddress = {
             fullAddress: selectedAddress,
             detailAddress: selectedAddressDetail,
+        };
+        // 위도 경도 값 ensembleRoomData 객체에 추가
+        ensembleRoomData.coordinate = {
+            lat: latitude,
+            lng: longitude,
         };
         updateEnsembleRoomData(ensembleRoomData);
     };

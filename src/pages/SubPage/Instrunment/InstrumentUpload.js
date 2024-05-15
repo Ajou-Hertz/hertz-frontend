@@ -23,6 +23,7 @@ const InstrumentUpload = () => {
     const [selectedOption, setSelectedOption] = useState("일렉기타"); // 드롭다운 초기 선택값
 
     const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
+    const [imageUrls, setImageUrls] = useState([]); // 이미지 url
     const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
@@ -107,10 +108,7 @@ const InstrumentUpload = () => {
                     // 추가적으로 필요한 데이터 추가
                     Data.append("brand", electricGuitarData.brand);
                     Data.append("model", electricGuitarData.model);
-                    Data.append(
-                        "productionYear",
-                        electricGuitarData.productionYear
-                    );
+                    Data.append("productionYear", electricGuitarData.productionYear);
                     Data.append("color", electricGuitarData.color);
                     Data.append(
                         "tradeAddress.sido",
@@ -124,15 +122,9 @@ const InstrumentUpload = () => {
                         "tradeAddress.emd",
                         electricGuitarData.tradeAddress.emd
                     );
-                    Data.append(
-                        "qualityStatus",
-                        electricGuitarData.selectedState
-                    );
+                    Data.append("qualityStatus", electricGuitarData.selectedState);
                     Data.append("price", electricGuitarData.price);
-                    Data.append(
-                        "hasAnomaly",
-                        electricGuitarData.selectedFeature
-                    );
+                    Data.append("hasAnomaly", electricGuitarData.selectedFeature);
 
                     // 해시태그 추가
                     for (const hashtag of electricGuitarData.hashtags) {
@@ -252,6 +244,8 @@ const InstrumentUpload = () => {
                     // 추가적으로 필요한 데이터 추가
                     Data.append("tradeAddress.fullAddress", ensembleRoomData.tradeAddress.fullAddress);
                     Data.append("tradeAddress.detailAddress", ensembleRoomData.tradeAddress.detailAddress);
+                    Data.append("coordinate.lat", ensembleRoomData.coordinate.lat);
+                    Data.append("coordinate.lng", ensembleRoomData.coordinate.lng);
                     Data.append("hasSoundEquipment", ensembleRoomData.selectedEquipment);
                     Data.append("hasInstrument", ensembleRoomData.selectedInstrument);
                     Data.append("pricePerDay", ensembleRoomData.priceDay);
@@ -287,13 +281,13 @@ const InstrumentUpload = () => {
                 },
             });
             if (response.status === 201) {
-                alert("악기가 성공적으로 등록되었습니다.");
+                alert("매물이 성공적으로 등록되었습니다.");
             } else {
-                alert("악기 등록에 실패했습니다.");
+                alert("매물 등록에 실패했습니다.");
             }
         } catch (err) {
             console.error(err);
-            alert("악기 등록에 실패했습니다.");
+            alert("매물 등록에 실패했습니다.");
         }
     };
 
@@ -408,7 +402,8 @@ const InstrumentUpload = () => {
                             marginTop: "30px",
                         }}
                     >
-                        <UploadPhoto onImagesChange={handleImageChange} />
+                        {/* <UploadPhoto onImagesChange={handleImageChange} /> */}
+                        <UploadPhoto onImagesChange={handleImageChange} imageUrls={imageUrls} />
                     </div>
                     <div style={{ textAlign: "left", marginLeft: "50px" }}>
                         <p style={{ margin: "20px" }}>

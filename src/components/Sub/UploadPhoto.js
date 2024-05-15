@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const UploadPhoto = ({ onImagesChange, imageUrls }) => {
+const UploadPhoto = ({ onImagesChange, imageUrls = [] }) => {
   const [images, setImages] = useState([]);
   const [imageUrlsState, setImageUrlsState] = useState(imageUrls); // 이미지 URL을 위한 상태
   const inputRef = useRef(null); // input 요소의 참조를 생성
