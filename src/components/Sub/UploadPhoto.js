@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const UploadPhoto = ({ onImagesChange, imageUrls }) => {
-    const [images, setImages] = useState([]);
-    const [imageUrlsState, setImageUrlsState] = useState(imageUrls || []); // imageUrls가 전달되지 않으면 빈 배열로 초기화
-    const inputRef = useRef(null); // input 요소의 참조를 생성
+const UploadPhoto = ({ onImagesChange, imageUrls = [] }) => {
+  const [images, setImages] = useState([]);
+  const [imageUrlsState, setImageUrlsState] = useState(imageUrls); // 이미지 URL을 위한 상태
+  const inputRef = useRef(null); // input 요소의 참조를 생성
 
     const MAX_IMAGES = 7;
     const MIN_IMAGES = 4;
