@@ -27,7 +27,7 @@ const InstrumentModify = () => {
   const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
   const [selectProgressStatus, setSelectProgressStatus] = useState("SELLING"); // 판매중 버튼 상태
 
-  const [deletedImageIds, setDeletedImageIds] = useState(""); // 삭제한 이미지의 id 리스트
+  const [deletedImageIds, setDeletedImageIds] = useState([]); // 삭제한 이미지의 id 리스트
   const [newImages, setNewImages] = useState(""); // 새로 추가된 악기 이미지 리스트
   const [deletedHashtagIds, setDeletedHashtagIds] = useState(""); // 삭제한 해시태그의 id 리스트
   const [newdHashtags, setNewdHashtags] = useState(""); // 새로 추가된 해시태그 리스트  
@@ -43,7 +43,6 @@ const InstrumentModify = () => {
   const { id } = useParams();
   const [user, setUser] = useRecoilState(userState);
   const [imageUrls, setImageUrls] = useState([]);
-
   
   useEffect(() => {
     console.log(id);
@@ -172,7 +171,7 @@ const InstrumentModify = () => {
               }
 
               // 엔드포인트 설정
-              var endpoint = "/instruments/electric-guitars/{electricGuitarId}";
+              //var endpoint = `/instruments/electric-guitars/${id}`
               break;
             default:
               break;
@@ -187,7 +186,7 @@ const InstrumentModify = () => {
       });
 
       // API 호출
-      const response = await axiosPrivate.patch(endpoint, Data, {
+      const response = await axiosPrivate.patch(`/instruments/electric-guitars/${id}`, Data, {
         headers: {
             "Content-Type": "multipart/form-data",
             "Hertz-API-Version": 1,
