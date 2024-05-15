@@ -28,9 +28,8 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [selectedAddress, setSelectedAddress] = useState(""); // 주소 상태
     const [selectedAddressDetail, setSelectedAddressDetail] = useState(""); // 상세 주소 상태
     const [isPostOpen, setIsPostOpen] = useState(false); // 주소찾기 창 상태
-    const [latitude, setLatitude] = useState(""); // 주소의 위 상태
+    const [latitude, setLatitude] = useState(""); // 주소의 위도 상태
     const [longitude, setLongitude] = useState(""); // 주소의 경도 상태
-
 
     const [selectedEquipment, setSelectedEquipment] = useState(null); // 음향장비 유무를 위한 상태
     const [selectedInstrument, setSelectedInstrument] = useState(null); // 악기 유무를 위한 상태
@@ -41,13 +40,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [selectedSize, setSelectedSize] = useState(""); // 사이즈 상태
     const [selectedParking, setSelectedParking] = useState(null); // 주차 가능 여부를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
-
-
-    // // 주소 선택 핸들러
-    // const handleAddressFull = (data) => {
-    //     setSelectedAddress(data.address);
-    //     setIsPostOpen(false); // 주소 선택시 팝업 창 닫기
-    // };
+    
 
     // 주소 선택 핸들러
     const handleAddressFull = (data) => {
