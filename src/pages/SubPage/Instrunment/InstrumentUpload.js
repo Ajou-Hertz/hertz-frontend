@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axiosPrivate from "../../../api/axios";
 import NavBar from "../../../components/Sub/NavBar";
 import UploadPhoto from "../../../components/Sub/UploadPhoto";
@@ -110,18 +110,9 @@ const InstrumentUpload = () => {
                     Data.append("model", electricGuitarData.model);
                     Data.append("productionYear", electricGuitarData.productionYear);
                     Data.append("color", electricGuitarData.color);
-                    Data.append(
-                        "tradeAddress.sido",
-                        electricGuitarData.tradeAddress.sido
-                    );
-                    Data.append(
-                        "tradeAddress.sgg",
-                        electricGuitarData.tradeAddress.sgg
-                    );
-                    Data.append(
-                        "tradeAddress.emd",
-                        electricGuitarData.tradeAddress.emd
-                    );
+                    Data.append("tradeAddress.sido", electricGuitarData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", electricGuitarData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", electricGuitarData.tradeAddress.emd);
                     Data.append("qualityStatus", electricGuitarData.selectedState);
                     Data.append("price", electricGuitarData.price);
                     Data.append("hasAnomaly", electricGuitarData.selectedFeature);
@@ -138,18 +129,9 @@ const InstrumentUpload = () => {
                     // 이펙터 데이터 추가
                     Data.append("feature", effectorData.selectedFunction);
                     Data.append("type", effectorData.selectedType);
-                    Data.append(
-                        "tradeAddress.sido",
-                        effectorData.tradeAddress.sido
-                    );
-                    Data.append(
-                        "tradeAddress.sgg",
-                        effectorData.tradeAddress.sgg
-                    );
-                    Data.append(
-                        "tradeAddress.emd",
-                        effectorData.tradeAddress.emd
-                    );
+                    Data.append("tradeAddress.sido", effectorData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", effectorData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", effectorData.tradeAddress.emd);
                     Data.append("qualityStatus", effectorData.selectedState);
                     Data.append("price", effectorData.price);
                     Data.append("hasAnomaly", effectorData.selectedFeature);

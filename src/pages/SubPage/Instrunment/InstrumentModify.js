@@ -94,8 +94,13 @@ const InstrumentModify = () => {
   };
 
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
+    const inputValue = e.target.value;
+    if (!containsLink(inputValue)) {
+        setDescription(inputValue);
+    } else {
+        alert("링크를 포함한 텍스트는 입력할 수 없습니다.");
+    }
+};
 
   // 드롭다운 선택을 처리하는 함수
   const handleDropdownSelect = (option) => {
@@ -125,6 +130,13 @@ const InstrumentModify = () => {
   // 이미지 삭제 시 호출될 함수
   const handleImageDelete = (deletedId) => {
     setDeletedImageIds(prevIds => [...prevIds, deletedId]);
+  };
+
+  // 링크를 포함하는지 여부를 확인하는 함수
+  const containsLink = (text) => {
+    const linkPattern =
+        /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/;
+    return linkPattern.test(text);
   };
 
   // 폼 제출 함수입니다. 실제로는 여기서 수정된 정보를 서버로 보내는 로직이 필요합니다.
