@@ -1,3 +1,4 @@
+// 회원 가입으로 접속했을 때의 본인 인증 페이지
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

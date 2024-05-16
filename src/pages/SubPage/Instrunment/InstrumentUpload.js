@@ -55,13 +55,13 @@ const InstrumentUpload = () => {
 
     // 드롭다운 메뉴 옵션과 컴포넌트 매핑
     const componentMapping = {
-        '일렉기타': ElectricGuitar,
-        '이펙터': Effector,
-        '앰프': Amp,
-        '베이스': Bass,
-        '어쿠스틱&클래식': AcousticClassic,
-        '음향장비': Equipment,
-        '합주실': EnsembleRoom,
+        일렉기타: ElectricGuitar,
+        이펙터: Effector,
+        앰프: Amp,
+        베이스: Bass,
+        "어쿠스틱&클래식": AcousticClassic,
+        음향장비: Equipment,
+        합주실: EnsembleRoom,
     };
 
     // 선택된 옵션에 따라 렌더링할 컴포넌트 결정
@@ -108,14 +108,32 @@ const InstrumentUpload = () => {
                     // 추가적으로 필요한 데이터 추가
                     Data.append("brand", electricGuitarData.brand);
                     Data.append("model", electricGuitarData.model);
-                    Data.append("productionYear", electricGuitarData.productionYear);
+                    Data.append(
+                        "productionYear",
+                        electricGuitarData.productionYear
+                    );
                     Data.append("color", electricGuitarData.color);
-                    Data.append("tradeAddress.sido", electricGuitarData.tradeAddress.sido);
-                    Data.append("tradeAddress.sgg", electricGuitarData.tradeAddress.sgg);
-                    Data.append("tradeAddress.emd", electricGuitarData.tradeAddress.emd);
-                    Data.append("qualityStatus", electricGuitarData.selectedState);
+                    Data.append(
+                        "tradeAddress.sido",
+                        electricGuitarData.tradeAddress.sido
+                    );
+                    Data.append(
+                        "tradeAddress.sgg",
+                        electricGuitarData.tradeAddress.sgg
+                    );
+                    Data.append(
+                        "tradeAddress.emd",
+                        electricGuitarData.tradeAddress.emd
+                    );
+                    Data.append(
+                        "qualityStatus",
+                        electricGuitarData.selectedState
+                    );
                     Data.append("price", electricGuitarData.price);
-                    Data.append("hasAnomaly", electricGuitarData.selectedFeature);
+                    Data.append(
+                        "hasAnomaly",
+                        electricGuitarData.selectedFeature
+                    );
 
                     // 해시태그 추가
                     for (const hashtag of electricGuitarData.hashtags) {
@@ -129,9 +147,18 @@ const InstrumentUpload = () => {
                     // 이펙터 데이터 추가
                     Data.append("feature", effectorData.selectedFunction);
                     Data.append("type", effectorData.selectedType);
-                    Data.append("tradeAddress.sido", effectorData.tradeAddress.sido);
-                    Data.append("tradeAddress.sgg", effectorData.tradeAddress.sgg);
-                    Data.append("tradeAddress.emd", effectorData.tradeAddress.emd);
+                    Data.append(
+                        "tradeAddress.sido",
+                        effectorData.tradeAddress.sido
+                    );
+                    Data.append(
+                        "tradeAddress.sgg",
+                        effectorData.tradeAddress.sgg
+                    );
+                    Data.append(
+                        "tradeAddress.emd",
+                        effectorData.tradeAddress.emd
+                    );
                     Data.append("qualityStatus", effectorData.selectedState);
                     Data.append("price", effectorData.price);
                     Data.append("hasAnomaly", effectorData.selectedFeature);
@@ -169,7 +196,10 @@ const InstrumentUpload = () => {
                     Data.append("pickUp", bassData.pickUp);
                     Data.append("preAmplifier", bassData.preAmplifier);
                     Data.append("color", bassData.color);
-                    Data.append("tradeAddress.sido", bassData.tradeAddress.sido);
+                    Data.append(
+                        "tradeAddress.sido",
+                        bassData.tradeAddress.sido
+                    );
                     Data.append("tradeAddress.sgg", bassData.tradeAddress.sgg);
                     Data.append("tradeAddress.emd", bassData.tradeAddress.emd);
                     Data.append("qualityStatus", bassData.selectedState);
@@ -207,9 +237,18 @@ const InstrumentUpload = () => {
                 case "음향장비":
                     // 음향장비 데이터 추가
                     Data.append("type", equipmentData.selectedType);
-                    Data.append("tradeAddress.sido", equipmentData.tradeAddress.sido);
-                    Data.append("tradeAddress.sgg", equipmentData.tradeAddress.sgg);
-                    Data.append("tradeAddress.emd", equipmentData.tradeAddress.emd);
+                    Data.append(
+                        "tradeAddress.sido",
+                        equipmentData.tradeAddress.sido
+                    );
+                    Data.append(
+                        "tradeAddress.sgg",
+                        equipmentData.tradeAddress.sgg
+                    );
+                    Data.append(
+                        "tradeAddress.emd",
+                        equipmentData.tradeAddress.emd
+                    );
                     Data.append("qualityStatus", equipmentData.selectedState);
                     Data.append("price", equipmentData.price);
                     Data.append("hasAnomaly", equipmentData.selectedFeature);
@@ -222,20 +261,41 @@ const InstrumentUpload = () => {
                     // 엔드포인트 설정
                     var endpoint = "/instruments/audio-equipments";
                     break;
-                    case "합주실":
+                case "합주실":
                     // 추가적으로 필요한 데이터 추가
-                    Data.append("tradeAddress.fullAddress", ensembleRoomData.tradeAddress.fullAddress);
-                    Data.append("tradeAddress.detailAddress", ensembleRoomData.tradeAddress.detailAddress);
-                    Data.append("coordinate.lat", ensembleRoomData.coordinate.lat);
-                    Data.append("coordinate.lng", ensembleRoomData.coordinate.lng);
-                    Data.append("hasSoundEquipment", ensembleRoomData.selectedEquipment);
-                    Data.append("hasInstrument", ensembleRoomData.selectedInstrument);
+                    Data.append(
+                        "tradeAddress.fullAddress",
+                        ensembleRoomData.tradeAddress.fullAddress
+                    );
+                    Data.append(
+                        "tradeAddress.detailAddress",
+                        ensembleRoomData.tradeAddress.detailAddress
+                    );
+                    Data.append(
+                        "coordinate.lat",
+                        ensembleRoomData.coordinate.lat
+                    );
+                    Data.append(
+                        "coordinate.lng",
+                        ensembleRoomData.coordinate.lng
+                    );
+                    Data.append(
+                        "hasSoundEquipment",
+                        ensembleRoomData.selectedEquipment
+                    );
+                    Data.append(
+                        "hasInstrument",
+                        ensembleRoomData.selectedInstrument
+                    );
                     Data.append("pricePerDay", ensembleRoomData.priceDay);
                     Data.append("pricePerHour", ensembleRoomData.priceTime);
                     Data.append("pricePerMonth", ensembleRoomData.priceMonth);
-                    Data.append("capacity", ensembleRoomData.selectedCapacity);
-                    Data.append("size", ensembleRoomData.selectedSize);
-                    Data.append("hasParkingLot", ensembleRoomData.selectedParking);
+                    Data.append("capacity", ensembleRoomData.capacity);
+                    Data.append("size", ensembleRoomData.size);
+                    Data.append(
+                        "hasParkingLot",
+                        ensembleRoomData.selectedParking
+                    );
 
                     // 해시태그 추가
                     for (const hashtag of ensembleRoomData.hashtags) {
@@ -321,8 +381,8 @@ const InstrumentUpload = () => {
                             onChange={handleNameChange}
                             placeholder={
                                 selectedOption === "합주실"
-                                ? "도보로 이용가능한 랜드마크와 이름만 입력 부탁드립니다. ex) 수원역 헤르츠 합주실"
-                                : "정확한 모델명을 입력해주세요. ex) 펜더 로드원 텔레캐스터"
+                                    ? "도보로 이용가능한 랜드마크와 이름만 입력 부탁드립니다. ex) 수원역 헤르츠 합주실"
+                                    : "정확한 모델명을 입력해주세요. ex) 펜더 로드원 텔레캐스터"
                             } // 사용자가 입력을 시작할 때 가이드를 제공
                             style={{
                                 borderRadius: "5px",
@@ -367,11 +427,15 @@ const InstrumentUpload = () => {
                         <p style={{ textAlign: "left", marginLeft: "55px" }}>
                             {selectedOption === "합주실" ? (
                                 <>
-                                    필수사항 : 문(입구)에서 찍은 정면샷 / 측면에서 찍은 샷 / 음향장비나 악기의 인증샷 / 특이사항이나 구비된 특별한 것들의 인증샷
+                                    필수사항 : 문(입구)에서 찍은 정면샷 /
+                                    측면에서 찍은 샷 / 음향장비나 악기의 인증샷
+                                    / 특이사항이나 구비된 특별한 것들의 인증샷
                                 </>
                             ) : (
                                 <>
-                                    필수사항 : 전면샷 / 후면전체 샷 / 픽업 & 브릿지 / 덴트(흠집있는 부분들) / 특이사항 부분들 (넥 문제 , 배선 문제, 녹이 슮 등)
+                                    필수사항 : 전면샷 / 후면전체 샷 / 픽업 &
+                                    브릿지 / 덴트(흠집있는 부분들) / 특이사항
+                                    부분들 (넥 문제 , 배선 문제, 녹이 슮 등)
                                 </>
                             )}
                         </p>
@@ -385,7 +449,10 @@ const InstrumentUpload = () => {
                         }}
                     >
                         {/* <UploadPhoto onImagesChange={handleImageChange} /> */}
-                        <UploadPhoto onImagesChange={handleImageChange} imageUrls={imageUrls} />
+                        <UploadPhoto
+                            onImagesChange={handleImageChange}
+                            imageUrls={imageUrls}
+                        />
                     </div>
                     <div style={{ textAlign: "left", marginLeft: "50px" }}>
                         <p style={{ margin: "20px" }}>
@@ -479,9 +546,13 @@ const InstrumentUpload = () => {
                                     updateGuitarData={handleElectricGuitarData}
                                     updateAmpData={handleAmpData}
                                     updateBassData={handleBassData}
-                                    updateAcousticClassicData={handleAcousticClassicData}
+                                    updateAcousticClassicData={
+                                        handleAcousticClassicData
+                                    }
                                     updateEquipmentData={handleEquipmentData}
-                                    updateEnsembleRoomData={handleEnsembleRoomData}
+                                    updateEnsembleRoomData={
+                                        handleEnsembleRoomData
+                                    }
                                 />
                             )}
                         </div>

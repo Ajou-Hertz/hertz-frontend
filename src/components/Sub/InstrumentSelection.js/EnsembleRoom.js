@@ -36,11 +36,13 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const [priceTime, setPriceTime] = useState("/ 시간"); // 시간별 가격을 위한 상태
     const [priceDay, setPriceDay] = useState("/ 일"); // 일별 가격을 위한 상태
     const [priceMonth, setPriceMonth] = useState("/ 월"); // 월별 가격을 위한 상태
+    const [pricePerTime, setPricePerTime] = useState(); // 시간별 가격을 실제 값
+    const [pricePerDay, setPricePerDay] = useState(); // 일별 가격을 위한 실제 값
+    const [pricePerMonth, setPricePerMonth] = useState(); // 월별 가격을 위한 실제 값
     const [selectedCapacity, setSelectedCapacity] = useState(""); // 수용인원 상태
     const [selectedSize, setSelectedSize] = useState(""); // 사이즈 상태
     const [selectedParking, setSelectedParking] = useState(null); // 주차 가능 여부를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
-    
 
     // 주소 선택 핸들러
     const handleAddressFull = (data) => {
@@ -51,18 +53,16 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         var geocoder = new kakao.maps.services.Geocoder();
 
         // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(data.address, function(result, status) {
-
-            // 정상적으로 검색이 완료됐으면 
+        geocoder.addressSearch(data.address, function (result, status) {
+            // 정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK) {
-
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                 // 경도, 위도 상태 설정
                 setLatitude(coords.getLat().toString());
                 setLongitude(coords.getLng().toString());
-            } 
-        });    
+            }
+        });
     };
 
     // 상세 주소 입력 핸들러
@@ -90,21 +90,25 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     const handlePriceTime = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
         const inputPriceTime = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-        setPriceTime(inputPriceTime + '/ 시간');
+        setPriceTime(inputPriceTime + "/ 시간");
+        setPricePerTime(inputPriceTime);
+        console.log(inputPriceTime);
     };
 
     // 일 별 가격 입력 핸들러
     const handlePriceDay = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
         const inputPriceDay = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-        setPriceDay(inputPriceDay + '/ 일');
+        setPriceDay(inputPriceDay + "/ 일");
+        setPricePerDay(inputPriceDay);
     };
 
     // 월 별 가격 입력 핸들러
     const handlePriceMonth = (event) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
         const inputPriceMonth = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
-        setPriceMonth(inputPriceMonth + '/ 월');
+        setPriceMonth(inputPriceMonth + "/ 월");
+        setPricePerMonth(inputPriceMonth);
     };
 
     // 수용인원 입력 핸들러
@@ -112,6 +116,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         // 사용자가 입력한 값에서 숫자가 아닌 문자를 모두 제거
         const inputCapacity = event.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 문자를 제거합니다.
         setSelectedCapacity(inputCapacity);
+        console.log(inputCapacity);
     };
 
     // 사이즈 입력 핸들러
@@ -153,9 +158,9 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
         const ensembleRoomData = {
             selectedEquipment: selectedEquipment,
             selectedInstrument: selectedInstrument,
-            priceTime: priceTime,
-            priceDay: priceDay,
-            priceMonth: priceMonth,
+            priceTime: pricePerTime,
+            priceDay: pricePerDay,
+            priceMonth: pricePerMonth,
             capacity: selectedCapacity,
             size: selectedSize,
             selectedParking: selectedParking,
@@ -179,9 +184,9 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
     }, [
         selectedEquipment,
         selectedInstrument,
-        priceTime,
-        priceDay,
-        priceMonth,
+        pricePerTime,
+        pricePerDay,
+        pricePerMonth,
         selectedCapacity,
         selectedSize,
         selectedParking,
@@ -326,7 +331,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                         }}
                     >
                         주소 찾기
-                    </ button>
+                    </button>
                     {/* 주소 찾기 팝업 창 */}
                     {isPostOpen && (
                         <div
@@ -351,7 +356,10 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                                     padding: "20px",
                                 }}
                             >
-                                <DaumPostcode onComplete={handleAddressFull} style={{ width: "100%", height: "100%" }} />
+                                <DaumPostcode
+                                    onComplete={handleAddressFull}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
                                 <button
                                     onClick={closePostcode}
                                     style={{
@@ -359,7 +367,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                                         top: "10px",
                                         right: "10px",
                                         border: "none",
-                                        backgroundColor: "white"
+                                        backgroundColor: "white",
                                     }}
                                 >
                                     X
@@ -451,7 +459,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             borderRadius: "3px",
                             border: "1px solid black",
                             padding: "10px",
-                            textAlign: "right"
+                            textAlign: "right",
                         }}
                     />
                     <input
@@ -465,7 +473,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             border: "1px solid black",
                             padding: "10px",
                             marginLeft: "20px",
-                            textAlign: "right"
+                            textAlign: "right",
                         }}
                     />
                     <input
@@ -479,7 +487,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                             border: "1px solid black",
                             padding: "10px",
                             marginLeft: "20px",
-                            textAlign: "right"
+                            textAlign: "right",
                         }}
                     />
                 </div>
@@ -590,7 +598,7 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                                     border: "none",
                                     borderRadius: "7px",
                                     backgroundColor: "#D6E0F3",
-                                    fontSize: "25px"
+                                    fontSize: "25px",
                                 }}
                             >
                                 -
@@ -601,12 +609,12 @@ const EnsembleRoom = ({ updateEnsembleRoomData }) => {
                         <button
                             type="button" // 새로고침 방지
                             onClick={handleAddHashtag}
-                            style={{ 
+                            style={{
                                 height: "40px",
                                 width: "30px",
                                 border: "none",
                                 borderRadius: "7px",
-                                backgroundColor: "#D6E0F3"
+                                backgroundColor: "#D6E0F3",
                             }}
                         >
                             +
