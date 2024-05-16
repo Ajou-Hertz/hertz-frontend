@@ -1,20 +1,57 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import UploadProfilePhoto from "../components/Sub/UploadProfilePhoto";
+import axiosPrivate from "../api/axios";
 // import PersonIcon from "@mui/icons-material/Person";
 import { Button } from "antd";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 function Profile({ userData }) {
+    const [user, setUser] = useRecoilState(userState);
+    const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
     useEffect(() => {
         console.log(userData);
     }, []);
     const navigate = useNavigate();
     // '내 프로필 수정' 버튼 클릭 시 '/myedit' 페이지로 이동하는 함수
-    const handleEditProfile = () => {
-        navigate("/myedit"); // '/myedit' 페이지로 이동
+    const handleEditProfile = async () => {
+        try {
+            const Data = new FormData();
+            // 이미지 추가
+            for (const image of selectedImage) {
+                Data.append("profileImage", image);
+            }
+            // 엔드포인트 설정
+            var endpoint = "users/me/profile-images";
+            // API 호출
+            const response = await axiosPrivate.put(endpoint, Data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Hertz-API-Version": 1,
+                    Authorization: `Bearer ${user?.token}`,
+                },
+            });
+            if (response.status === 200) {
+                alert("프로필사진 변경이 완료되었습니다.");
+            } else {
+                alert("프로필사진 변경에 실패했습니다.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("프로필사진 변경에 실패했습니다.");
+        }
+    };
+    const test = () => {
+        console.log("!!");
+    };
+    // 이미지 변경 시 호출될 함수
+    const handleImageChange = (image) => {
+        setSelectedImage(image);
+        console.log("선택한 이미지:", image);
     };
     return (
         <section className="profile">
@@ -44,7 +81,7 @@ function Profile({ userData }) {
                 }}
             >
                 <div style={{ alignItems: "center" }}>
-                    <Avatar
+                    {/* <Avatar
                         sx={{
                             bgcolor: "#97B4FF",
                             width: 80,
@@ -56,7 +93,21 @@ function Profile({ userData }) {
                         }}
                     >
                         {userData?.nickName?.slice(0, 1).toUpperCase()}
-                    </Avatar>
+                    </Avatar> */}
+                    <UploadProfilePhoto
+                        onImagesChange={handleImageChange}
+                        imageUrls={userData?.profileImageUrl}
+                    />
+                    {/* <img
+                        src={userData?.profileImageUrl}
+                        alt="The first selected"
+                        style={{
+                            border: "1px solid black",
+                            width: "100px",
+                            height: "100px",
+                            marginLeft: "420px",
+                        }}
+                    /> */}
                     <button
                         type="button"
                         onClick={handleEditProfile}
@@ -70,12 +121,12 @@ function Profile({ userData }) {
                             marginLeft: "325px",
                         }}
                     >
-                        내 프로필사진 편집
+                        내 프로필사진 저장
                     </button>
                 </div>
                 <div
                     className="detail_box"
-                    style={{ flex: 1, marginLeft: "80px" }}
+                    style={{ flex: 1, marginLeft: "0px" }}
                 >
                     <div style={{ textAlign: "left" }}>
                         <span style={{ color: "#757575", marginRight: "71px" }}>
@@ -175,7 +226,7 @@ function Profile({ userData }) {
 
             <Button
                 style={{ marginLeft: "1000px", marginBottom: "30px" }}
-                onClick={handleEditProfile}
+                onClick={test}
             >
                 회원 탈퇴하기
             </Button>
