@@ -25,6 +25,8 @@ const SelfSign = (props) => {
 
     const [userChecked, setUserChecked] = useState({
         check1: false,
+        check2: false,
+        check3: false,
     });
 
     const [userCode, setUserCode] = useState("");
@@ -40,9 +42,10 @@ const SelfSign = (props) => {
         setIsCodeInputVisible(
             userTelecom !== "" &&
                 userNumber !== "" &&
-                userChecked.check1 !== false
+                userChecked.check1 !== false &&
+                userChecked.check2 !== false
         );
-    }, [userTelecom, userNumber, userChecked.check1]);
+    }, [userTelecom, userNumber, userChecked.check1, userChecked.check2]);
 
     useEffect(() => {
         setIsvalidAll(
@@ -202,15 +205,9 @@ const SelfSign = (props) => {
                                             onChange={handleChangeTelecom}
                                         >
                                             <MenuItem value="">미선택</MenuItem>
-                                            <MenuItem value="MALE">
-                                                SKT
-                                            </MenuItem>
-                                            <MenuItem value="FEMALE">
-                                                KT
-                                            </MenuItem>
-                                            <MenuItem value="FEMALE">
-                                                LG
-                                            </MenuItem>
+                                            <MenuItem value="SKT">SKT</MenuItem>
+                                            <MenuItem value="KT">KT</MenuItem>
+                                            <MenuItem value="LG">LG</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
@@ -243,7 +240,29 @@ const SelfSign = (props) => {
                                                 onChange={handleUserChecked}
                                             />
                                         }
+                                        label="헤르츠 이용약관 (필수)"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                name="check2"
+                                                color="primary"
+                                                checked={userChecked.check2}
+                                                onChange={handleUserChecked}
+                                            />
+                                        }
                                         label="개인정보 수집 및 이용 (필수)"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                name="check3"
+                                                color="primary"
+                                                checked={userChecked.check3}
+                                                onChange={handleUserChecked}
+                                            />
+                                        }
+                                        label="마케팅 수신 동의 (선택)"
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
@@ -259,7 +278,8 @@ const SelfSign = (props) => {
                                         disabled={
                                             !userTelecom ||
                                             !userNumber ||
-                                            !userChecked.check1
+                                            !userChecked.check1 ||
+                                            !userChecked.check2
                                         }
                                     >
                                         문자 발송
