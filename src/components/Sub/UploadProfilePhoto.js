@@ -45,13 +45,14 @@ const UploadProfilePhoto = ({ onImagesChange, imageUrls }) => {
     };
 
     const handleClick = () => {
-        inputRef.current.click(); // input 요소 클릭 이벤트 호출
+        if (!imageUrlsState) {
+            inputRef.current.click(); // input 요소 클릭 이벤트 호출
+        }
     };
 
     return (
         <div
             style={{
-                // overflowX: "auto",
                 maxHeight: "380px",
                 marginLeft: "425px",
                 marginBottom: "30px",
@@ -71,7 +72,7 @@ const UploadProfilePhoto = ({ onImagesChange, imageUrls }) => {
                         key={index}
                         onClick={handleClick}
                         style={{
-                            cursor: "pointer",
+                            cursor: imageUrlsState ? "default" : "pointer", // 이미지가 있을 경우 커서 모양 변경
                             marginRight: "100px",
                             position: "relative",
                         }}

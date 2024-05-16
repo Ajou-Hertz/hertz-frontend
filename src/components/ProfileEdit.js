@@ -261,7 +261,11 @@ function Profile({ userData }) {
             </div>
 
             <Button
-                style={{ marginLeft: "1000px", marginBottom: "30px" }}
+                style={{
+                    marginLeft: "1000px",
+                    marginBottom: "30px",
+                    marginTop: "20px",
+                }}
                 onClick={test}
             >
                 회원 탈퇴하기
