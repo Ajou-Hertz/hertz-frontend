@@ -17,11 +17,13 @@ const NavBar = () => {
               </Nav.Link>
               <Nav.Link style={{color: (location.pathname === '/EnsembleRoomList' || location.pathname.startsWith('/EnsembleRoomDetail')
                 || location.pathname.startsWith('/Review') || location.pathname.startsWith('/WriteReview')
-                || location.pathname.startsWith('/WriteKeywordReview') || location.pathname.startsWith('/WriteTextReview')) 
+                || location.pathname.startsWith('/WriteKeywordReview') || location.pathname.startsWith('/WriteTextReview')
+                || location.pathname.startsWith('/Reserve')) 
                 ? '#637DBE' : 'black', fontSize: '18px', 
                 fontWeight: (location.pathname === '/EnsembleRoomList' || location.pathname.startsWith('/EnsembleRoomDetail') || 
                 location.pathname.startsWith('/Review') || location.pathname.startsWith('/WriteReview')
-                || location.pathname.startsWith('/WriteKeywordReview') || location.pathname.startsWith('/WriteTextReview'))
+                || location.pathname.startsWith('/WriteKeywordReview') || location.pathname.startsWith('/WriteTextReview')
+                || location.pathname.startsWith('/Reserve'))
                 ? 'bold' : 'normal'}} href="/EnsembleRoomList">합주실
               </Nav.Link>
               <Nav.Link style={{color: location.pathname === '/ConcertHall' ? '#637DBE' : 'black', fontSize: '18px', fontWeight: location.pathname === '/ConcertHall' ? 'bold' : 'normal'}} href="/ConcertHall">공연장</Nav.Link>
