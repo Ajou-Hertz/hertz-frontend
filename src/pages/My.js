@@ -78,6 +78,7 @@ const MyPage = () => {
                         style={{
                             marginLeft: "40px",
                             marginRight: "10px",
+                            marginTop: "70px",
                             marginBottom: "10px",
                             display: "inline-block",
                             verticalAlign: "top",
@@ -112,6 +113,7 @@ const MyPage = () => {
                             verticalAlign: "top",
                             border: "none",
                             background: "transparent",
+                            marginTop: "70px",
                         }}
                     >
                         <svg

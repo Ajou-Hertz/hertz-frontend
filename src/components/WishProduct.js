@@ -114,7 +114,7 @@ function WishProduct() {
             }}
         >
             <div>
-                <h3 style={btnStyle2}>최근 본 상품</h3>
+                {/* <h3 style={btnStyle2}>최근 본 상품</h3>
                 <Divider />
                 <ImageList sx={{ width: 700, height: 460 }} cols={3}>
                     {currentData.map((item) => (
@@ -156,7 +156,7 @@ function WishProduct() {
                             />
                         </ImageListItem>
                     ))}
-                </ImageList>
+                </ImageList> */}
             </div>
             <div
                 style={{
@@ -172,7 +172,7 @@ function WishProduct() {
                         justifyContent: "space-between",
                     }}
                 >
-                    <h3 style={btnStyle2}>내가 관심 있는 상품</h3>
+                    {/* <h3 style={btnStyle2}>내가 관심 있는 상품</h3>
                     <Button
                         variant="contained"
                         style={{
@@ -198,10 +198,10 @@ function WishProduct() {
                                 fill="black"
                             />
                         </svg>
-                    </Button>
+                    </Button> */}
                 </div>
                 <Divider />
-                <ImageList sx={{ width: 700, height: 460 }} cols={3}>
+                {/* <ImageList sx={{ width: 700, height: 460 }} cols={3}>
                     {interestData.map((item) => (
                         <ImageListItem key={item.img}>
                             <img
@@ -241,7 +241,7 @@ function WishProduct() {
                             />
                         </ImageListItem>
                     ))}
-                </ImageList>
+                </ImageList> */}
             </div>
         </div>
     );
