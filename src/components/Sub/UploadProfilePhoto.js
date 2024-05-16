@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const UploadProfilePhoto = ({ onImagesChange, imageUrls }) => {
-    console.log(imageUrls);
     const [images, setImages] = useState([]);
     const [imageUrlsState, setImageUrlsState] = useState(imageUrls || ""); // imageUrls가 전달되지 않으면 빈 문자열로 초기화
     const inputRef = useRef(null); // input 요소의 참조를 생성
@@ -54,7 +53,7 @@ const UploadProfilePhoto = ({ onImagesChange, imageUrls }) => {
             style={{
                 // overflowX: "auto",
                 maxHeight: "380px",
-                marginLeft: "420px",
+                marginLeft: "425px",
                 marginBottom: "30px",
             }}
         >
@@ -81,14 +80,14 @@ const UploadProfilePhoto = ({ onImagesChange, imageUrls }) => {
                             <img
                                 src={imageUrlsState}
                                 alt={`Image`}
-                                style={{ width: "100px", height: "100px" }}
+                                style={{ width: "150px", height: "150px" }}
                             />
                         )}
                         {!imageUrlsState && (
                             <div
                                 style={{
-                                    width: "100px",
-                                    height: "100px",
+                                    width: "150px",
+                                    height: "150px",
                                     border: "1px solid black",
                                 }}
                             ></div>
