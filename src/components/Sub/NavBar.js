@@ -18,7 +18,7 @@ const NavBar = () => {
     const handleConcertHallClick = (event) => {
         event.preventDefault();
         alert("준비중");
-        navigate("/InstrumentList");
+        navigate("/");
     };
 
     return (
