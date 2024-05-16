@@ -107,9 +107,10 @@ function Profile({ userData }) {
                     </div>
                 </div>
 
-                <Button style={{ marginLeft: "50px", marginRight: "400px" }}>
+                {/* <Button style={{ marginLeft: "50px", marginRight: "400px" }}>
                     내 프로필 수정
-                </Button>
+                </Button> */}
+                <div style={{ marginLeft: "50px", marginRight: "400px" }}></div>
             </div>
         </section>
     );

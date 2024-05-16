@@ -8,16 +8,17 @@ import NavBar from "../../../components/Sub/NavBar";
 import MainImageShow from "../../../components/Sub/MainImageShow";
 import PopupButton from "../../../components/Sub/PopupButton";
 import { useRecoilState } from "recoil";
-import { userState } from "../../../recoil";
+import { userState, userInfoState } from "../../../recoil";
 
 const InstrumentDetail = () => {
     const { id } = useParams();
     const [user, setUser] = useRecoilState(userState);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    console.log(user);
     const [imageUrls, setImageUrls] = useState([]);
     const [instrumentData, setInstrumentData] = useState(null);
     const [sellerId, setSellerId] = useState(null);
     useEffect(() => {
-        console.log(id);
         axios
             .get(`/instruments/${id}`, {
                 headers: {
@@ -98,45 +99,45 @@ const InstrumentDetail = () => {
         }
     };
 
-    // // 로그아웃 상태에서 팝업 열기
-    // const openLoginPopup = () => {
-    //   setIsLoginPopupOpen(true);
-    // };
-
-    // // 로그아웃 상태에서 확인하기 버튼
-    // function clickSeller() {
-    //   // TODO: 로그인 여부 확인
-    //   if (isLoggedIn) {
-    //     navigate("/Seller");
-    //   } else {
-    //   // 로그아웃 상태시 팝업 표시
-    //   openLoginPopup();
-    //   }
-    // }
-
-    // // 로그인 팝업 닫기
-    // const closeLoginPopup = () => {
-    //   setIsLoginPopupOpen(false);
-    //   navigate("/Login")
-    // };
-
     // 수정하기 페이지
     function clickModify() {
         navigate(`/instruments/modify/${id}`);
     }
+    // 매물 삭제 함수
+    const clickDelete = async () => {
+        try {
+            // const token = user?.token || user?.access_token;
+            // if (!token) return;
+
+            // confirm을 통해 사용자의 동의 여부 확인
+            const confirmation = window.confirm("정말로 삭제하시겠습니까?");
+            if (!confirmation) return;
+
+            // 매물 삭제 API 호출
+            await axios.delete(`/instruments/${id}`, {
+                headers: {
+                    "Hertz-API-Version": "1",
+                    accept: "*/*",
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {
+                    instrumentId: id,
+                },
+            });
+            alert("정상적으로 삭제되었습니다.");
+            // 삭제 성공 시 화면 갱신을 위해 페이지 새로고침
+            navigate("/");
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            alert("삭제가 실패하였습니다.");
+        }
+    };
 
     return (
         <div>
             {instrumentData && ( // Check if instrumentData is not null
                 <>
                     <NavBar />
-                    {/* <div>
-        <p style={{ paddingLeft: '40px', textAlign: 'left', fontSize: '20px' }}>중고악기</p>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '70px' }}>
-        <p onClick={ clickModify } style={{ cursor: 'pointer', textDecoration: 'underline' }}>수정하기</p>
-        <p onClick={ clickModify } style={{ marginLeft: '30px', cursor: 'pointer', textDecoration: 'underline' }}>삭제하기</p>
-      </div> */}
                     <div
                         style={{
                             display: "flex",
@@ -148,29 +149,31 @@ const InstrumentDetail = () => {
                         <p style={{ textAlign: "left", fontSize: "20px" }}>
                             중고악기
                         </p>
-                        <div style={{ marginRight: "40px" }}>
-                            <p
-                                onClick={clickModify}
-                                style={{
-                                    cursor: "pointer",
-                                    textDecoration: "underline",
-                                    display: "inline",
-                                    marginRight: "30px",
-                                }}
-                            >
-                                수정하기
-                            </p>
-                            <p
-                                onClick={clickModify}
-                                style={{
-                                    cursor: "pointer",
-                                    textDecoration: "underline",
-                                    display: "inline",
-                                }}
-                            >
-                                삭제하기
-                            </p>
-                        </div>
+                        {userInfo?.id === sellerId && (
+                            <div style={{ marginRight: "40px" }}>
+                                <p
+                                    onClick={clickModify}
+                                    style={{
+                                        cursor: "pointer",
+                                        textDecoration: "underline",
+                                        display: "inline",
+                                        marginRight: "30px",
+                                    }}
+                                >
+                                    수정하기
+                                </p>
+                                <p
+                                    onClick={clickDelete}
+                                    style={{
+                                        cursor: "pointer",
+                                        textDecoration: "underline",
+                                        display: "inline",
+                                    }}
+                                >
+                                    삭제하기
+                                </p>
+                            </div>
+                        )}
                     </div>
                     {/* 제품 이미지 및 제품 정보 */}
                     <div

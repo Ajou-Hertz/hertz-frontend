@@ -12,7 +12,7 @@ import { useFetch } from "./../hooks/useFetch";
 
 import NavBar from "../components/Sub/NavBar";
 import { useRecoilState } from "recoil";
-import { userState } from "../recoil/user.js";
+import { userState, userInfoState } from "../recoil/user.js";
 
 function Home() {
     const marketList = useContext(MarketStateContext);
@@ -21,6 +21,7 @@ function Home() {
     const [data, setData] = useState([]); // get으로 가져온 데이터
 
     const [user, setUser] = useRecoilState(userState);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
     console.log(user?.token);
     useEffect(() => {
@@ -44,6 +45,29 @@ function Home() {
 
         fetchInstruments();
     }, []);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (user && user.token) {
+                try {
+                    const response = await axios.get("/users/me", {
+                        headers: {
+                            accept: "*/*",
+                            "Hertz-API-Version": "1",
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                    });
+                    // 필요한 경우 response.data를 처리합니다.
+                    console.log("User data:", response.data);
+                    setUserInfo(response.data);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            }
+        };
+
+        fetchUserData();
+    }, [user]);
 
     return (
         <div className="area">

@@ -33,7 +33,7 @@ const AcousticClassic = ({ updateAcousticClassicData }) => {
     const [selectedBrandType, setSelectedBrandType] = useState("국내"); // '국내' 또는 '국외'를 저장할 상태 (국내가 디폴트)
     const [selectedBrand, setSelectedBrand] = useState(""); // 브랜드 국내,국외 선택을 위한 상태
     const [selectedModel, setSelectedModel] = useState(""); // 모델 선택을 위한 상태 추가
-    const [selectedWood, setSelectedWood] = useState(""); // 목재 선택을 위한 상태 추가
+    const [selectedWood, setSelectedWood] = useState("PLYWOOD"); // 목재 선택을 위한 상태 추가
     const [selectedPickup, setSelectedPickup] = useState(""); // 픽업 선택을 위한 상태 추가
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
@@ -751,7 +751,7 @@ const AcousticClassic = ({ updateAcousticClassicData }) => {
                                     border: "none",
                                     borderRadius: "7px",
                                     backgroundColor: "#D6E0F3",
-                                    fontSize: "25px"
+                                    fontSize: "25px",
                                 }}
                             >
                                 -
@@ -767,7 +767,7 @@ const AcousticClassic = ({ updateAcousticClassicData }) => {
                                 width: "30px",
                                 border: "none",
                                 borderRadius: "7px",
-                                backgroundColor: "#D6E0F3"
+                                backgroundColor: "#D6E0F3",
                             }}
                         >
                             +
