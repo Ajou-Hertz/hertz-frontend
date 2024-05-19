@@ -42,18 +42,17 @@ function Profile({ userData }) {
                     alignItems: "center",
                 }}
             >
-                <Avatar
-                    sx={{
-                        bgcolor: "#97B4FF",
-                        width: 80,
-                        height: 80,
-                        fontSize: 30,
-                        marginRight: "16px",
+                <img
+                    src={userData?.profileImageUrl}
+                    alt="Profile"
+                    style={{
+                        width: 120,
+                        height: 120,
+                        borderRadius: "20%",
+                        marginRight: "50px",
                         marginLeft: "350px",
                     }}
-                >
-                    {userData?.nickName?.slice(0, 1).toUpperCase()}
-                </Avatar>
+                />
                 <div className="detail_box" style={{ flex: 1 }}>
                     <div style={{ textAlign: "left" }}>
                         {userData?.nickName}
@@ -96,16 +95,12 @@ function Profile({ userData }) {
                 </div>
 
                 <Button
-                    style={{ marginLeft: "auto", marginRight: "400px" }}
+                    style={{ marginLeft: "auto", marginRight: "350px" }}
                     onClick={handleEditProfile}
                 >
                     내 프로필 수정
                 </Button>
             </div>
-
-            {/* <Avatar>
-                        <PersonIcon />
-                    </Avatar> */}
         </section>
     );
 }
