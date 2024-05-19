@@ -2,6 +2,7 @@ import React from 'react'
 import NavBar from '../../../components/Sub/NavBar'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction';
 
 const Reserve = () => {
   return (
