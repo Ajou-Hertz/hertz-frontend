@@ -1,6 +1,6 @@
 // 회원 가입으로 접속했을 때의 본인 인증 페이지
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import axios from "../api/axios";
 import { Typography } from "antd";
@@ -19,10 +19,11 @@ import {
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const SelfSign = (props) => {
+const SelfSign = () => {
     const navigate = useNavigate();
     const theme = createTheme();
-
+    const location = useLocation();
+    const root = location.state ? location.state.root || "" : "";
     const [userChecked, setUserChecked] = useState({
         check1: false,
         check2: false,
@@ -97,10 +98,17 @@ const SelfSign = (props) => {
                 console.log("본인 인증을 완료했습니다.");
                 alert("본인 인증을 완료했습니다.");
                 console.log(userNumber);
-                navigate("/sign", {
-                    state: { phoneNumber: userNumber },
-                    replace: true,
-                });
+                if (root === 1) {
+                    navigate("/findUpdatePW", {
+                        state: { phoneNumber: userNumber, code: userCode },
+                        replace: true,
+                    });
+                } else {
+                    navigate("/sign", {
+                        state: { phoneNumber: userNumber },
+                        replace: true,
+                    });
+                }
             })
             .catch(function (error) {
                 console.log("본인 인증을 실패했습니다.");
@@ -251,7 +259,20 @@ const SelfSign = (props) => {
                                                 onChange={handleUserChecked}
                                             />
                                         }
-                                        label="개인정보 수집 및 이용 (필수)"
+                                        label={
+                                            <div>
+                                                헤르츠 이용약관 (필수)
+                                                <Link
+                                                    to="/terms-of-service"
+                                                    style={{
+                                                        marginLeft: "10px",
+                                                        color: "#637DBE",
+                                                    }}
+                                                >
+                                                    더보기
+                                                </Link>
+                                            </div>
+                                        }
                                     />
                                     <FormControlLabel
                                         control={

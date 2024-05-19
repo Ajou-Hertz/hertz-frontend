@@ -24,6 +24,7 @@ import IdentityVerification from "./pages/IdentityVerification";
 import Seller from "./pages/Seller";
 import Inquiry from "./pages/Inquiry";
 import KakaoRedirect from "./pages/KakaoRedirect";
+import FindUpdatePW from "./pages/FindUpdatePW";
 import { marketsDummyData } from "./constants/data";
 
 import { AuthProvider } from "./context/AuthProvider";
@@ -226,6 +227,10 @@ function App() {
                                     <Route
                                         path="/updatePW"
                                         element={<UpdatePW />}
+                                    />
+                                    <Route
+                                        path="/findUpdatePW"
+                                        element={<FindUpdatePW />}
                                     />
                                 </Routes>
                             </MainLayout>

@@ -102,7 +102,8 @@ function FindPW() {
             return;
         }
 
-        alert("개발 중");
+        // 이동할 경로로 navigate 함수를 사용하여 이동
+        navigate("/selfsign", { state: { root: 1 } });
     };
 
     return (
@@ -170,7 +171,14 @@ function FindPW() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{
+                                mt: 3,
+                                mb: 2,
+                                backgroundColor: "#637DBE",
+                                "&:hover": {
+                                    backgroundColor: "#637DBE", // 호버 시 배경색
+                                },
+                            }}
                             size="large"
                             disabled={!isValidAll || loading}
                             onClick={handleSubmit}
