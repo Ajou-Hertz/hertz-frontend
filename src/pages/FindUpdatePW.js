@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link as useNavigate, useLocation } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 
-import { Container, Box, Button, TextField } from "@mui/material";
+import { Container, Box, Avatar, Button, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "antd/dist/antd.css";
-import { Typography } from "antd";
+import { Typography, Divider } from "antd";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 
@@ -17,16 +17,21 @@ const { Title } = Typography;
 const theme = createTheme();
 
 function FindUpdatePW() {
+    const { setAuth } = useAuth();
+
     const navigate = useNavigate();
     const location = useLocation();
     const userInfo = { ...location.state };
     const from = location.state?.from?.passname || "/";
+    const [user, setUser] = useRecoilState(userState);
 
+    const [isValidEmail, setIsvalidEmail] = useState(false);
     const [userPassword, setUserPassword] = useState("");
     const [isValidPassword, setIsvalidPassword] = useState(false);
     const [userRePassword, setUserRePassword] = useState("");
 
     const [isValidAll, setIsvalidAll] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(true); // 비밀번호 일치 여부 상태 추가
 
     // 유효성 검사하기
@@ -128,10 +133,10 @@ function FindUpdatePW() {
                 alert("Unauthorized");
             } else if (err.response?.status === 500) {
                 alert(err.response?.data?.message);
-            } else if (err.response?.status === 1200) {
-                alert("!");
+            } else if (err.response?.code === 1200) {
+                alert("새로운 비밀번호를 입력해주세요.");
             } else {
-                alert("Login Failed");
+                alert("비밀번호 변경을 실패하였습니다.");
             }
         }
     };
