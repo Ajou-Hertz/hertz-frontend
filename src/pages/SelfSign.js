@@ -235,51 +235,75 @@ const SelfSign = () => {
                                 </Grid>
                                 <Grid
                                     item
-                                    xs={8}
+                                    xs={12}
                                     className="join_terms"
                                     style={{
                                         display: "flex",
                                         flexDirection: "column",
                                     }}
                                 >
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                name="check1"
-                                                color="primary"
-                                                checked={userChecked.check1}
-                                                onChange={handleUserChecked}
-                                            />
-                                        }
-                                        label="헤르츠 이용약관 (필수)"
-                                    />{" "}
-                                    <TOS />
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                name="check2"
-                                                color="primary"
-                                                checked={userChecked.check2}
-                                                onChange={handleUserChecked}
-                                            />
-                                        }
-                                        label="개인정보 수집 및 이용 (필수)"
-                                    />{" "}
-                                    <AgreementPrivacy />
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                name="check3"
-                                                color="primary"
-                                                checked={userChecked.check3}
-                                                onChange={handleUserChecked}
-                                            />
-                                        }
-                                        label="마케팅 수신 동의 (선택)"
-                                    />{" "}
-                                    <AgreementMarketing />
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="check1"
+                                                    color="primary"
+                                                    checked={userChecked.check1}
+                                                    onChange={handleUserChecked}
+                                                />
+                                            }
+                                            label="헤르츠 이용약관 (필수)"
+                                        />{" "}
+                                        <TOS />
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="check2"
+                                                    color="primary"
+                                                    checked={userChecked.check2}
+                                                    onChange={handleUserChecked}
+                                                />
+                                            }
+                                            label="개인정보 수집 및 이용 (필수)"
+                                        />{" "}
+                                        <AgreementPrivacy />
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="check3"
+                                                    color="primary"
+                                                    checked={userChecked.check3}
+                                                    onChange={handleUserChecked}
+                                                />
+                                            }
+                                            label="마케팅 수신 동의 (선택)"
+                                        />
+                                        <AgreementMarketing />
+                                    </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={12}>
                                     <Button
                                         fullWidth
                                         variant="contained"
