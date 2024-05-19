@@ -25,6 +25,7 @@ const Header = () => {
     const logout = () => {
         setUser(null);
         localStorage.removeItem("token");
+        localStorage.removeItem("recoil-persist");
         console.log("토큰 삭제 성공");
     };
 
