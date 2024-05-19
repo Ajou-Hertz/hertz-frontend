@@ -20,6 +20,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AgreementPrivacy from "../components/AgreementPrivacy";
 import TOS from "../components/TOS";
+import AgreementMarketing from "../components/AgreementMarketing";
 
 const SelfSign = () => {
     const navigate = useNavigate();
@@ -251,7 +252,8 @@ const SelfSign = () => {
                                             />
                                         }
                                         label="헤르츠 이용약관 (필수)"
-                                    /> <TOS/>
+                                    />{" "}
+                                    <TOS />
                                     <FormControlLabel
                                         control={
                                             <Checkbox
@@ -262,7 +264,8 @@ const SelfSign = () => {
                                             />
                                         }
                                         label="개인정보 수집 및 이용 (필수)"
-                                    /> <AgreementPrivacy/>
+                                    />{" "}
+                                    <AgreementPrivacy />
                                     <FormControlLabel
                                         control={
                                             <Checkbox
@@ -273,7 +276,8 @@ const SelfSign = () => {
                                             />
                                         }
                                         label="마케팅 수신 동의 (선택)"
-                                    />
+                                    />{" "}
+                                    <AgreementMarketing />
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Button
