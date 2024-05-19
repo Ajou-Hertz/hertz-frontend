@@ -259,20 +259,7 @@ const SelfSign = () => {
                                                 onChange={handleUserChecked}
                                             />
                                         }
-                                        label={
-                                            <div>
-                                                헤르츠 이용약관 (필수)
-                                                <Link
-                                                    to="/terms-of-service"
-                                                    style={{
-                                                        marginLeft: "10px",
-                                                        color: "#637DBE",
-                                                    }}
-                                                >
-                                                    더보기
-                                                </Link>
-                                            </div>
-                                        }
+                                        label="개인정보 수집 및 이용 (필수)"
                                     />
                                     <FormControlLabel
                                         control={
