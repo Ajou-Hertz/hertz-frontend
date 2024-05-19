@@ -82,7 +82,7 @@ function UpdatePW() {
     //비밀번호 유효성 검사
     const checkValidCurrentPassword = (pwd) => {
         //  8 ~ 16자 영문, 숫자 조합
-        var regExp = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
+        var regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^*+=-]).{8,16}$/;
         // 형식에 맞는 경우 true 리턴
         // console.log("비밀번호 유효성 검사 :: ", regExp.test(pwd));
         setIsvalidCurrentPassword(regExp.test(pwd));
@@ -91,7 +91,7 @@ function UpdatePW() {
     //비밀번호 유효성 검사
     const checkValidPassword = (pwd) => {
         //  8 ~ 16자 영문, 숫자 조합
-        var regExp = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
+        var regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^*+=-]).{8,16}$/;
         // 형식에 맞는 경우 true 리턴
         // console.log("비밀번호 유효성 검사 :: ", regExp.test(pwd));
         setIsvalidPassword(regExp.test(pwd));
