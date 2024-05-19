@@ -12,9 +12,9 @@ import { userState } from "../recoil";
 
 function Profile({ userData }) {
     const [user, setUser] = useRecoilState(userState);
-    console.log(userData);
     const [selectedImage, setSelectedImage] = useState([]); // 선택한 이미지 상태
     const [contactLink, setContactLink] = useState(userData?.contactLink || ""); // 연락수단 상태
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userData?.contactLink !== undefined) {
@@ -75,13 +75,39 @@ function Profile({ userData }) {
         }
     };
 
-    const test = () => {
-        console.log("!!");
-    };
     // 이미지 변경 시 호출될 함수
     const handleImageChange = (image) => {
         setSelectedImage(image);
         console.log("선택한 이미지:", image);
+    };
+    const handleDeleteAccount = async () => {
+        if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+            try {
+                const endpoint = `/users/${userData.id}`;
+                const response = await axiosPrivate.delete(endpoint, {
+                    headers: {
+                        "Hertz-API-Version": 1,
+                        Authorization: `Bearer ${user?.token}`,
+                    },
+                    data: {
+                        userId: userData.id,
+                    },
+                });
+
+                if (response.status === 204) {
+                    alert("회원 탈퇴가 완료되었습니다.");
+                    setUser(null);
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("recoil-persist");
+                    navigate("/"); // 회원 탈퇴 후 홈 페이지로 이동
+                } else {
+                    alert("회원 탈퇴에 실패했습니다.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("회원 탈퇴에 실패했습니다.");
+            }
+        }
     };
     return (
         <section className="profile">
@@ -168,7 +194,15 @@ function Profile({ userData }) {
                         <span style={{ color: "#757575", marginRight: "56px" }}>
                             생년월일
                         </span>
-                        <span>{userData?.birth}</span>
+                        <span>
+                            {userData?.birth
+                                ? `${userData?.birth[0]}-${String(
+                                      userData?.createdAt[1]
+                                  ).padStart(2, "0")}-${String(
+                                      userData?.birth[2]
+                                  ).padStart(2, "0")}`
+                                : ""}
+                        </span>
                     </div>
                     <div style={{ textAlign: "left", marginTop: "20px" }}>
                         <span style={{ color: "#757575", marginRight: "71px" }}>
@@ -266,7 +300,7 @@ function Profile({ userData }) {
                     marginBottom: "30px",
                     marginTop: "20px",
                 }}
-                onClick={test}
+                onClick={handleDeleteAccount}
             >
                 회원 탈퇴하기
             </Button>
