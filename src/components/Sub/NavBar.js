@@ -102,6 +102,7 @@ const NavBar = () => {
                                             : "normal",
                                 }}
                                 href="/EnsembleRoomList"
+                                onClick={handleConcertHallClick}
                             >
                                 합주실
                             </Nav.Link>
