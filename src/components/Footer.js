@@ -3,9 +3,24 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import TOS2 from "../components/TOS2";
+import AgreementPrivacy2 from "../components/AgreementPrivacy2";
+import { useState } from "react";
 
 const theme = createTheme();
 function Footer() {
+    const [showTOS, setShowTOS] = useState(false);
+    const [showPrivacy, setShowPrivacy] = useState(false);
+
+    // 이용약관 버튼 클릭 핸들러
+    const handleToggleTOS = () => {
+        setShowTOS(!showTOS);
+    };
+    // 개인정보처리 클릭 핸들러
+    const handleTogglePrivacy = () => {
+        setShowPrivacy(!showPrivacy);
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -32,8 +47,32 @@ function Footer() {
                                 gap: "16px",
                             }}
                         >
-                            <div>이용약관 </div>
-                            <div>개인정보처리방침 </div>
+                            <button
+                                onClick={handleToggleTOS}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    padding: 0,
+                                    cursor: "pointer",
+                                    color: "inherit",
+                                    fontWeight: 490,
+                                }}
+                            >
+                                이용약관
+                            </button>
+                            <button
+                                onClick={handleTogglePrivacy}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    padding: 0,
+                                    cursor: "pointer",
+                                    color: "inherit",
+                                    fontWeight: 490,
+                                }}
+                            >
+                                개인정보처리방침
+                            </button>
                             <div>고객센터 </div>
                             <div>마케팅 수신 동의 </div>
                             <div>사업자 등록 번호 121-3299591 </div>
@@ -55,6 +94,8 @@ function Footer() {
                     동의 없는 크롤링(스크래핑)등의 어떠한 자동수집도 허용하지
                     않습니다.
                 </Typography>
+                {showTOS && <TOS2 setShowTerm={true} />}
+                {showPrivacy && <AgreementPrivacy2 setShowTerm={true} />}
             </Box>
             {/* End footer */}
         </ThemeProvider>

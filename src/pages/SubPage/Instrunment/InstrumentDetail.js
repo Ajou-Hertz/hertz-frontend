@@ -32,15 +32,19 @@ const InstrumentDetail = () => {
                 // setData(res.data);
                 console.log(res);
                 setInstrumentData(res.data);
-                setSellerId(res.data.seller.id);
+                // seller 속성이 존재하는 경우에만 id를 설정
+                if (res.data.seller) {
+                    setSellerId(res.data.seller.id);
+                }
                 const images = res.data.images;
                 const urls = images.map((image) => image.url);
+                console.log(urls);
                 setImageUrls(urls);
             })
             .catch(function (error) {
                 console.log(error);
-                alert("존재하지 않는 페이지 입니다.");
-                navigate("/", { replace: true });
+                // alert("존재하지 않는 페이지 입니다.");
+                // navigate("/", { replace: true });
             });
     }, []);
 
@@ -89,9 +93,14 @@ const InstrumentDetail = () => {
 
     const clickSeller = () => {
         if (isLoggedIn) {
-            // 로그인 상태일 때, 판매자 페이지로 이동
-            console.log("로그인 완료로"); // 로그인 상태 확인
-            navigate(`/seller/${sellerId}`, { state: { sellerId } });
+            if (sellerId) {
+                // 로그인 상태이고, sellerId가 null이 아닐 때 판매자 페이지로 이동
+                console.log("로그인 완료로"); // 로그인 상태 확인
+                navigate(`/seller/${sellerId}`, { state: { sellerId } });
+            } else {
+                // sellerId가 null일 때, 알림 메시지
+                alert("탈퇴한 판매자입니다.");
+            }
         } else {
             // 로그인 상태가 아닐 때, 팝업 메시지를 보여주고 로그인 페이지로 이동
             alert("로그인 후에 사용해주세요.");
@@ -380,7 +389,9 @@ const InstrumentDetail = () => {
                                                 padding: "5px",
                                             }}
                                         >
-                                            {instrumentData.seller.contactLink}
+                                            {instrumentData?.seller
+                                                ?.contactLink ||
+                                                "정보가 없습니다"}
                                         </p>
                                     ) : (
                                         <button
