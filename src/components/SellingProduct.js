@@ -6,6 +6,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import axios from "../api/axios";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
+import { useNavigate } from "react-router-dom";
 
 function SellingProduct({ userData }) {
     const [user, setUser] = useRecoilState(userState);
@@ -16,6 +17,7 @@ function SellingProduct({ userData }) {
         textAlign: "left",
     };
     console.log(userData);
+    const navigate = useNavigate();
 
     // 매물 삭제 함수
     const handleDeleteItem = async (instrumentId) => {
@@ -46,6 +48,10 @@ function SellingProduct({ userData }) {
             alert("삭제가 실패하였습니다.");
         }
     };
+    // 수정하기 페이지
+    function clickModify(instrumentId) {
+        navigate(`/instruments/modify/${instrumentId}`);
+    }
     return (
         <div
             style={{
@@ -134,6 +140,9 @@ function SellingProduct({ userData }) {
                                         <br />
                                         {userData?.root === undefined ? null : (
                                             <button
+                                                onClick={() =>
+                                                    clickModify(item.id)
+                                                }
                                                 style={{
                                                     color: "#FF4B4B",
                                                     fontSize: "14px",
