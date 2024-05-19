@@ -413,8 +413,8 @@ const InstrumentUpload = () => {
                                 "베이스",
                                 "어쿠스틱&클래식",
                                 "음향장비",
-                                "합주실",
-                                "공연장",
+                                // "합주실",
+                                // "공연장",
                             ].map((option) => (
                                 <option key={option} value={option}>
                                     {option}
