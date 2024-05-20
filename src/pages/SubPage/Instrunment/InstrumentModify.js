@@ -34,11 +34,11 @@ const InstrumentModify = () => {
     const [newdHashtags, setNewdHashtags] = useState(""); // 새로 추가된 해시태그 리스트
 
     const [electricGuitarData, setElectricGuitarData] = useState(""); // 일렉기타 컴포넌트에서 받아온 정보 상태
-    // const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
-    // const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
-    // const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
-    // const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
-    // const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
+    const [effectorData, setEffectorData] = useState(""); // 이펙터 컴포넌트에서 받아온 정보 상태
+    const [ampData, setAmpData] = useState(""); // 앰프 컴포넌트에서 받아온 정보 상태
+    const [bassData, setBassData] = useState(""); // 베이스 컴포넌트에서 받아온 정보 상태
+    const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
+    const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
     // const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
 
     const { id } = useParams();
@@ -168,32 +168,14 @@ const InstrumentModify = () => {
                     // 추가적으로 필요한 데이터 추가
                     Data.append("brand", electricGuitarData.brand);
                     Data.append("model", electricGuitarData.model);
-                    Data.append(
-                        "productionYear",
-                        electricGuitarData.productionYear
-                    );
+                    Data.append("productionYear", electricGuitarData.productionYear);
                     Data.append("color", electricGuitarData.color);
-                    Data.append(
-                        "tradeAddress.sido",
-                        electricGuitarData.tradeAddress.sido
-                    );
-                    Data.append(
-                        "tradeAddress.sgg",
-                        electricGuitarData.tradeAddress.sgg
-                    );
-                    Data.append(
-                        "tradeAddress.emd",
-                        electricGuitarData.tradeAddress.emd
-                    );
-                    Data.append(
-                        "qualityStatus",
-                        electricGuitarData.selectedState
-                    );
+                    Data.append("tradeAddress.sido", electricGuitarData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", electricGuitarData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", electricGuitarData.tradeAddress.emd);
+                    Data.append("qualityStatus", electricGuitarData.selectedState);
                     Data.append("price", electricGuitarData.price);
-                    Data.append(
-                        "hasAnomaly",
-                        electricGuitarData.selectedFeature
-                    );
+                    Data.append("hasAnomaly", electricGuitarData.selectedFeature);
 
                     // 해시태그 추가
                     for (const hashtag of electricGuitarData.hashtags) {
@@ -202,6 +184,103 @@ const InstrumentModify = () => {
 
                     // 엔드포인트 설정
                     //var endpoint = `/instruments/electric-guitars/${id}`
+                    break;
+                case "이펙터":
+                    // 이펙터 데이터 추가
+                    Data.append("feature", effectorData.selectedFunction);
+                    Data.append("type", effectorData.selectedType);
+                    Data.append("tradeAddress.sido", effectorData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", effectorData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", effectorData.tradeAddress.emd);
+                    Data.append("qualityStatus", effectorData.selectedState);
+                    Data.append("price", effectorData.price);
+                    Data.append("hasAnomaly", effectorData.selectedFeature);
+  
+                    // 해시태그 추가
+                    for (const hashtag of effectorData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+  
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/effectors";
+                    break;
+                case "앰프":
+                    // 앰프 데이터 추가
+                    Data.append("brand", ampData.brand);
+                    Data.append("type", ampData.type);
+                    Data.append("usage", ampData.usage);
+                    Data.append("tradeAddress.sido", ampData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", ampData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", ampData.tradeAddress.emd);
+                    Data.append("qualityStatus", ampData.selectedState);
+                    Data.append("price", ampData.price);
+                    Data.append("hasAnomaly", ampData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of ampData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/amplifiers";
+                    break;
+                case "베이스":
+                    Data.append("brand", bassData.brand);
+                    Data.append("pickUp", bassData.pickUp);
+                    Data.append("preAmplifier", bassData.preAmplifier);
+                    Data.append("color", bassData.color);
+                    Data.append("tradeAddress.sido",bassData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", bassData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", bassData.tradeAddress.emd);
+                    Data.append("qualityStatus", bassData.selectedState);
+                    Data.append("price", bassData.price);
+                    Data.append("hasAnomaly", bassData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of bassData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/bass-guitars";
+                    break;
+                case "어쿠스틱&클래식":
+                    Data.append("brand", aCData.brand);
+                    Data.append("model", aCData.model);
+                    Data.append("wood", aCData.wood);
+                    Data.append("pickUp", aCData.pickup);
+                    Data.append("tradeAddress.sido", aCData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", aCData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", aCData.tradeAddress.emd);
+                    Data.append("qualityStatus", aCData.selectedState);
+                    Data.append("price", aCData.price);
+                    Data.append("hasAnomaly", aCData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of aCData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/acoustic-and-classic-guitars";
+                    break;
+                case "음향장비":
+                    // 음향장비 데이터 추가
+                    Data.append("type", equipmentData.selectedType);
+                    Data.append("tradeAddress.sido", equipmentData.tradeAddress.sido);
+                    Data.append("tradeAddress.sgg", equipmentData.tradeAddress.sgg);
+                    Data.append("tradeAddress.emd", equipmentData.tradeAddress.emd);
+                    Data.append("qualityStatus", equipmentData.selectedState);
+                    Data.append("price", equipmentData.price);
+                    Data.append("hasAnomaly", equipmentData.selectedFeature);
+
+                    // 해시태그 추가
+                    for (const hashtag of equipmentData.hashtags) {
+                        Data.append("hashtags[]", hashtag);
+                    }
+
+                    // 엔드포인트 설정
+                    var endpoint = "/instruments/audio-equipments";
                     break;
                 default:
                     break;
@@ -243,6 +322,26 @@ const InstrumentModify = () => {
 
     const handleElectricGuitarData = (data) => {
         setElectricGuitarData(data);
+    };
+    
+    const handleEffectorData = (data) => {
+        setEffectorData(data);
+    };
+
+    const handleAmpData = (data) => {
+        setAmpData(data);
+    };
+
+    const handleBassData = (data) => {
+        setBassData(data);
+    };
+
+    const handleAcousticClassicData = (data) => {
+        setAcousticClassicData(data);
+    };
+
+    const handleEquipmentData = (data) => {
+        setEquipmentData(data);
     };
 
     return (
@@ -401,11 +500,11 @@ const InstrumentModify = () => {
                             {SelectedComponent && (
                                 <SelectedComponent
                                     updateGuitarData={handleElectricGuitarData}
-                                    // updateEffectorData={handleEffectorData}
-                                    // updateAmpData={handleAmpData}
-                                    // updateBassData={handleBassData}
-                                    // updateAcousticClassicData={handleAcousticClassicData}
-                                    // updateEquipmentData={handleEquipmentData}
+                                    updateEffectorData={handleEffectorData}
+                                    updateAmpData={handleAmpData}
+                                    updateBassData={handleBassData}
+                                    updateAcousticClassicData={handleAcousticClassicData}
+                                    updateEquipmentData={handleEquipmentData}
                                     // updateEnsembleRoomData={handleEnsembleRoomData}
                                 />
                             )}
