@@ -247,6 +247,8 @@ const InstrumentDetail = () => {
                                         padding: "20px",
                                         width: "135px",
                                         height: "100px",
+                                        height: "110px",
+                                        wordWrap: "break-word"
                                     }}
                                 >
                                     <div>매물상태</div>
@@ -262,6 +264,8 @@ const InstrumentDetail = () => {
                                         padding: "20px",
                                         width: "135px",
                                         height: "100px",
+                                        height: "110px",
+                                        wordWrap: "break-word"
                                     }}
                                 >
                                     <div>브랜드</div>
@@ -277,6 +281,8 @@ const InstrumentDetail = () => {
                                         padding: "20px",
                                         width: "135px",
                                         height: "100px",
+                                        height: "110px",
+                                        wordWrap: "break-word"
                                     }}
                                 >
                                     <div>모델</div>
@@ -292,6 +298,8 @@ const InstrumentDetail = () => {
                                         padding: "20px",
                                         width: "135px",
                                         height: "100px",
+                                        height: "110px",
+                                        wordWrap: "break-word"
                                     }}
                                 >
                                     <div>생산연도</div>
@@ -307,6 +315,8 @@ const InstrumentDetail = () => {
                                         padding: "20px",
                                         width: "135px",
                                         height: "100px",
+                                        height: "110px",
+                                        wordWrap: "break-word"
                                     }}
                                 >
                                     <div>색상</div>
