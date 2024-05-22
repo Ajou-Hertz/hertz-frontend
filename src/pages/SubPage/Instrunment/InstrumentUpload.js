@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axiosPrivate from "../../../api/axios";
 import NavBar from "../../../components/Sub/NavBar";
 import UploadPhoto from "../../../components/Sub/UploadPhoto";
@@ -33,6 +34,8 @@ const InstrumentUpload = () => {
     const [aCData, setAcousticClassicData] = useState(""); // 어쿠스틱클래식 컴포넌트에서 받아온 정보 상태
     const [equipmentData, setEquipmentData] = useState(""); // 음향장비 컴포넌트에서 받아온 정보 상태
     const [ensembleRoomData, setEnsembleRoomData] = useState(""); // 합주실 컴포넌트에서 받아온 정보 상태
+
+    const navigate = useNavigate();
 
     // 입력 필드의 값이 변경될 때마다 상태를 업데이트하는 함수
     const handleNameChange = (e) => {
@@ -297,6 +300,7 @@ const InstrumentUpload = () => {
             });
             if (response.status === 201) {
                 alert("매물이 성공적으로 등록되었습니다.");
+                navigate("/InstrumentList"); // 성공 시 중고악기 페이지로 이동
             } else {
                 alert("매물 등록에 실패했습니다.");
             }
