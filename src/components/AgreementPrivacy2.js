@@ -35,23 +35,6 @@ function AgreementPrivacy2({ setShowTerm }) {
 
     return (
         <div>
-            {/* "더보기" 버튼 */}
-            {/* <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    setShowTerms(true);
-                }}
-                style={{
-                    backgroundColor: "white",
-                    border: "none",
-                    color: "gray",
-                    fontSize: "13px",
-                    textDecoration: "underline",
-                }}
-            >
-                더보기
-            </button> */}
-
             {/* 모달 팝업 */}
             {showTerms && (
                 <div>

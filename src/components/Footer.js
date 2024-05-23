@@ -5,12 +5,14 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TOS2 from "../components/TOS2";
 import AgreementPrivacy2 from "../components/AgreementPrivacy2";
+import AgreementMarketing2 from "../components/AgreementMarketing2";
 import { useState } from "react";
 
 const theme = createTheme();
 function Footer() {
     const [showTOS, setShowTOS] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
+    const [showMarketing, setShowMarketing] = useState(false);
 
     // 이용약관 버튼 클릭 핸들러
     const handleToggleTOS = () => {
@@ -19,6 +21,11 @@ function Footer() {
     // 개인정보처리 클릭 핸들러
     const handleTogglePrivacy = () => {
         setShowPrivacy(!showPrivacy);
+    };
+
+    // 마케팅 수신 동의 클릭 핸들러
+    const handleToggleMarketing = () => {
+        setShowMarketing(!showMarketing);
     };
 
     return (
@@ -74,7 +81,19 @@ function Footer() {
                                 개인정보처리방침
                             </button>
                             <div>고객센터 </div>
-                            <div>마케팅 수신 동의 </div>
+                            <button
+                                onClick={handleToggleMarketing}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    padding: 0,
+                                    cursor: "pointer",
+                                    color: "inherit",
+                                    fontWeight: 490,
+                                }}
+                            >
+                                마케팅 수신 동의
+                            </button>
                             <div>사업자 등록 번호 121-3299591 </div>
                         </div>
                     </Typography>
@@ -96,6 +115,7 @@ function Footer() {
                 </Typography>
                 {showTOS && <TOS2 setShowTerm={true} />}
                 {showPrivacy && <AgreementPrivacy2 setShowTerm={true} />}
+                {showMarketing && <AgreementMarketing2 setShowTerm={true} />}
             </Box>
             {/* End footer */}
         </ThemeProvider>
