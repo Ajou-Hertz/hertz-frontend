@@ -7,12 +7,15 @@ import TOS2 from "../components/TOS2";
 import AgreementPrivacy2 from "../components/AgreementPrivacy2";
 import AgreementMarketing2 from "../components/AgreementMarketing2";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 function Footer() {
     const [showTOS, setShowTOS] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
     const [showMarketing, setShowMarketing] = useState(false);
+
+    const navigate = useNavigate();
 
     // 이용약관 버튼 클릭 핸들러
     const handleToggleTOS = () => {
@@ -26,6 +29,11 @@ function Footer() {
     // 마케팅 수신 동의 클릭 핸들러
     const handleToggleMarketing = () => {
         setShowMarketing(!showMarketing);
+    };
+
+    // 고객센터 버튼 클릭 핸들러
+    const handleInquiryClick = () => {
+        navigate("/inquiry");
     };
 
     return (
@@ -80,7 +88,19 @@ function Footer() {
                             >
                                 개인정보처리방침
                             </button>
-                            <div>고객센터 </div>
+                            <button
+                                onClick={handleInquiryClick}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    padding: 0,
+                                    cursor: "pointer",
+                                    color: "inherit",
+                                    fontWeight: 490,
+                                }}
+                            >
+                                고객센터
+                            </button>
                             <button
                                 onClick={handleToggleMarketing}
                                 style={{
