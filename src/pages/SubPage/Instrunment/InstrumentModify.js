@@ -183,7 +183,7 @@ const InstrumentModify = () => {
                     }
 
                     // 엔드포인트 설정
-                    //var endpoint = `/instruments/electric-guitars/${id}`
+                    var endpoint = `/instruments/electric-guitars/${id}`
                     break;
                 case "이펙터":
                     // 이펙터 데이터 추가
@@ -202,7 +202,7 @@ const InstrumentModify = () => {
                     }
   
                     // 엔드포인트 설정
-                    var endpoint = "/instruments/effectors";
+                    var endpoint = `/instruments/effectors/${id}`;
                     break;
                 case "앰프":
                     // 앰프 데이터 추가
@@ -222,7 +222,7 @@ const InstrumentModify = () => {
                     }
 
                     // 엔드포인트 설정
-                    var endpoint = "/instruments/amplifiers";
+                    var endpoint = `/instruments/amplifiers/${id}`;
                     break;
                 case "베이스":
                     Data.append("brand", bassData.brand);
@@ -242,7 +242,7 @@ const InstrumentModify = () => {
                     }
 
                     // 엔드포인트 설정
-                    var endpoint = "/instruments/bass-guitars";
+                    var endpoint = `/instruments/bass-guitars/${id}`;
                     break;
                 case "어쿠스틱&클래식":
                     Data.append("brand", aCData.brand);
@@ -262,7 +262,7 @@ const InstrumentModify = () => {
                     }
 
                     // 엔드포인트 설정
-                    var endpoint = "/instruments/acoustic-and-classic-guitars";
+                    var endpoint = `/instruments/acoustic-and-classic-guitars/${id}`;
                     break;
                 case "음향장비":
                     // 음향장비 데이터 추가
@@ -280,7 +280,7 @@ const InstrumentModify = () => {
                     }
 
                     // 엔드포인트 설정
-                    var endpoint = "/instruments/audio-equipments";
+                    var endpoint = `/instruments/audio-equipments/${id}`;
                     break;
                 default:
                     break;
@@ -296,8 +296,8 @@ const InstrumentModify = () => {
 
             // API 호출
             const response = await axiosPrivate.patch(
-                `/instruments/electric-guitars/${id}`,
-                Data,
+                // `/instruments/electric-guitars/${id}`,
+                endpoint, Data,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -307,13 +307,13 @@ const InstrumentModify = () => {
                 }
             );
             if (response.status === 201) {
-                alert("악기가 성공적으로 수정되었습니다.");
+                alert("매물이 성공적으로 수정되었습니다.");
             } else {
-                alert("악기 수정에 실패했습니다.");
+                alert("매물 수정에 실패했습니다.");
             }
         } catch (err) {
             console.error(err);
-            alert("악기 수정에 실패했습니다.");
+            alert("매물 수정에 실패했습니다.");
         }
         // console.log('Updated Name:', selectedProductName);
         // console.log('Updated Description:', description);
@@ -556,7 +556,7 @@ const InstrumentModify = () => {
                                 paddingLeft: "15px",
                             }}
                         >
-                            올리기
+                            수정하기
                         </button>
                     </div>
                 </form>
