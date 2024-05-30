@@ -5,7 +5,13 @@ import PopupButton from '../PopupButton';
 const Button = ({ label, isSelected, onClick }) => {
   return (
     <button style={{ backgroundColor: isSelected ? '#D6E0F3' : 'white', borderRadius: '3px', 
-      width: '100px', height: '40px', border: '1px solid black' }} onClick={onClick}>
+      width: '100px', height: '40px', border: '1px solid black' }}
+       // 새로고침 방지
+       onClick={(event) => {
+        event.preventDefault();
+        onClick();
+    }}
+      >
       {label}
     </button>
   );
