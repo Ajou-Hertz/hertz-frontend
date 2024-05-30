@@ -61,7 +61,7 @@ const ProductCard = ({ id, img, title, location, price, imgs }) => {
                         variant="h5"
                         sx={{ textAlign: "left" }}
                     >
-                        {title.length > 14 ? title.slice(0, 13) + "..." : title}
+                        {title.length > 14 ? title.slice(0, 12) + "..." : title}
                     </Typography>
                     <Typography
                         className="location"

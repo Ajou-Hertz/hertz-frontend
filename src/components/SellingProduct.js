@@ -71,7 +71,7 @@ function SellingProduct({ userData }) {
                     {userData?.createdInstruments?.map((item) => (
                         <ImageListItem
                             key={item.img}
-                            sx={{ width: "100%", height: "auto" }}
+                            sx={{ width: 250, height: 160 }} // Set fixed width and height
                         >
                             {userData?.root === "my" ? null : (
                                 <span style={{ backgroundColor: "#D6E0F3" }}>
