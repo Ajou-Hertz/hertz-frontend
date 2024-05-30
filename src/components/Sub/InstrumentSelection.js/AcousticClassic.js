@@ -29,12 +29,12 @@ const AcousticClassic = ({ updateAcousticClassicData }) => {
     const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
     const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
     const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
-    const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
+    const [selectedState, setSelectedState] = useState("SELLING"); // 악기 상태 선택을 위한 상태
     const [selectedBrandType, setSelectedBrandType] = useState("국내"); // '국내' 또는 '국외'를 저장할 상태 (국내가 디폴트)
     const [selectedBrand, setSelectedBrand] = useState(""); // 브랜드 국내,국외 선택을 위한 상태
-    const [selectedModel, setSelectedModel] = useState(""); // 모델 선택을 위한 상태 추가
+    const [selectedModel, setSelectedModel] = useState("DREADNOUGHT"); // 모델 선택을 위한 상태 추가
     const [selectedWood, setSelectedWood] = useState("PLYWOOD"); // 목재 선택을 위한 상태 추가
-    const [selectedPickup, setSelectedPickup] = useState(""); // 픽업 선택을 위한 상태 추가
+    const [selectedPickup, setSelectedPickup] = useState("VIBRATION_SENSING"); // 픽업 선택을 위한 상태 추가
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가

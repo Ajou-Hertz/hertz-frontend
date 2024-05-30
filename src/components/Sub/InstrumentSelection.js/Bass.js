@@ -30,11 +30,11 @@ const Bass = ({ updateBassData }) => {
     const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
     const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
     const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
-    const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-    const [selectedBrand, setSelectedBrand] = useState(""); // 브랜드 선택
-    const [selectedPickUp, setSelectedPickUp] = useState(""); // 픽업종류 선택
-    const [selectedPreAmplifier, setSelectedPreAmplifier] = useState(""); // 프리앰프 선택
-    const [selectedColor, setSelectedColor] = useState(""); // 색상 선택
+    const [selectedState, setSelectedState] = useState("SELLING"); // 악기 상태 선택을 위한 상태
+    const [selectedBrand, setSelectedBrand] = useState("FENDER"); // 브랜드 선택
+    const [selectedPickUp, setSelectedPickUp] = useState("JAZZ"); // 픽업종류 선택
+    const [selectedPreAmplifier, setSelectedPreAmplifier] = useState("ACTIVE"); // 프리앰프 선택
+    const [selectedColor, setSelectedColor] = useState("RED"); // 색상 선택
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
@@ -641,7 +641,7 @@ const Bass = ({ updateBassData }) => {
                                     border: "none",
                                     borderRadius: "7px",
                                     backgroundColor: "#D6E0F3",
-                                    fontSize: "25px"
+                                    fontSize: "25px",
                                 }}
                             >
                                 -
@@ -657,7 +657,7 @@ const Bass = ({ updateBassData }) => {
                                 width: "30px",
                                 border: "none",
                                 borderRadius: "7px",
-                                backgroundColor: "#D6E0F3"
+                                backgroundColor: "#D6E0F3",
                             }}
                         >
                             +

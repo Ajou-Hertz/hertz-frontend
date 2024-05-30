@@ -30,10 +30,10 @@ const Amp = ({ updateAmpData }) => {
     const [selectedSido, setSelectedSido] = useState(""); // 선택된 거래지역 상태 추가
     const [selectedSgg, setSelectedSgg] = useState(""); // 선택된 시군구 상태 추가
     const [selectedEmd, setSelectedEmd] = useState(""); // 선택된 읍면동 상태 추가
-    const [selectedState, setSelectedState] = useState(null); // 악기 상태 선택을 위한 상태
-    const [selectedType, setSelectedType] = useState("기타"); // 종류 상태
-    const [selectedBrand, setSelectedBrand] = useState("Fender"); // 브랜드 선택
-    const [selectedUsage, setSelectedUsage] = useState("가정용"); // 용도 상태
+    const [selectedState, setSelectedState] = useState("SELLING"); // 악기 상태 선택을 위한 상태
+    const [selectedType, setSelectedType] = useState("GUITAR"); // 종류 상태
+    const [selectedBrand, setSelectedBrand] = useState("FENDER"); // 브랜드 선택
+    const [selectedUsage, setSelectedUsage] = useState("HOME"); // 용도 상태
     const [price, setPrice] = useState(""); // 가격을 위한 상태
     const [selectedFeature, setSelectedFeature] = useState(null); // 특이사항 유무를 위한 상태
     const [hashtags, setHashtags] = useState([""]); // 해시태그 상태 추가
@@ -592,7 +592,7 @@ const Amp = ({ updateAmpData }) => {
                                     border: "none",
                                     borderRadius: "7px",
                                     backgroundColor: "#D6E0F3",
-                                    fontSize: "25px"
+                                    fontSize: "25px",
                                 }}
                             >
                                 -
@@ -608,7 +608,7 @@ const Amp = ({ updateAmpData }) => {
                                 width: "30px",
                                 border: "none",
                                 borderRadius: "7px",
-                                backgroundColor: "#D6E0F3"
+                                backgroundColor: "#D6E0F3",
                             }}
                         >
                             +
