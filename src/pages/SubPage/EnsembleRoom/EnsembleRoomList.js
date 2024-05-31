@@ -34,8 +34,6 @@ function EnsembleRoomList() {
     const [Sgg, setSgg] = useState([]); // 시군구 상태 추가
     const [selectedSido, setSelectedSido] = useState(""); // 선택한 시도 상태
     const [selectedSgg, setSelectedSgg] = useState(""); // 선택한 시군구 상태
-    
-
 
     // 드롭다운에서 선택된 항목을 처리하는 핸들러
     const handleDateChange = (e) => {
@@ -71,7 +69,7 @@ function EnsembleRoomList() {
             console.error("시도 목록 요청 중 오류가 발생했습니다:", error);
         }
     }, []);
-    
+
     // 시도 선택 핸들러
     const handleSidoChange = (e) => {
         const selectedSidoName = e.target.value; // 선택된 시도의 이름
@@ -138,17 +136,27 @@ function EnsembleRoomList() {
 
     //     fetchInstruments();
     // }, []);
-
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        console.log(term);
+    };
     return (
         <div>
-            <NavBar />
+            <NavBar onSearch={handleSearch} />
             <div
                 style={{
-                    display: "flex", paddingBottom: "50px", paddingLeft: "50px", paddingRight: "50px",
+                    display: "flex",
+                    paddingBottom: "50px",
+                    paddingLeft: "50px",
+                    paddingRight: "50px",
                 }}
             >
                 {/* 시간 / 일 / 월 선택 드롭다운 */}
-                <select value={selectedDate} onChange={handleDateChange}  style={dropdownStyle}>
+                <select
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    style={dropdownStyle}
+                >
                     <option value="전체">전체</option>
                     <option value="시간">시간</option>
                     <option value="일">일</option>
@@ -158,23 +166,29 @@ function EnsembleRoomList() {
                 {/* 지역 선택 드롭다운 */}
                 <div>
                     {/* 시도 선택 드롭다운 */}
-                    <select onChange={(e) => handleSidoChange(e)} style={dropdownStyle}>
+                    <select
+                        onChange={(e) => handleSidoChange(e)}
+                        style={dropdownStyle}
+                    >
                         <option value="">지역</option>
                         {Sido &&
                             Sido.map((item, index) => (
                                 <option key={index}>{item}</option>
-                        ))}
+                            ))}
                     </select>
                     {/* 시군구 선택 드롭다운 */}
                     {selectedSido && (
-                        <select onChange={(e) => setSelectedSgg(e.target.value)} style={dropdownStyle}>
-                        <option value="">시군구</option>
-                        {Sgg &&
-                            Sgg.map((item) => (
-                                <option key={item.name} value={item.id}>
-                                    {item.name}
-                                </option>
-                            ))}
+                        <select
+                            onChange={(e) => setSelectedSgg(e.target.value)}
+                            style={dropdownStyle}
+                        >
+                            <option value="">시군구</option>
+                            {Sgg &&
+                                Sgg.map((item) => (
+                                    <option key={item.name} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
                         </select>
                     )}
                 </div>

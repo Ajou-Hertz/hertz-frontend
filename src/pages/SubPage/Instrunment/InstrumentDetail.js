@@ -141,12 +141,15 @@ const InstrumentDetail = () => {
             alert("삭제가 실패하였습니다.");
         }
     };
-
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        console.log(term);
+    };
     return (
         <div>
             {instrumentData && ( // Check if instrumentData is not null
                 <>
-                    <NavBar />
+                    <NavBar onSearch={handleSearch} />
                     <div
                         style={{
                             display: "flex",
@@ -248,7 +251,7 @@ const InstrumentDetail = () => {
                                         width: "135px",
                                         height: "100px",
                                         height: "110px",
-                                        wordWrap: "break-word"
+                                        wordWrap: "break-word",
                                     }}
                                 >
                                     <div>매물상태</div>
@@ -265,7 +268,7 @@ const InstrumentDetail = () => {
                                         width: "135px",
                                         height: "100px",
                                         height: "110px",
-                                        wordWrap: "break-word"
+                                        wordWrap: "break-word",
                                     }}
                                 >
                                     <div>브랜드</div>
@@ -282,7 +285,7 @@ const InstrumentDetail = () => {
                                         width: "135px",
                                         height: "100px",
                                         height: "110px",
-                                        wordWrap: "break-word"
+                                        wordWrap: "break-word",
                                     }}
                                 >
                                     <div>모델</div>
@@ -299,7 +302,7 @@ const InstrumentDetail = () => {
                                         width: "135px",
                                         height: "100px",
                                         height: "110px",
-                                        wordWrap: "break-word"
+                                        wordWrap: "break-word",
                                     }}
                                 >
                                     <div>생산연도</div>
@@ -316,7 +319,7 @@ const InstrumentDetail = () => {
                                         width: "135px",
                                         height: "100px",
                                         height: "110px",
-                                        wordWrap: "break-word"
+                                        wordWrap: "break-word",
                                     }}
                                 >
                                     <div>색상</div>

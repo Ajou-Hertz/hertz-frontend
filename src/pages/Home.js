@@ -69,9 +69,13 @@ function Home() {
         fetchUserData();
     }, [user]);
 
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        console.log(term);
+    };
     return (
         <div className="area">
-            <NavBar></NavBar>
+            <NavBar onSearch={handleSearch} />
 
             <div style={{ position: "relative" }}>
                 <div

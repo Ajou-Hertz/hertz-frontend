@@ -107,9 +107,13 @@ const Inquiry = () => {
         setIsDetailView(true);
     };
 
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        console.log(term);
+    };
     return (
         <div className="area-2">
-            <NavBar />
+            <NavBar onSearch={handleSearch} />
             <div style={customerServiceStyle}>고객센터</div>
             <div style={qnaContainerStyle}>
                 <div style={qnaStyle} onClick={handleQnaClick}>

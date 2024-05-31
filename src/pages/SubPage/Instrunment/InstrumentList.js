@@ -109,7 +109,7 @@ function InstrumentList() {
     };
     return (
         <div>
-            <NavBar onSearch={handleSearch} />{" "}
+            <NavBar onSearch={handleSearch} />
             {/* NavBar에 onSearch prop 전달 */}
             <div
                 style={{

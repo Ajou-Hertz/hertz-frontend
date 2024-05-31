@@ -51,10 +51,13 @@ const MyEditPage = () => {
 
         fetchData();
     }, [user?.token, user?.access_token]);
-
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        console.log(term);
+    };
     return (
         <div className="area-2">
-            <NavBar />
+            <NavBar onSearch={handleSearch} />
             {/* <Sidebar /> */}
             <div className="content_area">
                 <Routes>

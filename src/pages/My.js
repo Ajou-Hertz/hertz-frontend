@@ -52,13 +52,13 @@ const MyPage = () => {
         fetchData();
     }, [user?.token, user?.access_token]);
 
-    const handleInquiryClick = () => {
-        alert("준비중");
+    const handleSearch = (term) => {
+        console.log(term);
     };
 
     return (
         <div className="area-2">
-            <NavBar />
+            <NavBar onSearch={handleSearch} />
             <div className="content_area">
                 <Routes>
                     <Route
