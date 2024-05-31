@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Form,
     Navbar,
@@ -11,14 +11,26 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({ onSearch }) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState(""); // 검색어 상태 추가
 
     const handleConcertHallClick = (event) => {
         event.preventDefault();
         alert("준비중");
         navigate("/");
+    };
+
+    const handleSearchChange = (event) => {
+        // 검색어 입력 핸들러 추가
+        setSearchValue(event.target.value);
+    };
+
+    const handleSearchSubmit = (event) => {
+        // 검색어 제출 핸들러 추가
+        event.preventDefault();
+        onSearch(searchValue);
     };
 
     return (
@@ -125,7 +137,7 @@ const NavBar = () => {
                                 공연장
                             </Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
+                        <Form className="d-flex" onSubmit={handleSearchSubmit}>
                             <div className="position-relative">
                                 <FaSearch
                                     className="position-absolute top-50 translate-middle-y ms-3"
@@ -137,6 +149,8 @@ const NavBar = () => {
                                     className="me-2 ps-5"
                                     style={{ width: "500px" }}
                                     aria-label="Search"
+                                    value={searchValue} // 검색어 상태 값 추가
+                                    onChange={handleSearchChange} // 검색어 입력 변경 핸들러 추가
                                 />
                             </div>
                         </Form>

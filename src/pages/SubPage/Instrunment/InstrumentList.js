@@ -13,8 +13,13 @@ function InstrumentList() {
 
     const [selectedInstrument, setSelectedInstrument] = useState("일렉기타"); // 선택한 악기 종류 상태
     const [selectedProgress, setSelectedProgress] = useState(""); // 선택한 진행 상태 상태
+    const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
 
-    const fetchInstrumentData = async (selectedMenuType, selectedProgress) => {
+    const fetchInstrumentData = async (
+        selectedMenuType,
+        selectedProgress,
+        searchTerm
+    ) => {
         try {
             const response = await axios.get(
                 // 선택된 메뉴 유형에 따라 다른 API 호출
@@ -28,6 +33,7 @@ function InstrumentList() {
                         size: 30, // 페이지당 아이템 수
                         sort: "CREATED_BY_DESC", // 정렬 방식 (예: 오름차순)
                         progress: selectedProgress, // 선택한 진행 상태
+                        searchKeyword: searchTerm, // 검색어 추가
                     },
                     headers: {
                         "Hertz-API-Version": "1", // 헤더에 버전 정보 추가
@@ -41,7 +47,7 @@ function InstrumentList() {
     };
 
     useEffect(() => {
-        fetchInstrumentData("electric-guitars"); // 초기 데이터 호출
+        fetchInstrumentData("electric-guitars", "", ""); // 초기 데이터 호출 시 검색어를 빈 문자열로 설정
         setSelectedInstrument("electric-guitars");
     }, []);
 
@@ -95,9 +101,16 @@ function InstrumentList() {
         setSelectedProgress(ing);
     };
 
+    const handleSearch = (term) => {
+        // 검색어 핸들러 추가
+        setSearchTerm(term);
+        fetchInstrumentData(selectedInstrument, selectedProgress, term);
+        console.log(term);
+    };
     return (
         <div>
-            <NavBar />
+            <NavBar onSearch={handleSearch} />{" "}
+            {/* NavBar에 onSearch prop 전달 */}
             <div
                 style={{
                     display: "flex",
