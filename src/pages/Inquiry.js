@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/Sub/NavBar.js";
 
 const Inquiry = () => {
     const [isDetailView, setIsDetailView] = useState(true);
+
+    useEffect(() => {
+        // Add the KakaoTalk script to the document
+        const script = document.createElement("script");
+        script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
+        script.integrity =
+            "sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4";
+        script.crossOrigin = "anonymous";
+        script.onload = () => {
+            // Initialize the KakaoTalk button
+            window.Kakao.init("c089c8172def97eb00c07217cae17495");
+            window.Kakao.Channel.createAddChannelButton({
+                container: "#kakao-talk-channel-add-button",
+                channelPublicId: "_ZeUTxl",
+                size: "large",
+                supportMultipleDensities: true,
+            });
+        };
+        document.body.appendChild(script);
+    }, []);
+
     const customerServiceStyle = {
         width: "188px",
         height: "44px",
@@ -153,6 +174,13 @@ const Inquiry = () => {
                             >
                                 📞 070-8983-7648
                             </div>
+                            <div
+                                id="kakao-talk-channel-add-button"
+                                data-channel-public-id="_DvxmJG"
+                                data-size="large"
+                                data-support-multiple-densities="true"
+                                style={{ marginTop: "30px" }}
+                            ></div>
                         </div>
                     </div>
                 </div>
