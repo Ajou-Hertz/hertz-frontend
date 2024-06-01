@@ -16,7 +16,7 @@ const Inquiry = () => {
             window.Kakao.init("c089c8172def97eb00c07217cae17495");
             window.Kakao.Channel.createAddChannelButton({
                 container: "#kakao-talk-channel-add-button",
-                channelPublicId: "_ZeUTxl",
+                channelPublicId: "_DvxmJG",
                 size: "large",
                 supportMultipleDensities: true,
             });
