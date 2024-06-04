@@ -14,7 +14,7 @@ const Inquiry = () => {
         script.crossOrigin = "anonymous";
         script.onload = () => {
             // Initialize the KakaoTalk button
-            window.Kakao.init("c089c8172def97eb00c07217cae17495");
+            window.Kakao.init("ef14680489d83e380ddbf4b0f87c8db5");
             window.Kakao.Channel.createAddChannelButton({
                 container: "#kakao-talk-channel-add-button",
                 channelPublicId: "_DvxmJG",
