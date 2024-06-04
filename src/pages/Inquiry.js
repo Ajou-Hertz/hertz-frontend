@@ -7,9 +7,10 @@ const Inquiry = () => {
     useEffect(() => {
         // Add the KakaoTalk script to the document
         const script = document.createElement("script");
-        script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
+        script.src =
+            "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.channel.min.js";
         script.integrity =
-            "sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4";
+            "sha384-PFe+C2S6aXd8v5j//vBqNPP8DMpEqLOw05p9BBajfh7IDWnUTHhNlu+Uxj3wxNej";
         script.crossOrigin = "anonymous";
         script.onload = () => {
             // Initialize the KakaoTalk button
