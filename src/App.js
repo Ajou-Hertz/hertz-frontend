@@ -65,6 +65,14 @@ const reducer = (state, action) => {
 export const MarketStateContext = React.createContext();
 export const MarketDispatchContext = React.createContext();
 
+const checkUserState = () => {
+    const recoilPersist = localStorage.getItem("recoil-persist");
+    if (!recoilPersist || recoilPersist === '{"userState":null}') {
+        return false;
+    }
+    return true;
+};
+
 function App() {
     const marketList = marketsDummyData;
     const [data, dispatch] = useReducer(reducer, []);
@@ -135,12 +143,10 @@ function App() {
                                     <Route
                                         path="/*"
                                         element={
-                                            localStorage.getItem(
-                                                "recoil-persist"
-                                            ) === '{"userState":null}' ? (
-                                                <Navigate to="/login" />
-                                            ) : (
+                                            checkUserState() ? (
                                                 <InstrumentUpload />
+                                            ) : (
+                                                <Navigate to="/login" />
                                             )
                                         }
                                     />
